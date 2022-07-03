@@ -11,9 +11,9 @@ TREE:
 
 TRAIN:
   FLAG: False
-  NET_G: "./encoders_netG_epoch_95.pth"
+  NET_G: "./models/encoders_netG_epoch_95.pth"
   B_NET_D: False
-  NET_E: "./text_encoder222.pth"
+  NET_E: "./models/text_encoder222.pth"
 
 GAN:
   DF_DIM: 96

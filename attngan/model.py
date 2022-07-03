@@ -12,7 +12,7 @@ from miscc.config import cfg
 from GlobalAttention import GlobalAttentionGeneral as ATT_NET
 import warnings
 
-# warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore")
 
 
 class GLU(nn.Module):

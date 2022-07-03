@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 from miscc.config import cfg, cfg_from_file
-from dataset_fashiongen2 import TextDataset as TextFashionGenDataset
+from dataset import TextDataset as TextFashionGenDataset
 
 from trainer import condGANTrainer as trainer
 
