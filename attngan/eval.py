@@ -67,7 +67,7 @@ def generate(caption, wordtoix, ixtoword, text_encoder, netG, copies=2):
             im = np.transpose(im, (1, 2, 0))
             im = Image.fromarray(im)
 
-            img_name = "static/%s_%s_g%d.png" % (prefix, "bird", k)
+            img_name = "static/%s_%s_g%d.png" % (prefix, "fashion", k)
             print(img_name)
             image_details.append(img_name)
             im.save(img_name, format="png")
@@ -97,7 +97,8 @@ def generate(caption, wordtoix, ixtoword, text_encoder, netG, copies=2):
                         print(imgg_name)
                         image_details.append(imgg_name)
                         im.save(
-                            imgg_name, format="png",
+                            imgg_name,
+                            format="png",
                         )
         if copies == 2:
             break
@@ -141,4 +142,3 @@ def word_index():
 # text_encoder, netG = models(len(wordtoix))
 
 # generate(caption, wordtoix, ixtoword, text_encoder, netG)
-
