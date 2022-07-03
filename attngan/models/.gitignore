@@ -1,0 +1,7 @@
+encoder.pth
+encoders_netG_epoch_45.pth
+encoders_netG_epoch_70.pth
+encoders_netG_epoch_95.pth
+image_encoder132.pth
+netG_epoch_35.pth
+text_encoder132.pth
