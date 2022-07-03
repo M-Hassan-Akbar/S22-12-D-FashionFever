@@ -93,7 +93,8 @@ def generate(caption, wordtoix, ixtoword, text_encoder, netG, copies=2):
                         print(imgg_name)
                         image_details.append(imgg_name)
                         im.save(
-                            imgg_name, format="png",
+                            imgg_name,
+                            format="png",
                         )
         if copies == 2:
             break
