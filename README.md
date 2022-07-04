@@ -23,14 +23,14 @@ FashionGen is available here: https://drive.google.com/file/d/1Wi0pljcAbY7XR9CTR
 The steps involved for using our project are as follows:
 
 - Install dependencies:
-  -- Pytorch.
-  -- Numpy.
-  -- H5py.
-  -- PIL.
-  -- Sci-kit image.
-  -- NLTK.
-  -- Pickle.
-  -- Flask
+  - Pytorch.
+  - Numpy.
+  - H5py.
+  - PIL.
+  - Sci-kit image.
+  - NLTK.
+  - Pickle.
+  - Flask
 - Go to the attnGAN folder and run server.py file.
 - Go to the React frontend project file and use the command ‘npm start’ in the command prompt.
 - Provide textual description for desired clothing preference in the input text area.
