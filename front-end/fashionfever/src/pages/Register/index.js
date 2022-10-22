@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import { Link } from '@mui/material'
 
 export const Register = () => {
@@ -13,6 +14,8 @@ export const Register = () => {
         password: '',
         checkPassword: '',
     });
+
+    const navigate = useNavigate();
     
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -39,7 +42,7 @@ export const Register = () => {
                     <TextField required label="Confirm Password" type="password" fullWidth value={values.checkPassword} onChange={handleChange('checkPassword')}/>
                 </Grid>
                 <Grid item>
-                    <Link>Already have a account?</Link>
+                    <Link onClick={() =>{navigate('/Login')}}>Already have a account?</Link>
                 </Grid>
                 <Grid item>
                     <Button variant='contained' color='primary' onClick={() => {

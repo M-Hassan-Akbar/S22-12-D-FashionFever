@@ -17,6 +17,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 // import Link from '@mui/material/Link';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { logout } from "../../store"
+import { useDispatch } from 'react-redux'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,12 +56,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
+      width: '30ch',
     },
   },
 }));
 
-export function Navbar() {
+export default function Navbar() {
+  let state = useSelector((state) => state.users);
+  // console.log(state.value.userID);
+
+  const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -89,12 +97,26 @@ export function Navbar() {
     navigate(link);
   }
 
+  let toLoad;
+
+  if(state.value.userID === 0)
+    toLoad = <div>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Login')}}>Log In</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Register')}}>Register</MenuItem>
+    </div>
+  else
+    toLoad = <div>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/')}}>My Profile</MenuItem> 
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/')}}>My Images</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); state = dispatch(logout())}}>Logout</MenuItem>
+    </div>;
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'right',
       }}
       id={menuId}
@@ -106,9 +128,9 @@ export function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/')}}>Home</MenuItem>
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Login')}}>Log In</MenuItem>
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Register')}}>Register</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Home')}}>Home</MenuItem>
+      {toLoad}
+      
     </Menu>
   );
 
@@ -131,7 +153,8 @@ export function Navbar() {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={4} color="error" invisible={true}>
+            {/* change from '4' and 'true' to state value */}
             <MailIcon />
           </Badge>
         </IconButton>
@@ -143,7 +166,7 @@ export function Navbar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={17} color="error" invisible={true}>
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -197,7 +220,7 @@ export function Navbar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={4} color="error" invisible={true}>
                 <MailIcon />
               </Badge>
             </IconButton>
@@ -206,7 +229,7 @@ export function Navbar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={1} color="error" invisible={false}>
                 <NotificationsIcon />
               </Badge>
             </IconButton>
