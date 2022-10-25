@@ -10,7 +10,5 @@ def gen_image(caption):
     output = model.predict(prompt=caption, n_predictions=1)
     headers={'user-agent': 'Mozilla/5.0'}
     for link in output:
-        return link['image']
         r=requests.get(link['image'], headers=headers)
-        with open("static/" + link['image'].split('/')[-1], 'wb') as f:
-            f.write(r.content)
+        return r.content

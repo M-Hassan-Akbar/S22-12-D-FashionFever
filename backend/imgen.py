@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from evaluation import gen_image
 import pyrebase
+import random
+
 
 app = Flask(__name__)
 CORS(app)
@@ -30,10 +32,20 @@ def index():
 @app.route("/fashion", methods=["GET", "POST"])
 def get_image():
     caption = request.json["caption"]
+    email = request.json["email"]
 
-    generated_content = gen_image(caption)
-    storage.put(generated_content)
-    return jsonify({"fashion": "hi"})
+    generated_image = gen_image(caption)
+    name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
+    print("Image " + name + "has been created!")
+    storage.child(name).put(generated_image)
+
+    db.child("images").push({
+        'email' : email,
+        'name' : name,
+        'caption' : caption
+    })
+
+    return jsonify({"image": name})
 
 if __name__ == "__main__":
     app.run(port=5000)
