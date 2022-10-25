@@ -1,5 +1,11 @@
 import pyrebase
+import requests
+import random
 
+email = "m"
+
+name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
+print("Image " + name + "has been created!")
 config = {
     'apiKey': "AIzaSyAEIeJDRhU_cOg2YC3UESpXZFxpJDHOkTs",
     'authDomain': "fashionfever-2.firebaseapp.com",
@@ -15,7 +21,9 @@ auth = firebase.auth()
 db = firebase.database()
 storage = firebase.storage()
 
+link = "https://media.discordapp.net/attachments/737338724999888918/1034450009288093716/unknown.png"
+headers={'user-agent': 'Mozilla/5.0'}
 
+r=requests.get(link, headers=headers)
 
-
-storage.put("https://media.discordapp.net/attachments/737338724999888918/1034450009288093716/unknown.png?width=1193&height=671 ")
+storage.child("ima2ges").put(r.content)
