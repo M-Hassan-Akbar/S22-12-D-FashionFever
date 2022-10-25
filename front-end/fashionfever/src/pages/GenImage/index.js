@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container'
 import * as React from "react";
-import Navbar from '../../components/Navbar'
 import axios from 'axios'
 import ImgList from "../../components/ImageList";
 import Grow from '@mui/material/Grow';
@@ -31,7 +30,6 @@ export const GenImage = () => {
 
     return (
         <>
-            <Navbar/>
             <Grid container alignItems="center" justifyContent="center" spacing={20}>
                 <Grid item>
                     <Container maxWidth="md" sx={{backgroundColor: "#71cda7", width: "40vmax", textAlign: "center", paddingBottom: "40px", paddingTop: "10px", marginTop: "150px", borderRadius: "20px"}}>
