@@ -4,6 +4,7 @@ import { Login } from './pages/Login'
 import { Home } from './pages/Home'
 import { GenImage } from './pages/GenImage'
 import { ImgPage } from './pages/ImgPage'
+import { Profile } from './pages/Profile'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // import Navbar from './components/Navbar'
 import { Provider } from 'react-redux'
@@ -26,6 +27,7 @@ const Main = () => {
         <Route path='Register' element={<Register />} />
         <Route path='GenImage' element={<GenImage />} />
         <Route path='ImgPage' element={<ImgPage />} />
+        <Route path='Profile' element={<Profile />} />
         <Route path="/" element={<Navigate replace to="/Home" />} />
       </Routes>
     </>

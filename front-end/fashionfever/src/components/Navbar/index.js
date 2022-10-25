@@ -106,14 +106,14 @@ export default function Navbar() {
 
   let toLoad;
 
-  if(state.value.userID === 0)
+  if(state.value.email === "")
     toLoad = <div>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Login')}}>Log In</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Register')}}>Register</MenuItem>
     </div>
   else
     toLoad = <div>
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/')}}>My Profile</MenuItem> 
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Profile')}}>My Profile</MenuItem> 
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/')}}>My Images</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); state = dispatch(logout())}}>Logout</MenuItem>
     </div>;
