@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\hassan\Desktop\S22-12-D-FashionFever\backend\env"
+VIRTUAL_ENV="C:\Mera Area\Work\FYP stuff\FYP final\S22-12-D-FashionFever\backend\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
