@@ -21,6 +21,7 @@ auth = firebase.auth()
 db = firebase.database()
 
 
+
 @app.route("/")
 def index():
     return "Hello! Welcome to our FYP server. Take a seat and chillllll!~"
