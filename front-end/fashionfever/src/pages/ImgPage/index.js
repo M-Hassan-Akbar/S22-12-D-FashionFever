@@ -1,14 +1,14 @@
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import React from 'react'
-import { Box, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { useLocation } from 'react-router-dom';
 
 const Img = styled('img')({
     // margin: 'auto',
     display: 'inline',
-    maxWidth: '60%',
-    maxHeight: '60%',
+    maxWidth: '80%',
+    maxHeight: '80%',
   });
 
 export const ImgPage = () => {
