@@ -10,15 +10,14 @@ import Typography from "@mui/material/Typography";
 import { Link } from '@mui/material'
 
 const person = {
-    userID: 1,
+    useremail: "abcd@example.com",
     username: "abcd",
     password: "1234",
 };
 
 export const Login = () => {
     const [values, setValues] = React.useState({
-        userID: 0,
-        username: '',
+        email: '',
         password: '',
     });
     
@@ -54,7 +53,7 @@ export const Login = () => {
             <h1>Log In</h1>
             <Grid container direction='column' rowSpacing={2}>
                 <Grid item>
-                    <TextField required label="Username" fullWidth value={values.email} onChange={handleChange('username')}/>
+                    <TextField required label="Email" fullWidth value={values.email} onChange={handleChange('email')}/>
                 </Grid>
                 <Grid item>
                     <TextField required label="Password" type="password" fullWidth value={values.password} onChange={handleChange('password')}/>
@@ -68,11 +67,10 @@ export const Login = () => {
                 {errorText}
                 <Grid item>
                     <Button variant='contained' color='primary' onClick={() => {
-                        if(values.username === person.username && values.password === person.password)
+                        if(values.email === person.email && values.password === person.password)
                         {
                             setShowError(false);
-                            values.userID = person.userID;
-                            dispatch(login({ userID: values.userID, username: values.username, password: values.password }));
+                            dispatch(login({ email: values.email, password: values.password }));
                         }
                         else
                         {
