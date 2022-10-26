@@ -2,7 +2,7 @@ import { Alert, Avatar, Box, Button, Divider, FormControl, Grid, InputLabel, Men
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import axios from "axios";
 
@@ -60,19 +60,31 @@ export const Profile = () => {
     const handleFileUpload = (e) => {
         const { files } = e.target;
         if (files && files.length) {
-        const filename = files[0].name;
-
-        var parts = filename.split(".");
-        const fileType = parts[parts.length - 1];
-        console.log("fileType", fileType); //ex: zip, rar, jpg, svg etc.
-
+        
         setImage(files[0]);
+        console.log(image);
         }
     };
 
     const onButtonClick = () => {
         inputFile.current.click();
     };
+    
+    const firstUpdate = useRef(true);
+
+    useEffect(() => {
+        if(firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        };
+        
+        axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
+            'Content-Type': 'multipart/form-data'
+            }},
+            ).then(function (response) {
+                console.log(response.data);
+            });
+    }, [image])
 
     return (
         <>
@@ -95,18 +107,7 @@ export const Profile = () => {
                             </Grid>
                             <Grid item>
                                 <input style={{ display: "none" }} ref={inputFile} onChange={handleFileUpload} type="file" />
-                                <Button variant="contained" sx={{ minWidth: "150px"}} onClick={() => {
-                                    onButtonClick();
-                                    axios.post('/updateprofileimage', {file: image}, { headers: {
-                                        'Content-Type': 'multipart/form-data'
-                                        }},
-                                        { params: {
-                                            email: state.value.email,
-                                        }}
-                                        ).then(function (response) {
-                                            console.log(response.data);
-                                        });
-                                    }} >Upload Photo</Button>
+                                <Button variant="contained" sx={{ minWidth: "150px"}} onClick={onButtonClick} >Upload Photo</Button>
                             </Grid>
                         </Grid>
                     </Grid>
