@@ -1,9 +1,10 @@
-import { Avatar, Box, Button, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar, TextField, Typography } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState } from "react";
 import { useSelector } from 'react-redux';
+import axios from "axios";
 
 const genders = [
     'Male',
@@ -12,10 +13,31 @@ const genders = [
   ];
 
 export const Profile = () => {
+    const [values, setValues] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        address: '',
+        bio: '',
+        phone_number: '',
+    });
+    
     let state = useSelector((state) => state.users);
-
     const [startDate, setStartDate] = useState("11/11/2011");
     const [gender, setGender] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const submitted = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
 
     const handleGender = (event) => {
         const {
@@ -25,13 +47,16 @@ export const Profile = () => {
           // On autofill we get a stringified value.
           typeof value === 'string' ? value.split(',') : value,
         );
-      };
-    
+    };
+
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
 
     return (
         <>
-            <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid gray", padding: "3%",
-                borderRadius: "5px"}}>
+            <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid gray",
+                padding: "3%", borderRadius: "5px"}}>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
                         <Typography variant="h5">My Profile</Typography>
@@ -60,7 +85,8 @@ export const Profile = () => {
                         <Typography variant="h6">Basic Information</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField id="outlined-basic" label="Username" variant="outlined" sx={{width: "40%"}} />
+                        <TextField label="Username" value={values.username} onChange={handleChange('username')}
+                            variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
                         <LocalizationProvider fullWidth dateAdapter={AdapterDayjs}>
@@ -83,7 +109,12 @@ export const Profile = () => {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField id="outlined-basic" label="Status" variant="outlined" sx={{width: "40%"}}
+                        <TextField label="Address" value={values.address} onChange={handleChange('address')}
+                            variant="outlined" sx={{width: "40%"}} />
+                    </Grid>
+                    <Grid item>
+                        <TextField label="Status" value={values.bio} onChange={handleChange('bio')} variant="outlined"
+                            sx={{width: "40%"}}
                             multiline rows={4} />
                     </Grid>
                     <Grid item>
@@ -95,10 +126,12 @@ export const Profile = () => {
                         <Typography variant="h6">Contact Information</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField id="outlined-basic" label="Phone Number" variant="outlined" sx={{width: "40%"}} />
+                        <TextField label="Phone Number" value={values.phone_number} onChange={handleChange('phone_number')}
+                            variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
-                        <TextField id="outlined-basic" value={state.value.email} label="Email" variant="outlined" sx={{width: "40%"}} />
+                        <TextField disabled value={state.value.email} label="Email" variant="outlined"
+                            sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
                         <br/>
@@ -106,9 +139,33 @@ export const Profile = () => {
                         <br/>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" sx={{ float: "right", minWidth: "150px"}}>Save changes</Button>
+                        <Button variant="contained" sx={{ float: "right", minWidth: "150px"}} onClick={() => {
+                            if(values.username !== "" || values.address !== "" || values.bio !== "" )
+                            {
+                                let temp = new Object();
+                                // temp.username = values.username;
+                                temp.address = values.address;
+                                temp.bio = values.bio;
+                                temp.dob = parseInt((new Date(startDate).getTime() / 1000).toFixed(0));
+                                temp.email = state.value.email;
+                                temp.phone_number = values.phone_number;
+                                let json = JSON.stringify(temp);
+                                let heads = {"Content-Type": "application/json"};
+                                axios.post("http://localhost:5000/updateprofile", json, {headers: heads}).then((res) => {
+                                    if(res.data)
+                                    {
+                                        submitted();
+                                    }
+                                });
+                            }
+                        }} >Save changes</Button>
                     </Grid>
                 </Grid>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Profile Updated!
+                    </Alert>
+                </Snackbar>
             </Box>
         </>
     );
