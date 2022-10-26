@@ -8,11 +8,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { Link } from '@mui/material'
-
-const person = {
-    email: "abcd@example.com",
-    password: "1234",
-};
+import axios from 'axios'
 
 export const Login = () => {
     const [values, setValues] = React.useState({
@@ -66,10 +62,21 @@ export const Login = () => {
                 {errorText}
                 <Grid item>
                     <Button variant='contained' color='primary' onClick={() => {
-                        if(values.email === person.email && values.password === person.password)
+                        if(values.email !== "" && values.password !== "")
                         {
-                            setShowError(false);
-                            dispatch(login({ email: values.email, password: values.password }));
+                            let json = JSON.stringify(values)
+                            let heads = {"Content-Type": "application/json"}
+                            axios.post("http://localhost:5000/login", json, {headers: heads}).then((res) => {
+                                if(res.data)
+                                {
+                                    setShowError(false);
+                                    dispatch(login({ email: values.email, password: values.password }));
+                                }
+                                else
+                                {
+                                    setShowError(true);
+                                }
+                            });
                         }
                         else
                         {
