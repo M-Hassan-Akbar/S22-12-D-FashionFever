@@ -10,8 +10,7 @@ import Typography from "@mui/material/Typography";
 import { Link } from '@mui/material'
 
 const person = {
-    useremail: "abcd@example.com",
-    username: "abcd",
+    email: "abcd@example.com",
     password: "1234",
 };
 
