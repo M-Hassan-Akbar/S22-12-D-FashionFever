@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const genders = [
     'Male',
@@ -23,6 +24,8 @@ export const Profile = () => {
     });
     
     let state = useSelector((state) => state.users);
+    const navigate = useNavigate();
+
     const [startDate, setStartDate] = useState("11/11/2011");
     const [gender, setGender] = useState('');
     const [open, setOpen] = useState(false);
@@ -73,6 +76,9 @@ export const Profile = () => {
     const firstUpdate = useRef(true);
 
     useEffect(() => {
+        if(state.value.email === "")
+            navigate('/Home');
+        
         if(firstUpdate.current) {
             firstUpdate.current = false;
             return;
@@ -84,7 +90,7 @@ export const Profile = () => {
             ).then(function (response) {
                 console.log(response.data);
             });
-    }, [image])
+    }, [image, state.value.email])
 
     return (
         <>

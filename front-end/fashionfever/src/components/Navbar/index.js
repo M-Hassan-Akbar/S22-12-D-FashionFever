@@ -114,7 +114,7 @@ export default function Navbar() {
   else
     toLoad = <div>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Profile')}}>My Profile</MenuItem> 
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/')}}>My Images</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Images')}}>My Images</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); state = dispatch(logout())}}>Logout</MenuItem>
     </div>;
 
@@ -143,65 +143,65 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Animation>
+      <AppBar position="static">
+        <Animation>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h4"
+            noWrap
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block', fontFamily: 'Brush Script MT', fontStyle: "cursive", cursor: "pointer" } }}
+            onClick={() => {navigate('/')}}
+          >
+            Fashion Fever
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error" invisible={true}>
+                <MailIcon />
+              </Badge>
+            </IconButton>
             <IconButton
               size="large"
-              edge="start"
+              aria-label="show 17 new notifications"
               color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <Badge badgeContent={1} color="error" invisible={false}>
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
-            <Typography
-              variant="h4"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block', fontFamily: 'Brush Script MT', fontStyle: "cursive", cursor: "pointer" } }}
-              onClick={() => {navigate('/')}}
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
             >
-              Fashion Fever
-            </Typography>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="error" invisible={true}>
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={1} color="error" invisible={false}>
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Box>
-          </Animation>
-        </AppBar>
+              <AccountCircle />
+            </IconButton>
+          </Box>
+        </Animation>
+      </AppBar>
       {renderMenu}
     </Box>
   );

@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom';
 const Img = styled('img')({
     // margin: 'auto',
     display: 'inline',
-    maxWidth: '60%',
-    maxHeight: '60%',
+    maxWidth: '80%',
+    maxHeight: '80%',
   });
 
 export const ImgPage = () => {
@@ -16,7 +16,8 @@ export const ImgPage = () => {
 
     return(
     <>
-        <Container maxWidth="md" sx={{backgroundColor: "#71cda7", textAlign: "center", paddingBottom: "40px", paddingTop: "40px", marginTop: "100px", borderRadius: "20px"}}>
+        <Container maxWidth="md" sx={{backgroundColor: "#71cda7", textAlign: "center", paddingBottom: "40px", paddingTop: "40px",
+            marginTop: "100px", borderRadius: "20px"}}>
             <Grid container direction="row">
                 <Grid item xs={6}>
                     <Img alt="Clothes Image" src={location.state.imgP}/>

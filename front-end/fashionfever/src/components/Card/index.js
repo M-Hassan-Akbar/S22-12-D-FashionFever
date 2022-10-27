@@ -9,14 +9,15 @@ import { useNavigate } from 'react-router-dom';
 export default function MainCard(props) {
 
   const customSX = {
-    transition: "height 500ms ease-in-out",
+    transition: "height 400ms ease-in-out",
     "&:hover": {height: 256},
   };
 
   const navigate = useNavigate();
 
   return (
-    <Card sx={{ width: 345, minHeight: 300, maxHeight: 500 }} onClick={() => {navigate('/ImgPage', {state: {imgP: props.imgP, imgT: props.imgT, imgD: props.imgD}})}}>
+    <Card sx={{ width: 345, minHeight: 300, maxHeight: 500, cursor: "pointer" }} onClick={() => {
+      navigate('/ImgPage', {state: {imgP: props.imgP, imgT: props.imgT, imgD: props.imgD}})}}>
       <CardActionArea height="800">
         <CardMedia
           component="img"

@@ -5,7 +5,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import MainCard from '../../components/Card';
-import { Grid } from '@mui/material';
+import { Box, Grid, Paper } from '@mui/material';
+import background from "../../data/background.jpg";
 
 const itemData = [
     {
@@ -77,22 +78,23 @@ export const Home = () => {
 
     return (
         <>
-            {/* <Navbar/> */}
-            <Fab sx={{ float: "right", margin: "10px" }} color="secondary" aria-label="add" onClick={() => {
-                if(state.value.userID === 0)
-                {
-                    navigate('/Login');
-                }
-                else
-                {
-                    navigate('/GenImage')
-                }}}>
-                <AddIcon />
-            </Fab>
-            <h1>Home Page</h1>
+            <Box sx={{ backgroundImage: `url(${background})`, width: "100%", height: 700, display: 'flex', alignItems: 'flex-end',
+                justifyContent: 'center', backgroundSize: '100% 100%', backgroundRepeat: "no-repeat" }}>
+                <Fab sx={{ margin: "10px" }} color="secondary" aria-label="add" onClick={() => {
+                    if(state.value.email === "")
+                    {
+                        navigate('/Login');
+                    }
+                    else
+                    {
+                        navigate('/GenImage')
+                    }}}>
+                    <AddIcon />
+                </Fab>
+            </Box>
             <br/>
             
-            <Grid container sx={{paddingLeft: "5%",}} spacing={4} justifyContent="center">
+            <Grid container sx={{padding: "5%",}} spacing={4} justifyContent="center">
                 {itemData.map((item, i) => (
                     <Grid item key={i}>
                         <MainCard imgP={item.img} imgT={item.title} imgD={item.desc} />
