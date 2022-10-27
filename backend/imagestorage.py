@@ -38,7 +38,7 @@ def fetchImage():
     image_list = []
     for image in images.each():
         if(image.val()["email"] == email):
-            image_list.append(db.child("images").child(image.key()).get())
+            image_list.append(db.child("images").child(image.key()).get().val())
     
     return jsonify({"images" : image_list})
 
