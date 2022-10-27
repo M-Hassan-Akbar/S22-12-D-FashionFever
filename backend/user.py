@@ -67,7 +67,15 @@ def register():
         'phone_number' : ''
     })
     return jsonify({
-        "user" : db.child("users").child(key).get().val()
+        'first_name' : first_name,
+        'last_name' : last_name,
+        'email' : email, 
+        'address' : '',
+        'gender' : '',
+        'dob'  : '', 
+        'bio' : '',
+        'profile_image' : '',
+        'phone_number' : ''
     })
 
 
