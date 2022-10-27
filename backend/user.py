@@ -40,7 +40,9 @@ def login():
         if(user.val()["email"] == email):
             key=user.key()
     
-    return jsonify({'user' : db.child("users").child(key).get().val()})
+    return jsonify({
+        "user" : db.child("users").child(key).get().val()
+    })
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -58,12 +60,15 @@ def register():
         'last_name' : last_name,
         'email' : email, 
         'address' : '',
+        'gender' : '',
         'dob'  : '', 
         'bio' : '',
         'profile_image' : '',
         'phone_number' : ''
     })
-    return jsonify({'user' : 'created'})
+    return jsonify({
+        "user" : db.child("users").child(key).get().val()
+    })
 
 
 @app.route("/updateprofile", methods=["Post"])
@@ -72,6 +77,7 @@ def update_profile():
     email = request.json['email']
     address = request.json['address']
     dob = request.json['dob']
+    gender = request.json['gender']
     bio = request.json['bio']
     phone_number = request.json[phone_number]
 
@@ -86,11 +92,12 @@ def update_profile():
         'address' : address,
         'dob'  : dob, 
         'bio' : bio,
+        'gender' : gender,
         'phone_number' : phone_number
     })
 
     return jsonify({
-        "user" : "updated"
+        "user" : db.child("users").child(key).get().val()
     })
 
 
@@ -110,11 +117,11 @@ def update_profile_image():
             key=user.key()
     
     db.child("users").child(key).update({
-        'profile_image' : name
+        'profile_image' : storage.child(name).get_url(None)
     })
 
     return jsonify({
-        "user" : "updated"
+        "user" : db.child("users").child(key).get().val()
     })
 
 
