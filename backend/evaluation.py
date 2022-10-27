@@ -1,14 +1,20 @@
-import replicate
-import dotenv
-import requests
+from pipeline import PipelineCloud
+import base64
 
-
-dotenv.load_dotenv(".env")
-
+api = PipelineCloud(token="pipeline_sk_o8XEPN6nA2gttTlIPS7IM-6iVasoqyjr")
 def gen_image(caption):
-    model = replicate.models.get("borisdayma/dalle-mini")
-    output = model.predict(prompt=caption, n_predictions=1)
-    headers={'user-agent': 'Mozilla/5.0'}
-    for link in output:
-        r=requests.get(link['image'], headers=headers)
-        return r.content
+    run = api.run_pipeline(
+    "pipeline_f48996c857e94c1eb22b1c7393e478f2",
+    [
+        [caption],
+        {
+            "num_samples": 1
+        },
+    ],
+    )
+    obj = run.result_preview[0]
+    
+    return base64.b64decode(obj[0]['samples'][0])
+
+    
+
