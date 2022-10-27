@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import React from 'react'
-import { Box, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { useLocation } from 'react-router-dom';
 
 const Img = styled('img')({

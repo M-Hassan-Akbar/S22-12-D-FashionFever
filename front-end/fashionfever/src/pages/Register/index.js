@@ -105,7 +105,6 @@ export const Register = () => {
                         else
                         {
                             let json = JSON.stringify(values)
-                            console.log(json);
                             let heads = {"Content-Type": "application/json"}
                             axios.post("http://localhost:5000/register", json, {headers: heads}).then((res) => {
                                 if(res.data)
