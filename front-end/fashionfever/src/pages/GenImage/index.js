@@ -27,10 +27,10 @@ export const GenImage = () => {
     };
 
     let elem;
+    elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>;
 
-    if(loadImage)
-    {
-        elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
+    const exec = () => {
+        // elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
         let temp = new Object();
         temp.email = state.value.email;
         temp.caption = values.desc;
@@ -42,12 +42,31 @@ export const GenImage = () => {
                 console.log(res.data);
             }
         });
+        // setValues({ ...values, desc: ""})
+        setValues({desc: ""});
     }
-    else
-    {
-        elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>
-        console.log('no')
-    }
+    // if(loadImage)
+    // {
+    //     elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
+    //     let temp = new Object();
+    //     temp.email = state.value.email;
+    //     temp.caption = values.desc;
+    //     let json = JSON.stringify(temp);
+    //     let heads = {"Content-Type": "application/json"};
+    //     axios.post("http://localhost:5001/fashion", json, {headers: heads}).then((res) => {
+    //         if(res.data)
+    //         {
+    //             console.log(res.data);
+    //         }
+    //     });
+    //     // setValues({ ...values, desc: ""})
+    //     setValues({desc: ""});
+    // }
+    // else
+    // {
+    //     elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>
+    //     console.log('no')
+    // }
         // elem = <></>
 
     // console.log(modal, loadModal)
@@ -74,18 +93,19 @@ export const GenImage = () => {
                                     fullWidth/>
                             </Grid>
                             <Grid item>
-                                <Button variant='contained' color='primary' onClick={async () => {
+                                <Button variant='contained' color='primary' onClick={ () => {
                                     // const response = await axios.get('localhost:5000/GenImage');
                                     // setImageUrl(response.data)
+                                    console.log(values.desc);
 
                                     if(values.desc !== "")
-                                        setLoadImage(true);
+                                        exec();
                                 }}>Generate Image</Button>
                             </Grid>
                         </Grid>
                     </Container>
                 </Grid>
-                {elem}
+                {/* {elem} */}
                 {/* <Grid item sx={{marginTop: "15vmin"}}>
                     <image src="" alt="Generated image"></image>
                 </Grid> */}
