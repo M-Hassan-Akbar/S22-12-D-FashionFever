@@ -39,14 +39,17 @@ def get_image():
     print("Image " + name + "has been created!")
     storage.child(name).put(generated_image)
 
-    image = db.child("images").push({
+    db.child("images").push({
         'email' : email,
         'name' : name,
         'caption' : caption,
-        'url' : storage.child(name).get_url()
+        'url' : storage.child(name).get_url(None)
     })
 
-    return jsonify({"image": image})
+    return jsonify({'email' : email,
+        'name' : name,
+        'caption' : caption,
+        'url' : storage.child(name).get_url(None)})
 
 if __name__ == "__main__":
     app.run(port=5001)
