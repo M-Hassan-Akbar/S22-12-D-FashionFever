@@ -38,10 +38,9 @@ def login():
 
     for user in users.each():
         if(user.val()["email"] == email):
-            key=user.key()    
-
+            key=user.key()
     
-    return jsonify({'user' : db.child("users").child(key).get()})
+    return jsonify({'user' : db.child("users").child(key).get().val()})
 
 
 @app.route("/register", methods=["GET", "POST"])

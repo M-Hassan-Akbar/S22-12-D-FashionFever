@@ -3,10 +3,11 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container'
 import * as React from "react";
-import Navbar from '../../components/Navbar'
 import axios from 'axios'
 import ImgList from "../../components/ImageList";
 import Grow from '@mui/material/Grow';
+import { useState } from "react";
+import { useSelector } from 'react-redux';
 // import Skel from "../../components/Skeleton";
 
 
@@ -14,9 +15,12 @@ export const GenImage = () => {
     const [values, setValues] = useState({
         desc: '',
     });
+
     const [imageUrl, setImageUrl] = React.useState('')
     const [loadImage, setLoadImage] = React.useState(false);
     const [checked, setChecked] = React.useState(false);
+
+    let state = useSelector((state) => state.users);
 
     const handleGrowChange = () => {
         setChecked((prev) => !prev);
@@ -27,11 +31,15 @@ export const GenImage = () => {
     if(loadImage)
     {
         elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><ImgList/></Grid></Grow>;
-        axios.post("http://localhost:5000/register", json, {headers: heads}).then((res) => {
+        let temp = new Object();
+        temp.email = state.value.email;
+        temp.caption = values.desc;
+        let json = JSON.stringify(temp);
+        let heads = {"Content-Type": "application/json"};
+        axios.post("http://localhost:5001/fashion", json, {headers: heads}).then((res) => {
             if(res.data)
             {
-                setLog(true);
-                dispatch(login({ email: values.email, password: values.password }));
+                console.log(res.data);
             }
         });
     }
