@@ -44,8 +44,11 @@ export const GenImage = () => {
         });
     }
     else
-        // elem = <></>
+    {
         elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>
+        console.log('no')
+    }
+        // elem = <></>
 
     // console.log(modal, loadModal)
 
