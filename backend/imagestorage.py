@@ -1,13 +1,12 @@
+from crypt import methods
+import email
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from evaluation import gen_image
 import pyrebase
-import random
 
 
 app = Flask(__name__)
 CORS(app)
-
 
 config = {
     'apiKey': "AIzaSyAEIeJDRhU_cOg2YC3UESpXZFxpJDHOkTs",
@@ -29,23 +28,22 @@ storage = firebase.storage()
 def index():
     return "Hello! Welcome to our FYP server. Take a seat and chillllll!~"
 
-@app.route("/fashion", methods=["GET", "POST"])
-def get_image():
-    caption = request.json["caption"]
+
+@app.route("/getimages", methods=["GET", "POST"])
+def fetchImage():
     email = request.json["email"]
+    
+    images = db.child("images").get()
 
-    generated_image = gen_image(caption)
-    name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
-    print("Image " + name + "has been created!")
-    storage.child(name).put(generated_image)
-
-    db.child("images").push({
-        'email' : email,
-        'name' : name,
-        'caption' : caption
-    })
-
-    return jsonify({"image": name})
+    image_list = []
+    for image in images.each():
+        if(image.val()["email"] == email):
+            image_list.append(db.child("images").child(image.key()).get())
+    
+    return jsonify({"images" : image_list})
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(port=5002) 
+    
+
+

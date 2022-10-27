@@ -32,9 +32,16 @@ def login():
     email = request.json['email']
     password = request.json['password']
 
-    user = auth.sign_in_with_email_and_password(email, password)
+    user_details = auth.sign_in_with_email_and_password(email, password)
 
-    return jsonify({'user' : 'created'})
+    users = db.child("users").get()
+
+    for user in users.each():
+        if(user.val()["email"] == email):
+            key=user.key()    
+
+    
+    return jsonify({'user' : db.child("users").child(key).get()})
 
 
 @app.route("/register", methods=["GET", "POST"])
