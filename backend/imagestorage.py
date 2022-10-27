@@ -1,5 +1,3 @@
-from crypt import methods
-import email
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pyrebase
