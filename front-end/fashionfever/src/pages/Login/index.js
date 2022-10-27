@@ -9,12 +9,15 @@ import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { Link } from '@mui/material'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 export const Login = () => {
     const [values, setValues] = React.useState({
         email: '',
         password: '',
     });
+
+    let state = useSelector((state) => state.users);
     
     const [showError, setShowError] = React.useState(null);
 
@@ -70,6 +73,7 @@ export const Login = () => {
                                 if(res.data)
                                 {
                                     setShowError(false);
+                                    // state
                                     dispatch(login({ email: values.email, password: values.password }));
                                 }
                                 else

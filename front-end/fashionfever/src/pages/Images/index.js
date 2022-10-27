@@ -5,14 +5,28 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { Divider, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export function Images() {
+    const [imagearray, setImagearray] = React.useState([]);
+
     let state = useSelector((state) => state.users);
     const navigate = useNavigate();
 
     React.useEffect(() => {
         if(state.value.email === "")
-            navigate('/Home');
+          navigate('/Home');
+        
+        let temp = new Object();
+        temp.email = state.value.email;
+        let json = JSON.stringify(temp);
+        let heads = {"Content-Type": "application/json"};
+        axios.post("http://localhost:5002/getimages", json, {headers: heads}).then((res) => {
+          if(res.data)
+          {
+            setImagearray(res.data.images);
+          }
+      });
     }, [state.value.email]);
 
     return (
@@ -22,14 +36,11 @@ export function Images() {
                 <Typography variant="h4">My Images</Typography>
                 <Divider/>
                 <ImageList variant="masonry" cols={3} gap={8}>
-                    {itemData.map((item) => (
-                        <ImageListItem key={item.img}>
-                        <img
-                        src={`${item.img}?w=248&fit=crop&auto=format`}
-                        srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                        alt={item.title}
-                        loading="lazy"
-                        />
+                    {imagearray.map((item) => (
+                        <ImageListItem key={item.url}>
+                        <img src={`${item.url}`} srcSet={`${item.url}`}
+                          alt={item.title}  loading="lazy" />
+                        <Typography variant="p">{item.caption}</Typography>
                     </ImageListItem>
                     ))}
                 </ImageList>
