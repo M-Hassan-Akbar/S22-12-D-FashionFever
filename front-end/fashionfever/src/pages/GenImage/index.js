@@ -8,7 +8,7 @@ import ImgList from "../../components/ImageList";
 import Grow from '@mui/material/Grow';
 import { useState } from "react";
 import { useSelector } from 'react-redux';
-// import Skel from "../../components/Skeleton";
+import Skel from "../../components/Skeleton";
 
 
 export const GenImage = () => {
@@ -30,7 +30,7 @@ export const GenImage = () => {
 
     if(loadImage)
     {
-        elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><ImgList/></Grid></Grow>;
+        elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
         let temp = new Object();
         temp.email = state.value.email;
         temp.caption = values.desc;
@@ -44,14 +44,22 @@ export const GenImage = () => {
         });
     }
     else
-        elem = <></>
-        // elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>
+    {
+        elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>
+        console.log('no')
+    }
+        // elem = <></>
 
     // console.log(modal, loadModal)
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
+    React.useEffect(() => {
+        if(values.desc === "")
+            setLoadImage(false);
+    }, [values.desc]);
 
     return (
         <>
@@ -62,21 +70,25 @@ export const GenImage = () => {
                         <h1>Image Generation</h1>
                         <Grid container direction='column' rowSpacing={2}>
                             <Grid item>
-                                <TextField required value={values.desc} onChange={handleChange('first_name')} label="Description"
+                                <TextField required value={values.desc} onChange={handleChange('desc')} label="Description"
                                     fullWidth/>
                             </Grid>
                             <Grid item>
                                 <Button variant='contained' color='primary' onClick={async () => {
                                     // const response = await axios.get('localhost:5000/GenImage');
                                     // setImageUrl(response.data)
-                                    setLoadImage(true);
-                                    handleGrowChange();
+
+                                    if(values.desc !== "")
+                                        setLoadImage(true);
                                 }}>Generate Image</Button>
                             </Grid>
                         </Grid>
                     </Container>
                 </Grid>
                 {elem}
+                {/* <Grid item sx={{marginTop: "15vmin"}}>
+                    <image src="" alt="Generated image"></image>
+                </Grid> */}
             </Grid>
         </>
     );
