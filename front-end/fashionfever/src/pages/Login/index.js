@@ -79,7 +79,7 @@ export const Login = () => {
                                         first_name: res.data.user.first_name,
                                         last_name: res.data.user.last_name,
                                         phone_number: res.data.user.phone_number,
-                                        profile_image: res.data.user.phone_number,
+                                        profile_image: res.data.user.profile_image,
                                         gender: res.data.user.gender,
                                         bio: res.data.user.bio,
                                     }));

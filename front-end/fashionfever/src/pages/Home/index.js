@@ -19,6 +19,8 @@ export const Home = () => {
 
     const navigate = useNavigate();
 
+    console.log(state);
+
     React.useEffect(() => {
         if(count === 0)
         {
@@ -35,28 +37,36 @@ export const Home = () => {
 
     return (
         <>
-            <Fab sx={{ float: "flex-end", margin: "10px" }} color="primary" aria-label="add" onClick={() => {
-                if(state.value.email === "")
-                {
-                    navigate('/Login');
-                }
-                else
-                {
-                    navigate('/Createad')
-                }}}>
-                <AddIcon />
-            </Fab>
-            <Fab sx={{ float: "right", margin: "10px" }} color="secondary" aria-label="add" onClick={() => {
-                if(state.value.email === "")
-                {
-                    navigate('/Login');
-                }
-                else
-                {
-                    navigate('/GenImage')
-                }}}>
-                <AddIcon />
-            </Fab>
+            <Grid container justifyContent="center" sx={{ marginTop: "1px" }} spacing={10}>
+                <Grid item>
+                    <Fab sx={{ float: "center" }} variant="extended" color="primary" aria-label="add" onClick={() => {
+                        if(state.value.email === "")
+                        {
+                            navigate('/Login');
+                        }
+                        else
+                        {
+                            navigate('/Createad')
+                        }}}>
+                        <AddIcon />
+                        Create an ad
+                    </Fab>
+                </Grid>
+                <Grid item>
+                    <Fab sx={{ float: "center" }} variant="extended" color="secondary" aria-label="add" onClick={() => {
+                        if(state.value.email === "")
+                        {
+                            navigate('/Login');
+                        }
+                        else
+                        {
+                            navigate('/GenImage')
+                        }}}>
+                        <AddIcon />
+                        Generate Image
+                    </Fab>
+                </Grid>
+            </Grid>
             <br/>
             
             <Grid container sx={{padding: "5%",}} spacing={4} justifyContent="center">

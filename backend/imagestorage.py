@@ -48,7 +48,7 @@ def addAd():
     description = request.args.get('description')
     phone_number = request.args.get('phone_number')
     full_name = request.args.get('full_name')
-    url = request.args.get('url')
+    url = request.form.get('url')
     
     if len(request.files):
         file = request.files['file']

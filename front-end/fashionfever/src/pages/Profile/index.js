@@ -3,7 +3,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState, useRef, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +24,7 @@ export const Profile = () => {
     });
     
     let state = useSelector((state) => state.users);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [startDate, setStartDate] = useState("11/11/2011");
@@ -89,7 +90,8 @@ export const Profile = () => {
             ).then(function (response) {
                 console.log(response.data);
                 setImage(response.data.user.profile_image);
-                console.log(image);
+                console.log(state.profile_image);
+                // dispatch(login({ profile_image: response.data.user.profile_image }));
             });
     }, [image, state.value.email])
 
@@ -110,7 +112,7 @@ export const Profile = () => {
                     <Grid item>
                         <Grid container sx={{alignItems: "center"}} spacing={5} >
                             <Grid item>
-                                <Avatar alt="profile pic" src="" sx={{ width: 150, height: 150}} />
+                                <Avatar alt="profile pic" src={state.profile_image} sx={{ width: 150, height: 150}} />
                             </Grid>
                             <Grid item>
                                 <input style={{ display: "none" }} ref={inputFile} onChange={handleFileUpload} type="file" />
@@ -126,7 +128,7 @@ export const Profile = () => {
                         <Typography variant="h6">Basic Information</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField label="Username" value={values.username} onChange={handleChange('username')}
+                        <TextField label="Username" disabled value={state.email} onChange={handleChange('username')}
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
