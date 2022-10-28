@@ -110,7 +110,14 @@ export const Register = () => {
                                 if(res.data)
                                 {
                                     setLog(true);
-                                    dispatch(login({ email: values.email, password: values.password }));
+                                    dispatch(login({ email: values.email, address: res.data.address, 
+                                        first_name: res.data.first_name,
+                                        last_name: res.data.last_name,
+                                        phone_number: res.data.phone_number,
+                                        profile_image: res.data.phone_number,
+                                        gender: res.data.gender,
+                                        bio: res.data.bio,
+                                    }));
                                 }
                             });
                         }

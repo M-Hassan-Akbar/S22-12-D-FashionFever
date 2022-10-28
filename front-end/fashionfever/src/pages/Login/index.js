@@ -47,14 +47,16 @@ export const Login = () => {
 
     return(
     <>
-        <Container maxWidth="md" sx={{backgroundColor: "#71cda7", textAlign: "center", paddingBottom: "40px", paddingTop: "10px", marginTop: "150px", borderRadius: "20px"}}>
+        <Container maxWidth="md" sx={{backgroundColor: "#71cda7", textAlign: "center", paddingBottom: "40px", paddingTop: "10px",
+            marginTop: "150px", borderRadius: "20px"}}>
             <h1>Log In</h1>
             <Grid container direction='column' rowSpacing={2}>
                 <Grid item>
                     <TextField required label="Email" fullWidth value={values.email} onChange={handleChange('email')}/>
                 </Grid>
                 <Grid item>
-                    <TextField required label="Password" type="password" fullWidth value={values.password} onChange={handleChange('password')}/>
+                    <TextField required label="Password" type="password" fullWidth value={values.password}
+                        onChange={handleChange('password')}/>
                 </Grid>
                 <Grid item>
                     {/* <Link>Forgot Password?</Link> */}
@@ -73,8 +75,14 @@ export const Login = () => {
                                 if(res.data)
                                 {
                                     setShowError(false);
-                                    // state
-                                    dispatch(login({ email: values.email, password: values.password }));
+                                    dispatch(login({ email: values.email, address: res.data.user.address, 
+                                        first_name: res.data.user.first_name,
+                                        last_name: res.data.user.last_name,
+                                        phone_number: res.data.user.phone_number,
+                                        profile_image: res.data.user.phone_number,
+                                        gender: res.data.user.gender,
+                                        bio: res.data.user.bio,
+                                    }));
                                 }
                                 else
                                 {
