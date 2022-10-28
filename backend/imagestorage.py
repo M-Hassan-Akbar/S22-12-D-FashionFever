@@ -1,7 +1,8 @@
+import email
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pyrebase
-
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -39,6 +40,48 @@ def fetchImage():
             image_list.append(db.child("images").child(image.key()).get().val())
     
     return jsonify({"images" : image_list})
+
+
+@app.route("/addad", method=["POST"])
+def addAd():
+    file = request.files['file']
+    email = request.args.get('email')
+    description = request.args.get('description')
+    phone_number = request.args.get('phone_number')
+    full_name = request.args.get('full_name')
+    url = request.args.get('url')
+    
+    if file is not None:
+        name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
+        storage.child(name).put(file)
+
+        url = storage.child(name).get_url(None)
+        db.child("images").push({
+                'email' : email,
+                'name' : name,
+                'caption' : '',
+                'url' : url
+            })
+
+    db.child("ads").push({
+        'email' : email,
+        'name' : full_name,
+        'description' : description,
+        'phone_number' : phone_number,
+        'url' : url
+    })
+
+@app.route("/addad", method=["POST", "GET"])
+def getAd():
+    ads = db.child("ads").get()
+
+    getads = []
+    for ad in ads.each():
+        getads.append(ad.get().val())
+    
+    return jsonify({"ads" : getads})
+    
+    
 
 if __name__ == "__main__":
     app.run(port=5002) 

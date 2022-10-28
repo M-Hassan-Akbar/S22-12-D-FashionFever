@@ -1,8 +1,11 @@
+import imp
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from evaluation import gen_image
+from endpoint import gen_image, screen_caption
+import base64
 import pyrebase
 import random
+import os
 
 
 app = Flask(__name__)
@@ -34,22 +37,28 @@ def get_image():
     caption = request.json["caption"]
     email = request.json["email"]
 
-    generated_image = gen_image(caption)
-    name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
-    print("Image " + name + "has been created!")
-    storage.child(name).put(generated_image)
+    valid = screen_caption(caption)
+    if valid is False:
+        return jsonify({'status': 400, 'error' : "wrong caption"})
 
-    db.child("images").push({
-        'email' : email,
-        'name' : name,
-        'caption' : caption,
-        'url' : storage.child(name).get_url(None)
-    })
+    urls = []
+    generated_images = gen_image(caption)
+    for generated_image in generated_images:
+        name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
+        print("Image " + name + "has been created!")
+        storage.child(name).put(base64.b64decode(generated_image))
+        urls.append(storage.child(name).get_url(None))
+        db.child("images").push({
+            'email' : email,
+            'name' : name,
+            'caption' : caption,
+            'url' : storage.child(name).get_url(None)
+        })
 
     return jsonify({'email' : email,
         'name' : name,
         'caption' : caption,
-        'url' : storage.child(name).get_url(None)})
+        'url' : urls})
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
