@@ -65,7 +65,7 @@ export const Profile = () => {
         if (files && files.length) {
         
         setImage(files[0]);
-        console.log(image);
+        // console.log(image);
         }
     };
 
@@ -85,10 +85,11 @@ export const Profile = () => {
         };
         
         axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
-            'Content-Type': 'multipart/form-data'
-            }},
+            'Content-Type': 'multipart/form-data' }},
             ).then(function (response) {
                 console.log(response.data);
+                setImage(response.data.user.profile_image);
+                console.log(image);
             });
     }, [image, state.value.email])
 

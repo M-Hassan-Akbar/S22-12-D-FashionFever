@@ -42,7 +42,7 @@ def fetchImage():
     return jsonify({"images" : image_list})
 
 
-@app.route("/addad", method=["POST"])
+@app.route("/addad", methods=["POST"])
 def addAd():
     file = request.files['file']
     email = request.args.get('email')
@@ -71,7 +71,9 @@ def addAd():
         'url' : url
     })
 
-@app.route("/addad", method=["POST", "GET"])
+    return jsonify({"ad": "created"})
+
+@app.route("/getad", methods=["POST", "GET"])
 def getAd():
     ads = db.child("ads").get()
 

@@ -9,7 +9,7 @@ import Grow from '@mui/material/Grow';
 import { useState } from "react";
 import { useSelector } from 'react-redux';
 import Skel from "../../components/Skeleton";
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
 
 const genders = [
     'Male',
@@ -42,7 +42,7 @@ export const GenImage = () => {
         desc: '',
     });
 
-    const [imageUrl, setImageUrl] = React.useState('')
+    const [imageUrl, setImageUrl] = React.useState([])
     const [loadImage, setLoadImage] = React.useState(false);
     const [checked, setChecked] = React.useState(false);
     
@@ -58,7 +58,7 @@ export const GenImage = () => {
     const [category, setCategory] = useState('');
     
     let elem;
-    elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>;
+    elem = <></>;
 
     const exec = () => {
         // elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
@@ -69,10 +69,19 @@ export const GenImage = () => {
             temp.caption = `${gender} ${category} ${color}`
         let json = JSON.stringify(temp);
         let heads = {"Content-Type": "application/json"};
-        axios.post("http://localhost:5001/fashion", json, {headers: heads}).then((res) => {
+        axios.post("https://attn-7nqm5u6vxq-as.a.run.app/fashion", json, {headers: heads}).then((res) => {
             if(res.data)
             {
-                console.log(res.data);
+                if(res.data.status)
+                {
+                    console.log('error');
+                    elem = <Grid item><Typography variant="p" color="red">Invalid Caption</Typography></Grid>;
+                }
+                else
+                {
+                    console.log(res.data.url);
+                    setImageUrl(res.data.url);
+                }
             }
         });
         // setValues({ ...values, desc: ""})
@@ -158,10 +167,10 @@ export const GenImage = () => {
 
     return (
         <>
-            <Grid container alignItems="center" justifyContent="center" spacing={20}>
+            <Grid container alignItems="center" justifyContent="center" spacing={10}>
                 <Grid item>
                     <Container maxWidth="md" sx={{backgroundColor: "#71cda7", width: "40vmax", textAlign: "center",
-                        paddingBottom: "40px", paddingTop: "10px", marginTop: "150px", borderRadius: "20px"}}>
+                        paddingBottom: "40px", paddingTop: "10px", marginTop: "100px", borderRadius: "20px"}}>
                         <h1>Image Generation</h1>
                         <Grid container direction='column' rowSpacing={2}>
                             <Grid item>
@@ -179,6 +188,7 @@ export const GenImage = () => {
                                 <TextField disabled={flag} value={values.desc} onChange={handleChange('desc')} label="Description"
                                     fullWidth/>
                             </Grid>
+                            {elem}
                             <Grid item>
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-select-small">Gender</InputLabel>
@@ -232,9 +242,11 @@ export const GenImage = () => {
                     </Container>
                 </Grid>
                 {/* {elem} */}
-                {/* <Grid item sx={{marginTop: "15vmin"}}>
-                    <image src="" alt="Generated image"></image>
-                </Grid> */}
+                <Grid item sx={{marginTop: "15vmin"}} xs={6}>
+                    {imageUrl.map((image, i) => (
+                        <img key={i} src={image} alt={`Generated image ${i}`}></img>
+                    ))}
+                </Grid>
             </Grid>
         </>
     );

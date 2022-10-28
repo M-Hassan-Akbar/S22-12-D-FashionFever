@@ -6,6 +6,7 @@ import { GenImage } from './pages/GenImage'
 import { ImgPage } from './pages/ImgPage'
 import { Profile } from './pages/Profile'
 import { Images } from './pages/Images'
+import { CreateAd } from './pages/Createad'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // import Navbar from './components/Navbar'
 import { Provider } from 'react-redux'
@@ -30,6 +31,7 @@ const Main = () => {
         <Route path='ImgPage' element={<ImgPage />} />
         <Route path='Profile' element={<Profile />} />
         <Route path='Images' element={<Images />} />
+        <Route path='Createad' element={<CreateAd />} />
         <Route path="/" element={<Navigate replace to="/Home" />} />
       </Routes>
     </>
