@@ -44,14 +44,14 @@ def fetchImage():
 
 @app.route("/addad", methods=["POST"])
 def addAd():
-    file = request.files['file']
     email = request.args.get('email')
     description = request.args.get('description')
     phone_number = request.args.get('phone_number')
     full_name = request.args.get('full_name')
     url = request.args.get('url')
     
-    if file is not None:
+    if len(request.files):
+        file = request.files['file']
         name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
         storage.child(name).put(file)
 
@@ -79,7 +79,7 @@ def getAd():
 
     getads = []
     for ad in ads.each():
-        getads.append(ad.get().val())
+        getads.append(ad.val())
     
     return jsonify({"ads" : getads})
     
