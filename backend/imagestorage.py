@@ -79,7 +79,7 @@ def getAd():
 
     getads = []
     for ad in ads.each():
-        getads.append(ad.get().val())
+        getads.append(ad.val())
     
     return jsonify({"ads" : getads})
     

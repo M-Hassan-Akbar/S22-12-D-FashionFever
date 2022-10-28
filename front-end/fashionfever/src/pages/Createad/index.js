@@ -101,7 +101,8 @@ export const CreateAd = () => {
                     </Grid>
                     <Grid item>
                         <Button variant="contained" onClick={() => {
-                            let full_name = state.value.first_name.concat(state.value.last_name); 
+                            let full_name = state.value.first_name.concat(" "); 
+                            full_name = full_name.concat(state.value.last_name);
                             axios.post(
                             `http://localhost:5002/addad?email=${state.value.email}&description=${values.desc}&phone_number=${state.value.phone_number}&full_name=${full_name}&url=${imurl}`,
                             {file: image}, { headers: { 'Content-Type': 'multipart/form-data' }},
