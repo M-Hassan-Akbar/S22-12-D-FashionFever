@@ -16,7 +16,7 @@ export const ImgPage = () => {
 
     return(
     <>
-        <Container maxWidth="md" sx={{backgroundColor: "#71cda7", textAlign: "center", paddingBottom: "40px", paddingTop: "40px",
+        <Container maxWidth="md" sx={{backgroundColor: "#ee7752", textAlign: "center", paddingBottom: "40px", paddingTop: "40px",
             marginTop: "100px", borderRadius: "20px"}}>
             <Grid container direction="row">
                 <Grid item xs={6}>
@@ -29,6 +29,13 @@ export const ImgPage = () => {
                         </Grid>
                         <Grid item>
                             {location.state.imgD}
+                        </Grid>
+                        <br/>
+                        <Grid item>
+                            Email: {location.state.imgE}
+                        </Grid>
+                        <Grid item>
+                             Phone Number: {location.state.imgPh}
                         </Grid>
                     </Grid>
                 </Grid>

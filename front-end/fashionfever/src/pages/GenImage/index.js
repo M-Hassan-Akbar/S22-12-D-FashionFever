@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useSelector } from 'react-redux';
 import Skel from "../../components/Skeleton";
 import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
+import { Loader2 } from "../../components/Loader2";
 
 const genders = [
     'Male',
@@ -28,8 +29,7 @@ const colors = [
 ];
 
 const categories = [
-    'Shalwar',
-    'Kameez',
+    'Shalwar Kameez',
     'Pants',
     'T-shirt',
     'Dress shirt',
@@ -56,20 +56,24 @@ export const GenImage = () => {
     const [flag, setFlag] = useState(false);
     const [color, setColor] = useState('');
     const [category, setCategory] = useState('');
+    const [displ, setDispl] = React.useState("none");
     
     let elem;
     elem = <></>;
 
     const exec = () => {
+        setDispl("");
         // elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
         let temp = new Object();
         temp.email = state.value.email;
         temp.caption = values.desc;
         if(flag)
             temp.caption = `${gender} ${category} ${color}`
+        console.log(temp.caption)
         let json = JSON.stringify(temp);
         let heads = {"Content-Type": "application/json"};
         axios.post("https://attn-7nqm5u6vxq-as.a.run.app/fashion", json, {headers: heads}).then((res) => {
+            setDispl("none");
             if(res.data)
             {
                 if(res.data.status)
@@ -79,7 +83,7 @@ export const GenImage = () => {
                 }
                 else
                 {
-                    console.log(res.data.url);
+                    // console.log(res.data.url);
                     setImageUrl(res.data.url);
                 }
             }
@@ -126,7 +130,7 @@ export const GenImage = () => {
         else if(alignment === "dropdown")
             setFlag(false);
         
-            console.log(flag);
+            // console.log(flag);
     };
 
 
@@ -165,12 +169,14 @@ export const GenImage = () => {
             setLoadImage(false);
     }, [values.desc]);
 
+
     return (
         <>
+            <Loader2 disp={displ} pos="right"/>
             <Grid container alignItems="center" justifyContent="center" spacing={10}>
                 <Grid item>
-                    <Container maxWidth="md" sx={{backgroundColor: "#71cda7", width: "40vmax", textAlign: "center",
-                        paddingBottom: "40px", paddingTop: "10px", marginTop: "100px", borderRadius: "20px"}}>
+                    <Container maxWidth="md" sx={{backgroundColor: "#ee7752", width: "40vmax", textAlign: "center",
+                        padding: "30px", marginTop: "100px", borderRadius: "20px"}}>
                         <h1>Image Generation</h1>
                         <Grid container direction='column' rowSpacing={2}>
                             <Grid item>
@@ -232,9 +238,11 @@ export const GenImage = () => {
                                 <Button variant='contained' color='primary' onClick={ () => {
                                     // const response = await axios.get('localhost:5000/GenImage');
                                     // setImageUrl(response.data)
-                                    console.log(values.desc);
+                                    // console.log(values.desc);
 
                                     if(values.desc !== "")
+                                        exec();
+                                    else if(gender !== "" && category !== "" && color !== "")
                                         exec();
                                 }}>Generate Image</Button>
                             </Grid>

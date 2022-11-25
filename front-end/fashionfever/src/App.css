@@ -1,6 +1,6 @@
 body {
-  text-align: center;
-  background-color: #71cda7;
+  background-color: #31102F;
+  background: radial-gradient(ellipse at center, #31102f 0%, #280b29 100%);
 }
 
 .App-logo {
@@ -35,5 +35,140 @@ body {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+#stars {
+  display: block;
+  position: fixed;
+  width: 100%;
+  height: 16rem;
+  height: 100vh;
+  z-index: -1;
+}
+
+/* body{
+  &::before{
+    content:"";
+    position:absolute;
+    background:linear-gradient(112deg, #f930f9, #0f938f);
+    width:1000px;
+    height:700px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+  }
+} */
+
+.boxes{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  background:rgb(105, 109, 28);
+  filter: blur(10px) contrast(100);
+  mix-blend-mode: screen;
+  border-radius: 200px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.box{
+  width:50px;
+  height:50px;
+  border-radius:100%;
+  background-color:#fdd835;
+}
+
+.box:nth-child(odd){
+  animation: spinLeft 2.5s 0.2s linear both infinite;
+}
+.box:nth-child(even){
+    animation: spinRight 1s 0.4s linear both infinite;
+}
+.box:nth-child(2n){
+   animation: pulse 2s ease-in-out 0.1s infinite;
+}
+.box:nth-child(4n){
+  animation-direction:reverse;
+}
+@keyframes pulse{
+  50%{transform: scale(1.8)}
+  70%{transform: scale(0.6)
+  }
+}
+
+@keyframes spinLeft{
+  from{
+    transform: rotate(0deg) translate(50px);
+  }
+  to{
+    transform: rotate(360deg) translate(50px);
+  }
+}
+@keyframes spinRight{
+  from{
+    transform: rotate(360deg) translate(50px);
+  }
+  to{
+    transform: rotate(0deg) translate(50px);
+  }
+}
+
+#animCont {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 60vh;
+  width: 60vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -60%); */
+  z-index: 20;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: white;
+}
+.gegga {
+  width: 0;
+}
+.snurra {
+  filter: url(#gegga);
+}
+.stopp1 {
+  stop-color: #f700a8;
+}
+.stopp2 {
+  stop-color: #ff8000;
+}
+.halvan {
+  animation: Snurra1 10s infinite linear;
+  stroke-dasharray: 180 800;
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 23;
+  stroke-linecap: round;
+}
+.strecken {
+  animation: Snurra1 3s infinite linear;
+  stroke-dasharray: 26 54;
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 23;
+  stroke-linecap: round;
+}
+.skugga {
+  filter: blur(5px);
+  opacity: 0.3;
+  position: absolute;
+  transform: translate(3px, 3px);
+}
+@keyframes Snurra1 {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -403px;
   }
 }

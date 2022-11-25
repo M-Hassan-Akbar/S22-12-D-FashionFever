@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { Link } from '@mui/material'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { Loader2 } from '../../components/Loader2'
+// import { useSelector } from 'react-redux'
 
 export const Login = () => {
     const [values, setValues] = React.useState({
@@ -17,9 +18,10 @@ export const Login = () => {
         password: '',
     });
 
-    let state = useSelector((state) => state.users);
+    // let state = useSelector((state) => state.users);
     
     const [showError, setShowError] = React.useState(null);
+    const [displ, setDispl] = React.useState("none");
 
     let errorText;
     if(showError)
@@ -47,10 +49,14 @@ export const Login = () => {
 
     return(
     <>
-        <Container maxWidth="md" sx={{backgroundColor: "#71cda7", textAlign: "center", paddingBottom: "40px", paddingTop: "10px",
-            marginTop: "150px", borderRadius: "20px"}}>
-            <h1>Log In</h1>
-            <Grid container direction='column' rowSpacing={2}>
+        <br/>
+        <Loader2 disp={displ} />
+        <Container maxWidth="md" sx={{backgroundColor: "#ee7752", textAlign: "center", paddingBottom: "40px", paddingTop: "10px",
+            marginTop: "10%", borderRadius: "20px"}}>
+            <Grid container direction='column' rowSpacing={2} justifyContent="center" >
+                <Grid item>
+                    <h1>Log In</h1>
+                </Grid>
                 <Grid item>
                     <TextField required label="Email" fullWidth value={values.email} onChange={handleChange('email')}/>
                 </Grid>
@@ -69,9 +75,11 @@ export const Login = () => {
                     <Button variant='contained' color='primary' onClick={() => {
                         if(values.email !== "" && values.password !== "")
                         {
+                            setDispl("");
                             let json = JSON.stringify(values)
                             let heads = {"Content-Type": "application/json"}
                             axios.post("http://localhost:5000/login", json, {headers: heads}).then((res) => {
+                                setDispl("none");
                                 if(res.data)
                                 {
                                     setShowError(false);

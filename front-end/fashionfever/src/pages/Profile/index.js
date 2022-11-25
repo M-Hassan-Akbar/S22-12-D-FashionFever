@@ -14,21 +14,23 @@ const genders = [
   ];
 
 export const Profile = () => {
+    let state = useSelector((state) => state.users);
     const [values, setValues] = useState({
         first_name: '',
         last_name: '',
         email: '',
-        address: '',
-        bio: '',
-        phone_number: '',
+        address: state.value.address,
+        bio: state.value.bio,
+        phone_number: state.value.phone_number,
     });
     
-    let state = useSelector((state) => state.users);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [startDate, setStartDate] = useState("11/11/2011");
-    const [gender, setGender] = useState('');
+    // console.log(state);
+
+    const [startDate, setStartDate] = useState(state.value.date);
+    const [gender, setGender] = useState(state.value.gender);
     const [open, setOpen] = useState(false);
 
     const submitted = () => {
@@ -56,6 +58,7 @@ export const Profile = () => {
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
+    // setValues({...values, address: state.value.address, bio: state.value.bio})
 
     const [image, setImage] = useState("");
 
@@ -75,22 +78,23 @@ export const Profile = () => {
     };
     
     const firstUpdate = useRef(true);
-
+    
     useEffect(() => {
         if(state.value.email === "")
-            navigate('/Home');
+        navigate('/Home');
         
         if(firstUpdate.current) {
             firstUpdate.current = false;
             return;
         };
         
+        // console.log(state.value.profile_image);
         axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
             'Content-Type': 'multipart/form-data' }},
             ).then(function (response) {
+                submitted();
                 console.log(response.data);
                 setImage(response.data.user.profile_image);
-                console.log(state.profile_image);
                 // dispatch(login({ profile_image: response.data.user.profile_image }));
             });
     }, [image, state.value.email])
@@ -192,6 +196,8 @@ export const Profile = () => {
                                 temp.dob = parseInt((new Date(startDate).getTime() / 1000).toFixed(0));
                                 temp.email = state.value.email;
                                 temp.phone_number = values.phone_number;
+                                temp.gender = gender;
+                                console.log(gender)
                                 let json = JSON.stringify(temp);
                                 let heads = {"Content-Type": "application/json"};
                                 axios.post("http://localhost:5000/updateprofile", json, {headers: heads}).then((res) => {
