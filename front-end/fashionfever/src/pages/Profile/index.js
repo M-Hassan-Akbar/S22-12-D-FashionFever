@@ -3,7 +3,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState, useRef, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -14,20 +14,23 @@ const genders = [
   ];
 
 export const Profile = () => {
+    let state = useSelector((state) => state.users);
     const [values, setValues] = useState({
         first_name: '',
         last_name: '',
         email: '',
-        address: '',
-        bio: '',
-        phone_number: '',
+        address: state.value.address,
+        bio: state.value.bio,
+        phone_number: state.value.phone_number,
     });
     
-    let state = useSelector((state) => state.users);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [startDate, setStartDate] = useState("11/11/2011");
-    const [gender, setGender] = useState('');
+    // console.log(state);
+
+    const [startDate, setStartDate] = useState(state.value.date);
+    const [gender, setGender] = useState(state.value.gender);
     const [open, setOpen] = useState(false);
 
     const submitted = () => {
@@ -55,6 +58,7 @@ export const Profile = () => {
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
+    // setValues({...values, address: state.value.address, bio: state.value.bio})
 
     const [image, setImage] = useState("");
 
@@ -74,22 +78,24 @@ export const Profile = () => {
     };
     
     const firstUpdate = useRef(true);
-
+    
     useEffect(() => {
         if(state.value.email === "")
-            navigate('/Home');
+        navigate('/Home');
         
         if(firstUpdate.current) {
             firstUpdate.current = false;
             return;
         };
         
+        // console.log(state.value.profile_image);
         axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
             'Content-Type': 'multipart/form-data' }},
             ).then(function (response) {
+                submitted();
                 console.log(response.data);
                 setImage(response.data.user.profile_image);
-                console.log(image);
+                // dispatch(login({ profile_image: response.data.user.profile_image }));
             });
     }, [image, state.value.email])
 
@@ -110,7 +116,7 @@ export const Profile = () => {
                     <Grid item>
                         <Grid container sx={{alignItems: "center"}} spacing={5} >
                             <Grid item>
-                                <Avatar alt="profile pic" src="" sx={{ width: 150, height: 150}} />
+                                <Avatar alt="profile pic" src={state.profile_image} sx={{ width: 150, height: 150}} />
                             </Grid>
                             <Grid item>
                                 <input style={{ display: "none" }} ref={inputFile} onChange={handleFileUpload} type="file" />
@@ -126,7 +132,7 @@ export const Profile = () => {
                         <Typography variant="h6">Basic Information</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField label="Username" value={values.username} onChange={handleChange('username')}
+                        <TextField label="Username" disabled value={state.email} onChange={handleChange('username')}
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
@@ -190,6 +196,8 @@ export const Profile = () => {
                                 temp.dob = parseInt((new Date(startDate).getTime() / 1000).toFixed(0));
                                 temp.email = state.value.email;
                                 temp.phone_number = values.phone_number;
+                                temp.gender = gender;
+                                console.log(gender)
                                 let json = JSON.stringify(temp);
                                 let heads = {"Content-Type": "application/json"};
                                 axios.post("http://localhost:5000/updateprofile", json, {headers: heads}).then((res) => {

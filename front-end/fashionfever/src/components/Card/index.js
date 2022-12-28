@@ -17,7 +17,7 @@ export default function MainCard(props) {
 
   return (
     <Card sx={{ width: 345, minHeight: 300, maxHeight: 500, cursor: "pointer" }} onClick={() => {
-      navigate('/ImgPage', {state: {imgP: props.imgP, imgT: props.imgT, imgD: props.imgD}})}}>
+      navigate('/ImgPage', {state: {imgP: props.imgP, imgT: props.imgT, imgD: props.imgD, imgPh: props.imgPh, imgE: props.imgE}})}}>
       <CardActionArea height="800">
         <CardMedia
           component="img"
@@ -32,6 +32,12 @@ export default function MainCard(props) {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {props.imgD}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Email: {props.imgE}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Phone number: {props.imgPh}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -103,13 +103,12 @@ export const CreateAd = () => {
                         <Button variant="contained" onClick={() => {
                             let full_name = state.value.first_name.concat(" "); 
                             full_name = full_name.concat(state.value.last_name);
+                            console.log(state.value.phone_number)
                             axios.post(
                             `http://localhost:5002/addad?email=${state.value.email}&description=${values.desc}&phone_number=${state.value.phone_number}&full_name=${full_name}&url=${imurl}`,
-                            {file: image}, { headers: { 'Content-Type': 'multipart/form-data' }},
+                            {file: image, url: imurl}, { headers: { 'Content-Type': 'multipart/form-data' }},
                                 ).then(function (response) {
                                     console.log(response.data);
-                                    setImage(response.data.user.profile_image);
-                                    console.log(image);
                                 });
                         }}>Create</Button>
                     </Grid>

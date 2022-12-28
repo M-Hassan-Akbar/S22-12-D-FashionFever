@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import { login } from "../../store"
 import { useDispatch } from 'react-redux'
+import { Loader2 } from '../../components/Loader2'
 
 export const Register = () => {
     const [values, setValues] = React.useState({
@@ -51,26 +52,35 @@ export const Register = () => {
             navigate('/Home');
         }
     })
+    
+    const [displ, setDispl] = React.useState("none");
 
     return(
     <>
-        <Container maxWidth="md" sx={{backgroundColor: "#6ac4af", textAlign: "center", paddingBottom: "40px", paddingTop: "10px", marginTop: "100px", borderRadius: "20px"}}>
+        <br/>
+        <Loader2 disp={displ} />
+        <Container maxWidth="md" sx={{backgroundColor: "#ee7752", textAlign: "center", paddingBottom: "40px", paddingTop: "10px",
+            marginTop: "7%", borderRadius: "20px"}}>
             <h1>Register</h1>
             <Grid container direction='column' rowSpacing={2}>
                 <Grid item justifyItems='center'>
-                    <TextField error={!chFname} required label="First Name" fullWidth value={values.first_name} onChange={handleChange('first_name')}/>
+                    <TextField error={!chFname} required label="First Name" fullWidth value={values.first_name}
+                        onChange={handleChange('first_name')}/>
                 </Grid>
                 <Grid item>
-                    <TextField error={!chLname} required label="Last Name" fullWidth value={values.last_name} onChange={handleChange('last_name')}/>
+                    <TextField error={!chLname} required label="Last Name" fullWidth value={values.last_name}
+                        onChange={handleChange('last_name')}/>
                 </Grid>
                 <Grid item>
                     <TextField error={!chEmail} required label="Email" fullWidth value={values.email} onChange={handleChange('email')}/>
                 </Grid>
                 <Grid item>
-                    <TextField error={!chPass} required label="Password" type="password" fullWidth value={values.password} onChange={handleChange('password')}/>
+                    <TextField error={!chPass} required label="Password" type="password" fullWidth value={values.password}
+                        onChange={handleChange('password')}/>
                 </Grid>
                 <Grid item>
-                    <TextField error={!chPass2} required label="Confirm Password" type="password" fullWidth value={checkPassword} onChange={handleChange2('checkPassword')}/>
+                    <TextField error={!chPass2} required label="Confirm Password" type="password" fullWidth value={checkPassword}
+                        onChange={handleChange2('checkPassword')}/>
                 </Grid>
                 {errorComp}
                 <Grid item>
@@ -104,9 +114,11 @@ export const Register = () => {
                         }
                         else
                         {
+                            setDispl("")
                             let json = JSON.stringify(values)
                             let heads = {"Content-Type": "application/json"}
                             axios.post("http://localhost:5000/register", json, {headers: heads}).then((res) => {
+                                setDispl("none");
                                 if(res.data)
                                 {
                                     setLog(true);
