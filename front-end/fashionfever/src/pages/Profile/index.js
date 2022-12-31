@@ -6,6 +6,39 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { styled } from '@mui/material/styles';
+
+const CssTextField = styled(TextField)({
+    input: {
+        color: "yellow"
+    },
+    '&:hover label': {
+        color: '#fdd835',
+    },
+    '& label': {
+        color: '#fdd835A0',
+    },
+    '& label.Mui-focused': {
+        color: 'yellow',
+    },
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: '#fdd835A0',
+        },
+        '&:hover fieldset': {
+            borderColor: '#fdd835',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'yellow',
+        },
+    },
+    "& .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: "#fdd835A0",
+        "& fieldset": {
+            borderColor: "#fdd835A0"
+        }
+    },
+});
 
 const genders = [
     'Male',
@@ -57,6 +90,7 @@ export const Profile = () => {
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
+        console.log(values);
     };
     // setValues({...values, address: state.value.address, bio: state.value.bio})
 
@@ -89,29 +123,30 @@ export const Profile = () => {
         };
         
         // console.log(state.value.profile_image);
-        axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
-            'Content-Type': 'multipart/form-data' }},
-            ).then(function (response) {
-                submitted();
-                console.log(response.data);
-                setImage(response.data.user.profile_image);
-                // dispatch(login({ profile_image: response.data.user.profile_image }));
-            });
-    }, [image, state.value.email])
+        if(image !== "")
+            axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
+                'Content-Type': 'multipart/form-data' }},
+                ).then(function (response) {
+                    submitted();
+                    console.log(response.data);
+                    setImage(response.data.user.profile_image);
+                    // dispatch(login({ profile_image: response.data.user.profile_image }));
+                });
+    }, [image])
 
     return (
         <>
-            <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid gray",
-                padding: "3%", borderRadius: "5px"}}>
+            <Box sx={{ marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",
+                padding: "3%", borderRadius: "5px", backdropFilter: "blur(10px)" }}>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
-                        <Typography variant="h5">My Profile</Typography>
+                        <Typography sx={{ color: "#fdd835" }} variant="h5">My Profile</Typography>
                     </Grid>
                     <Grid item>
-                        <Divider/>
+                        <Divider sx={{ backgroundColor: "#fdd835" }}/>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Profile Photo</Typography>
+                        <Typography sx={{ color: "#fdd835" }} variant="h6">Profile Photo</Typography>
                     </Grid>
                     <Grid item>
                         <Grid container sx={{alignItems: "center"}} spacing={5} >
@@ -126,19 +161,20 @@ export const Profile = () => {
                     </Grid>
                     <Grid item>
                         <br/>
-                        <Divider/>
+                        <Divider sx={{ backgroundColor: "#fdd835" }}/>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Basic Information</Typography>
+                        <Typography sx={{ color: "#fdd835" }} variant="h6">Basic Information</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField label="Username" disabled value={state.email} onChange={handleChange('username')}
+                        <CssTextField label="Username" disabled value={state.email} onChange={handleChange('username')}
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
-                    <Grid item>
-                        <LocalizationProvider fullWidth dateAdapter={AdapterDayjs}>
+                    <Grid item sx={{ color: "#fdd835" }}>
+                        <LocalizationProvider sx={{ color: "#fdd835" }} fullWidth dateAdapter={AdapterDayjs}>
                             <DatePicker label="Date of Birth" value={startDate} onChange={(newValue) => { setStartDate(newValue); }}
-                                renderInput={(params) => <TextField {...params} sx={{width: "40%"}} />}
+                                renderInput={(params) => <TextField {...params}
+                                sx={{ width: "40%", "&:focused": { color: "#fdd835" } }} />}
                             />
                         </LocalizationProvider>
                     </Grid>
@@ -156,33 +192,33 @@ export const Profile = () => {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField label="Address" value={values.address} onChange={handleChange('address')}
+                        <CssTextField label="Address" value={values.address} onChange={handleChange('address')}
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
-                        <TextField label="Status" value={values.bio} onChange={handleChange('bio')} variant="outlined"
+                        <CssTextField label="Status" value={values.bio} onChange={handleChange('bio')} variant="outlined"
                             sx={{width: "40%"}}
                             multiline rows={4} />
                     </Grid>
                     <Grid item>
                         <br/>
-                        <Divider/>
+                        <Divider sx={{ backgroundColor: "#fdd835" }}/>
                         <br/>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Contact Information</Typography>
+                        <Typography sx={{ color: "#fdd835" }} variant="h6">Contact Information</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField label="Phone Number" value={values.phone_number} onChange={handleChange('phone_number')}
+                        <CssTextField label="Phone Number" value={values.phone_number} onChange={handleChange('phone_number')}
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
-                        <TextField disabled value={state.value.email} label="Email" variant="outlined"
+                        <CssTextField disabled value={state.value.email} label="Email" variant="outlined"
                             sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
                         <br/>
-                        <Divider/>
+                        <Divider sx={{ backgroundColor: "#fdd835" }}/>
                         <br/>
                     </Grid>
                     <Grid item>

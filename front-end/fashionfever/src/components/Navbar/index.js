@@ -19,13 +19,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { logout } from "../../store"
 import { useDispatch } from 'react-redux'
-import { CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HomeIcon from '@mui/icons-material/Home';
 import ImageIcon from '@mui/icons-material/Image';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import ViewDayIcon from '@mui/icons-material/ViewDay';
+import AddIcon from '@mui/icons-material/Add';
 
 const drawerWidth = 300;
 
@@ -181,7 +182,7 @@ export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar elevation={0} color="transparent" position="static">
+      <AppBar sx={{ zIndex: "5" }} elevation={0} color="transparent" position="static">
         <Animation>
           <IconButton
             aria-label="open drawer"
@@ -211,6 +212,33 @@ export default function Navbar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+          <Fab size="small" sx={{ background: "#fdd835", float: "center", fontFamily: 'Roboto', fontSize: "15px", paddingRight: "10px",
+          "&:hover": { background: "#fdd835a3" } }} variant="extended" color="inherit" aria-label="add" onClick={() => {
+              if(state.value.email === "")
+              {
+                  navigate('/Login');
+              }
+              else
+              {
+                  navigate('/Createad')
+              }}}>
+              <AddIcon />
+              Ad
+          </Fab>
+          <Fab size="small" sx={{ background: "#fdd835", float: "center", fontFamily: 'Roboto', fontSize: "15px", marginLeft: "5px",
+          paddingLeft: "10px", paddingRight: "10px", "&:hover": { background: "#fdd835a3" }, marginRight: "5px" }} variant="extended"
+          color="inherit" aria-label="add" onClick={() => {
+              if(state.value.email === "")
+              {
+                  navigate('/Login');
+              }
+              else
+              {
+                  navigate('/GenImage')
+              }}}>
+              <AddIcon />
+              AI Image
+          </Fab>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" sx={{ color: "#fdd835" }} >
               <Badge badgeContent={4} color="error" invisible={true}>

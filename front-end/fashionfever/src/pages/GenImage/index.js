@@ -87,6 +87,8 @@ export const GenImage = () => {
                     setImageUrl(res.data.url);
                 }
             }
+        }).catch((err) => {
+            setDispl("none");
         });
         // setValues({ ...values, desc: ""})
         setValues({desc: ""});
@@ -172,10 +174,10 @@ export const GenImage = () => {
 
     return (
         <>
-            <Loader2 disp={displ} pos="right"/>
+            <Loader2 disp={displ} width="100%" height="91%" top="45%" left="50%" />
             <Grid container alignItems="center" justifyContent="center" spacing={10}>
                 <Grid item>
-                    <Container maxWidth="md" sx={{backgroundColor: "#ee7752", width: "40vmax", textAlign: "center",
+                    <Container maxWidth="md" sx={{backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
                         padding: "30px", marginTop: "100px", borderRadius: "20px"}}>
                         <h1>Image Generation</h1>
                         <Grid container direction='column' rowSpacing={2}>
@@ -250,10 +252,17 @@ export const GenImage = () => {
                     </Container>
                 </Grid>
                 {/* {elem} */}
-                <Grid item sx={{marginTop: "15vmin"}} xs={6}>
-                    {imageUrl.map((image, i) => (
-                        <img key={i} src={image} alt={`Generated image ${i}`}></img>
-                    ))}
+                <Grid item>
+                    <Container maxWidth="md" sx={{backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
+                        padding: "30px", borderRadius: "20px"}}>
+                        <Grid>
+                            <Grid item sx={{marginTop: "15vmin"}} xs={6}>
+                                {imageUrl.map((image, i) => (
+                                    <img key={i} src={image} alt={`Generated image ${i}`}></img>
+                                    ))}
+                            </Grid>
+                        </Grid>
+                    </Container>
                 </Grid>
             </Grid>
         </>

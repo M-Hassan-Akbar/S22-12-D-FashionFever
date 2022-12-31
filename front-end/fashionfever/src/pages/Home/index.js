@@ -1,7 +1,5 @@
 // import { Link } from "react-router-dom"
 import * as React from 'react';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import MainCard from '../../components/Card';
@@ -53,42 +51,11 @@ export const Home = () => {
 
     return (
         <>
-            
-            <Grid container justifyContent="center" sx={{ marginTop: "1px" }} spacing={10}>
-                <Grid item>
-                    <Fab sx={{ float: "center" }} variant="extended" color="primary" aria-label="add" onClick={() => {
-                        if(state.value.email === "")
-                        {
-                            navigate('/Login');
-                        }
-                        else
-                        {
-                            navigate('/Createad')
-                        }}}>
-                        <AddIcon />
-                        Create an ad
-                    </Fab>
-                </Grid>
-                <Grid item>
-                    <Fab sx={{ float: "center" }} variant="extended" color="secondary" aria-label="add" onClick={() => {
-                        if(state.value.email === "")
-                        {
-                            navigate('/Login');
-                        }
-                        else
-                        {
-                            navigate('/GenImage')
-                        }}}>
-                        <AddIcon />
-                        Generate Image
-                    </Fab>
-                </Grid>
-            </Grid>
-            <br/>
+            {/* <br/>
             <br/>
 
             <Divider light={true} variant="middle" sx={{ display: "block", borderBottomWidth: 5, backgroundColor: "#fdd835",
-                borderRadius: 5 }} />
+                borderRadius: 5 }} /> */}
             
             <Loader disp={`${dispLoad}`}/>
             <Grid container sx={{ padding: "5%", display: `${dispCards}` }} spacing={4} justifyContent="center">
