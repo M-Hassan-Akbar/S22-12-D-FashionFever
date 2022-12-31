@@ -87,8 +87,8 @@ body {
   align-items:center;
   justify-content:center;
   min-height:100vh;
-  background:rgb(105, 109, 28);
-  filter: blur(10px) contrast(100);
+  background:#394f6071;
+  filter: blur(10px) contrast(50);
   mix-blend-mode: screen;
   border-radius: 200px;
   width: 80%;

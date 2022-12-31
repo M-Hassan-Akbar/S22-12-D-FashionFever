@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -19,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { logout } from "../../store"
 import { useDispatch } from 'react-redux'
-import { CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { Autocomplete, CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, useTheme } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HomeIcon from '@mui/icons-material/Home';
@@ -27,6 +26,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import ViewDayIcon from '@mui/icons-material/ViewDay';
 import AddIcon from '@mui/icons-material/Add';
+import axios from 'axios';
 
 const drawerWidth = 300;
 
@@ -50,16 +50,6 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -67,20 +57,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '30ch',
-    },
-  },
 }));
 
 const Animation = styled(Toolbar)({
@@ -177,6 +153,25 @@ export default function Navbar() {
     setOpen(false);
   };
 
+  const [open2, setOpen2] = React.useState(false);
+
+  const [options, setOptions] = React.useState([]);
+
+  const getOptions = () => {
+    axios.get("http://localhost:5000/alluser").then((res) => {
+      if(res)
+      {
+        var temparray = [];
+
+        for (let i = 0; i < res.data.users.length; i++) {
+          temparray.push(res.data.users[i]['email']);
+        }
+
+        setOptions(temparray);
+      }
+    })
+  }
+
   const theme = useTheme();
 
   return (
@@ -203,12 +198,17 @@ export default function Navbar() {
             Fashion Fever
           </Typography>
           <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+            <Autocomplete disablePortal id="combo-box-demo" options={options} sx={{ width: 300 }} open={open2}
+              onInputChange={(_, value) => {
+                if (value.length === 0) {
+                  if (open2) setOpen2(false);
+                } else {
+                  if (!open2) setOpen2(true);
+                }
+              }}
+              onClose={() => setOpen2(false)} freeSolo forcePopupIcon={true} popupIcon={<SearchIcon />}
+              renderInput={(params) => <TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' } }}
+              label="Search" onClick={getOptions} />}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
