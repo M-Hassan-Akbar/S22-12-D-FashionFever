@@ -3,22 +3,22 @@ import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Divider, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export function Images() {
     const [imagearray, setImagearray] = React.useState([]);
 
-    let state = useSelector((state) => state.users);
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        if(state.value.email === "")
+        if(localStorage.getItem('email') === "")
           navigate('/Home');
         
-        let temp = new Object();
-        temp.email = state.value.email;
+        let temp = {
+          email: "",
+        };
+        temp.email = localStorage.getItem('email');
         let json = JSON.stringify(temp);
         let heads = {"Content-Type": "application/json"};
         axios.post("http://localhost:5002/getimages", json, {headers: heads}).then((res) => {
@@ -27,7 +27,7 @@ export function Images() {
             setImagearray(res.data.images);
           }
       });
-    }, [state.value.email]);
+    }, [navigate]);
 
     return (
         <>

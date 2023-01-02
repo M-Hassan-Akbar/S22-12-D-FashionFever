@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { IconButton, InputAdornment, Link } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
-import { login } from "../../store"
-import { useDispatch } from 'react-redux'
 import { Loader2 } from '../../components/Loader2'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
@@ -65,7 +63,6 @@ export const Register = () => {
         errorComp = <Grid item><Typography variant="p" sx={{color: "Red"}}>The password doesn't match</Typography></Grid>
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const handleChange2 = (prop) => (event) => {
         setCheckPassword( event.target.value )
@@ -172,14 +169,22 @@ export const Register = () => {
                                 if(res.data)
                                 {
                                     setLog(true);
-                                    dispatch(login({ email: values.email, address: res.data.address, 
-                                        first_name: res.data.first_name,
-                                        last_name: res.data.last_name,
-                                        phone_number: res.data.phone_number,
-                                        profile_image: res.data.phone_number,
-                                        gender: res.data.gender,
-                                        bio: res.data.bio,
-                                    }));
+                                    // dispatch(login({ email: values.email, address: res.data.address, 
+                                    //     first_name: res.data.first_name,
+                                    //     last_name: res.data.last_name,
+                                    //     phone_number: res.data.phone_number,
+                                    //     profile_image: res.data.phone_number,
+                                    //     gender: res.data.gender,
+                                    //     bio: res.data.bio,
+                                    // }));
+                                    localStorage.setItem("email", values.email);
+                                    localStorage.setItem("address", res.data.user.address);
+                                    localStorage.setItem("first_name", res.data.user.first_name);
+                                    localStorage.setItem("last_name", res.data.user.last_name);
+                                    localStorage.setItem("phone_number", res.data.user.phone_number);
+                                    localStorage.setItem("profile_image", res.data.user.profile_image);
+                                    localStorage.setItem("gender", res.data.user.gender);
+                                    localStorage.setItem("bio", res.data.user.bio);
                                 }
                             });
                         }

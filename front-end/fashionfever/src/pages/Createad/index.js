@@ -1,15 +1,12 @@
 // import { Link } from "react-router-dom"
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import { Box, Button, Divider, Grid, ImageList, ImageListItem, TextField, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import { useState } from 'react';
 import axios from 'axios';
 
 export const CreateAd = () => {
-    let state = useSelector((state) => state.users);
-
     const navigate = useNavigate();
 
     const [image, setImage] = useState(null);
@@ -23,7 +20,7 @@ export const CreateAd = () => {
 
     const inputFile = React.useRef(null);
 
-    let elem;
+    const elem = React.useRef(null);
 
     const handleFileUpload = (e) => {
         const { files } = e.target;
@@ -45,11 +42,13 @@ export const CreateAd = () => {
     // }, inputFile)
 
     React.useEffect(() => {
-        if(state.value.email === "")
+        if(localStorage.getItem('email') === "")
           navigate('/Home');
         
-        let temp = new Object();
-        temp.email = state.value.email;
+        let temp = {
+            email: "",
+        };
+        temp.email = localStorage.getItem('email');
         let json = JSON.stringify(temp);
         let heads = {"Content-Type": "application/json"};
         axios.post("http://localhost:5002/getimages", json, {headers: heads}).then((res) => {
@@ -58,14 +57,14 @@ export const CreateAd = () => {
             setImagearray(res.data.images);
           }
         });
-    }, [state.value.email]);
+    }, [navigate]);
 
     React.useEffect(() => {
         console.log(imurl);
     }, [imurl])
 
     React.useEffect(() => {
-        elem = <Grid item xs={8}><Typography variant="p">top</Typography></Grid>;
+        elem.current = <Grid item xs={8}><Typography variant="p">top</Typography></Grid>;
         // console.log(elem);
     }, [image])
 
@@ -86,26 +85,26 @@ export const CreateAd = () => {
                         </Grid>
                     </Grid>
                     <Grid item xs={4}>
-                        <Container maxWidth="md" sx={{ height: "200px", justifyContent: "center", textAlign: "center", paddingBottom: "40px",
-                            paddingTop: "10px", marginTop: "10px", borderRadius: "20px", border: "2px solid" }}>
+                        <Container maxWidth="md" sx={{ height: "200px", justifyContent: "center", textAlign: "center",
+                            paddingBottom: "40px", paddingTop: "10px", marginTop: "10px", borderRadius: "20px", border: "2px solid" }}>
                                 <input style={{ display: "none" }} ref={inputFile} onChange={handleFileUpload} type="file" />
-                                <Grid container direction='column' rowSpacing={2} alignItems="center">
-                                    <Grid item xs={2}>
-                                        <Button variant="contained" sx={{ minWidth: "160px"}}
+                                <Grid container direction='column' rowSpacing={2} alignItems="center" justifyContent="center">
+                                    <Grid item xs={6} container justifyContent="center">
+                                        <Button variant="contained" sx={{ width: "160px"}}
                                             onClick={onButtonClick}>Upload Photo</Button>
                                     </Grid>
-                                    {elem}
+                                    {/* {elem.current} */}
                                 </Grid>
                                 {/* <img src={image} */}
                         </Container>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" onClick={() => {
-                            let full_name = state.value.first_name.concat(" "); 
-                            full_name = full_name.concat(state.value.last_name);
-                            console.log(state.value.phone_number)
+                            let full_name = localStorage.getItem('first_name').concat(" "); 
+                            full_name = full_name.concat(localStorage.getItem('last_name'));
+                            console.log(localStorage.getItem('phone_number'))
                             axios.post(
-                            `http://localhost:5002/addad?email=${state.value.email}&description=${values.desc}&phone_number=${state.value.phone_number}&full_name=${full_name}&url=${imurl}`,
+`http://localhost:5002/addad?email=${localStorage.getItem('email')}&description=${values.desc}&phone_number=${localStorage.getItem('phone_number')}&full_name=${full_name}&url=${imurl}`,
                             {file: image, url: imurl}, { headers: { 'Content-Type': 'multipart/form-data' }},
                                 ).then(function (response) {
                                     console.log(response.data);

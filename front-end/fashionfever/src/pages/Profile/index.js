@@ -1,22 +1,37 @@
-import { Alert, Avatar, Box, Button, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Divider, FormControl, Grid, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 
 const CssTextField = styled(TextField)({
     input: {
-        color: "yellow"
+        color: "#fdd835A0",
+        "& input.Mui-disabled": {
+            color: "yellow",
+        },
+        "&:hover": {
+            color: '#fdd835',
+        },
+        "& .Mui-focused": {
+            color: "yellow",
+        }
     },
     '&:hover label': {
         color: '#fdd835',
     },
     '& label': {
         color: '#fdd835A0',
+    },
+    "& label.Mui-disabled": {
+        color: '#fdd835A0',
+    },
+    "&:hover label.Mui-disabled": {
+        color: 'yellow',
     },
     '& label.Mui-focused': {
         color: 'yellow',
@@ -32,11 +47,20 @@ const CssTextField = styled(TextField)({
             borderColor: 'yellow',
         },
     },
+    "& .MuiOutlinedInput-root.Mui-disabled": {
+        "& > fieldset": {
+            border: '1px solid #fdd835A0',
+        },
+        "&:hover fieldset": {
+            color: "yellow",
+            border: '1px solid yellow'
+        },
+    },
     "& .MuiInputBase-input.Mui-disabled": {
         WebkitTextFillColor: "#fdd835A0",
-        "& fieldset": {
-            borderColor: "#fdd835A0"
-        }
+    },
+    "&:hover .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: "yellow",
     },
 });
 
@@ -49,34 +73,33 @@ const genders = [
 export const Profile = () => {
     let state = useSelector((state) => state.users);
     const [values, setValues] = useState({
-        first_name: '',
-        last_name: '',
-        email: '',
-        address: state.value.address,
-        bio: state.value.bio,
-        phone_number: state.value.phone_number,
+        first_name: localStorage.getItem("first_name"),
+        last_name: localStorage.getItem("last_name"),
+        email: localStorage.getItem("email"),
+        address: localStorage.getItem("address"),
+        bio: localStorage.getItem("bio"),
+        phone_number: localStorage.getItem("phone_number"),
     });
     
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // console.log(state);
 
-    const [startDate, setStartDate] = useState(state.value.date);
-    const [gender, setGender] = useState(state.value.gender);
+    const [startDate, setStartDate] = useState(localStorage.getItem("dob"));
+    const [gender, setGender] = useState(localStorage.getItem("gender"));
     const [open, setOpen] = useState(false);
 
     const submitted = () => {
         setOpen(true);
       };
     
-      const handleClose = (event, reason) => {
+    const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
-          return;
+            return;
         }
-    
+
         setOpen(false);
-      };
+    };
 
     const handleGender = (event) => {
         const {
@@ -92,7 +115,6 @@ export const Profile = () => {
         setValues({ ...values, [prop]: event.target.value });
         console.log(values);
     };
-    // setValues({...values, address: state.value.address, bio: state.value.bio})
 
     const [image, setImage] = useState("");
 
@@ -114,17 +136,16 @@ export const Profile = () => {
     const firstUpdate = useRef(true);
     
     useEffect(() => {
-        if(state.value.email === "")
-        navigate('/Home');
+        if(localStorage.getItem('email') === "")
+            navigate('/Home');
         
         if(firstUpdate.current) {
             firstUpdate.current = false;
             return;
         };
         
-        // console.log(state.value.profile_image);
         if(image !== "")
-            axios.post(`http://localhost:5000/updateprofileimage?email=${state.value.email}`, {file: image}, { headers: {
+            axios.post(`http://localhost:5000/updateprofileimage?email=${localStorage.getItem('email')}`, {file: image}, { headers: {
                 'Content-Type': 'multipart/form-data' }},
                 ).then(function (response) {
                     submitted();
@@ -132,7 +153,7 @@ export const Profile = () => {
                     setImage(response.data.user.profile_image);
                     // dispatch(login({ profile_image: response.data.user.profile_image }));
                 });
-    }, [image])
+    }, [image, navigate])
 
     return (
         <>
@@ -171,24 +192,35 @@ export const Profile = () => {
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item sx={{ color: "#fdd835" }}>
-                        <LocalizationProvider sx={{ color: "#fdd835" }} fullWidth dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider fullWidth dateAdapter={AdapterDayjs}>
                             <DatePicker label="Date of Birth" value={startDate} onChange={(newValue) => { setStartDate(newValue); }}
-                                renderInput={(params) => <TextField {...params}
-                                sx={{ width: "40%", "&:focused": { color: "#fdd835" } }} />}
+                                renderInput={(params) => <CssTextField {...params}
+                                sx={{ width: "40%" }} />}
                             />
                         </LocalizationProvider>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-select-small">Gender</InputLabel>
-                            <Select labelId="demo-select-small" id="demo-select-small" value={gender} label="Gender"
-                                onChange={handleGender} sx={{width: "40%"}} >
+                            <CssTextField id="demo-select-small" value={gender} label="Gender" onChange={handleGender}
+                                sx={{ width: "40%", "& .MuiSelect-select": { color: "#fdd835A0", "&:hover": { color: "#fdd835" } },
+                                '.MuiOutlinedInput-notchedOutline': {
+                                    borderColor: '#fdd835A0',
+                                },
+                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: 'yellow',
+                                },
+                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: '#fdd835',
+                                },
+                                '.MuiSvgIcon-root ': {
+                                    fill: "yellow !important",
+                                } }} select>
                                 {genders.map((item) => (
                                     <MenuItem key={item} value={item}>
                                         {item}
                                     </MenuItem>
                                 ))}
-                            </Select>
+                            </CssTextField>
                         </FormControl>
                     </Grid>
                     <Grid item>
@@ -197,7 +229,7 @@ export const Profile = () => {
                     </Grid>
                     <Grid item>
                         <CssTextField label="Status" value={values.bio} onChange={handleChange('bio')} variant="outlined"
-                            sx={{width: "40%"}}
+                            sx={{width: "40%", '& .MuiInputBase-input': { color: "#fdd835A0", "&:hover": { color: "#fdd835" } } }}
                             multiline rows={4} />
                     </Grid>
                     <Grid item>
@@ -213,7 +245,7 @@ export const Profile = () => {
                             variant="outlined" sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
-                        <CssTextField disabled value={state.value.email} label="Email" variant="outlined"
+                        <CssTextField disabled value={localStorage.getItem('email')} label="Email" variant="outlined"
                             sx={{width: "40%"}} />
                     </Grid>
                     <Grid item>
@@ -225,12 +257,19 @@ export const Profile = () => {
                         <Button variant="contained" sx={{ float: "right", minWidth: "150px"}} onClick={() => {
                             if(values.username !== "" || values.address !== "" || values.bio !== "" )
                             {
-                                let temp = new Object();
+                                let temp = {
+                                    address: "",
+                                    bio: "",
+                                    dob: "",
+                                    email: "",
+                                    phone_number: "",
+                                    gender: ""
+                                };
                                 // temp.username = values.username;
                                 temp.address = values.address;
                                 temp.bio = values.bio;
                                 temp.dob = parseInt((new Date(startDate).getTime() / 1000).toFixed(0));
-                                temp.email = state.value.email;
+                                temp.email = localStorage.getItem('email');
                                 temp.phone_number = values.phone_number;
                                 temp.gender = gender;
                                 console.log(gender)

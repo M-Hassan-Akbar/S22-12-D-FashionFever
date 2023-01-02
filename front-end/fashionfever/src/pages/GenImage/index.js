@@ -4,12 +4,8 @@ import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container'
 import * as React from "react";
 import axios from 'axios'
-import ImgList from "../../components/ImageList";
-import Grow from '@mui/material/Grow';
 import { useState } from "react";
-import { useSelector } from 'react-redux';
-import Skel from "../../components/Skeleton";
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
+import { FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
 import { Loader2 } from "../../components/Loader2";
 
 const genders = [
@@ -42,16 +38,7 @@ export const GenImage = () => {
         desc: '',
     });
 
-    const [imageUrl, setImageUrl] = React.useState([])
-    const [loadImage, setLoadImage] = React.useState(false);
-    const [checked, setChecked] = React.useState(false);
-    
-    let state = useSelector((state) => state.users);
-    
-    const handleGrowChange = () => {
-        setChecked((prev) => !prev);
-    };
-
+    const [imageUrl, setImageUrl] = React.useState([]);
     const [gender, setGender] = useState('');
     const [flag, setFlag] = useState(false);
     const [color, setColor] = useState('');
@@ -64,8 +51,11 @@ export const GenImage = () => {
     const exec = () => {
         setDispl("");
         // elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
-        let temp = new Object();
-        temp.email = state.value.email;
+        let temp = {
+            email: "",
+            caption: "",
+        };
+        temp.email = localStorage.getItem('email');
         temp.caption = values.desc;
         if(flag)
             temp.caption = `${gender} ${category} ${color}`
@@ -166,12 +156,6 @@ export const GenImage = () => {
         );
     }
 
-    React.useEffect(() => {
-        if(values.desc === "")
-            setLoadImage(false);
-    }, [values.desc]);
-
-
     return (
         <>
             <Loader2 disp={displ} width="100%" height="91%" top="45%" left="50%" />
@@ -258,7 +242,7 @@ export const GenImage = () => {
                         <Grid>
                             <Grid item sx={{marginTop: "15vmin"}} xs={6}>
                                 {imageUrl.map((image, i) => (
-                                    <img key={i} src={image} alt={`Generated image ${i}`}></img>
+                                    <img key={i} src={image} alt={`Generated ${i}`} />
                                     ))}
                             </Grid>
                         </Grid>

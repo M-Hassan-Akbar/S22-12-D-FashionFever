@@ -15,9 +15,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { logout } from "../../store"
-import { useDispatch } from 'react-redux'
 import { Autocomplete, CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, useTheme } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -82,11 +79,6 @@ const Animation = styled(Toolbar)({
 });
 
 export default function Navbar() {
-  let state = useSelector((state) => state.users);
-  // console.log(state.value.userID);
-
-  const dispatch = useDispatch();
-
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -107,8 +99,9 @@ export default function Navbar() {
   }
 
   let toLoad;
+  // console.log(localStorage.getItem("email") === "null");
 
-  if(state.value.email === "")
+  if(localStorage.getItem("email") === "")
     toLoad = <div>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Login')}}>Log In</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Register')}}>Register</MenuItem>
@@ -118,7 +111,7 @@ export default function Navbar() {
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Home')}}>Home</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Profile')}}>My Profile</MenuItem> 
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Images')}}>My Images</MenuItem>
-      <MenuItem onClick={() => {handleMenuClose(); state = dispatch(logout())}}>Logout</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); localStorage.setItem("email", "")}}>Logout</MenuItem>
     </div>;
 
   const menuId = 'primary-search-account-menu';
@@ -207,37 +200,38 @@ export default function Navbar() {
                 }
               }}
               onClose={() => setOpen2(false)} freeSolo forcePopupIcon={true} popupIcon={<SearchIcon />}
-              renderInput={(params) => <TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' } }}
+              renderInput={(params) => <TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' },
+              "& .MuiFilledInput-underline:after": { borderBottomColor: "black" } }}
               label="Search" onClick={getOptions} />}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Fab size="small" sx={{ background: "#fdd835", float: "center", fontFamily: 'Roboto', fontSize: "15px", paddingRight: "10px",
-          "&:hover": { background: "#fdd835a3" } }} variant="extended" color="inherit" aria-label="add" onClick={() => {
-              if(state.value.email === "")
-              {
-                  navigate('/Login');
-              }
-              else
-              {
-                  navigate('/Createad')
-              }}}>
-              <AddIcon />
-              Ad
+            "&:hover": { background: "#fdd835a3" } }} variant="extended" color="inherit" aria-label="add" onClick={() => {
+            if(localStorage.getItem("email") === "" || localStorage.getItem("email") === null)
+            {
+              navigate('/Login');
+            }
+            else
+            {
+              navigate('/Createad');
+            }}}>
+            <AddIcon />
+            Ad
           </Fab>
           <Fab size="small" sx={{ background: "#fdd835", float: "center", fontFamily: 'Roboto', fontSize: "15px", marginLeft: "5px",
-          paddingLeft: "10px", paddingRight: "10px", "&:hover": { background: "#fdd835a3" }, marginRight: "5px" }} variant="extended"
-          color="inherit" aria-label="add" onClick={() => {
-              if(state.value.email === "")
-              {
-                  navigate('/Login');
-              }
-              else
-              {
-                  navigate('/GenImage')
-              }}}>
-              <AddIcon />
-              AI Image
+            paddingLeft: "10px", paddingRight: "10px", "&:hover": { background: "#fdd835a3" }, marginRight: "5px" }} variant="extended"
+            color="inherit" aria-label="add" onClick={() => {
+            if(localStorage.getItem("email") === "" || localStorage.getItem("email") === null)
+            {
+              navigate('/Login');
+            }
+            else
+            {
+              navigate('/GenImage');
+            }}}>
+            <AddIcon />
+            AI Image
           </Fab>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" sx={{ color: "#fdd835" }} >

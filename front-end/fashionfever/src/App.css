@@ -190,3 +190,9 @@ body {
     stroke-dashoffset: -403px;
   }
 }
+
+.tilter {
+  margin-right: 40px !important;
+  padding: 0% !important;
+  background: none !important;
+}

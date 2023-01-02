@@ -3,8 +3,6 @@ import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import React from 'react'
-import { login } from "../../store"
-import { useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { IconButton, InputAdornment, Link } from '@mui/material';
@@ -67,7 +65,6 @@ export const Login = () => {
         errorText = <></>
     }
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -143,14 +140,22 @@ export const Login = () => {
                                 if(res.data)
                                 {
                                     setShowError(false);
-                                    dispatch(login({ email: values.email, address: res.data.user.address, 
-                                        first_name: res.data.user.first_name,
-                                        last_name: res.data.user.last_name,
-                                        phone_number: res.data.user.phone_number,
-                                        profile_image: res.data.user.profile_image,
-                                        gender: res.data.user.gender,
-                                        bio: res.data.user.bio,
-                                    }));
+                                    // dispatch(login({ email: values.email, address: res.data.user.address, 
+                                    //     first_name: res.data.user.first_name,
+                                    //     last_name: res.data.user.last_name,
+                                    //     phone_number: res.data.user.phone_number,
+                                    //     profile_image: res.data.user.profile_image,
+                                    //     gender: res.data.user.gender,
+                                    //     bio: res.data.user.bio,
+                                    // }));
+                                    localStorage.setItem("email", values.email);
+                                    localStorage.setItem("address", res.data.user.address);
+                                    localStorage.setItem("first_name", res.data.user.first_name);
+                                    localStorage.setItem("last_name", res.data.user.last_name);
+                                    localStorage.setItem("phone_number", res.data.user.phone_number);
+                                    localStorage.setItem("profile_image", res.data.user.profile_image);
+                                    localStorage.setItem("gender", res.data.user.gender);
+                                    localStorage.setItem("bio", res.data.user.bio);
                                 }
                                 else
                                 {
