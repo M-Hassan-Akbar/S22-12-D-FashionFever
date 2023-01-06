@@ -46,6 +46,7 @@ def fetchImage():
 def addAd():
     email = request.args.get("email")
     description = request.args.get("description")
+    title = request.args.get("title")
     phone_number = request.args.get("phone_number")
     full_name = request.args.get("full_name")
     url = request.args.get("url")
@@ -72,6 +73,21 @@ def addAd():
             "description": description,
             "phone_number": phone_number,
             "url": url,
+            "title": title,
+            "gender": request.args.get("gender"),
+            "height": request.args.get("height"),
+            "waist": request.args.get("waist"),
+            "chest": request.args.get("chest"),
+            "neck": request.args.get("neck"),
+            "necktosh": request.args.get("necktosh"),
+            "sleeve": request.args.get("sleeve"),
+            "wrist": request.args.get("wrist"),
+            "arm": request.args.get("arm"),
+            "shoulders": request.args.get("shoulders"),
+            "hips": request.args.get("hips"),
+            "ankles": request.args.get("ankles"),
+            "thigh": request.args.get("thigh"),
+            "calf": request.args.get("calf"),
         }
     )
 
