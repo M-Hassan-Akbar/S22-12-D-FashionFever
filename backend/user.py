@@ -147,10 +147,19 @@ def all_users():
 
 @app.route("/addmeasurements", methods=["POST"])
 def add_measurements():
+    
+    measurements = db.child("measurements").get()
+    email = request.json["email"]
+    name = request.json["name"]
+
+    for measurement in measurements.each():
+        if measurement.val()["email"] == email and measurement.val()["name"] == name:
+            return jsonify({"status": "Measurement with that name already exists!"})
+
     db.child("measurements").push(
         {
-            "email": request.json["email"],
-            "name": request.json["name"],
+            "email": email,
+            "name": name,
             "gender": request.json["gender"],
             "height": request.json["height"],
             "waist": request.json["waist"],
@@ -168,6 +177,21 @@ def add_measurements():
         }
     )
     return jsonify({"status": "Successfully added!"})
+
+
+@app.route("/deletemeasurements", methods=["POST"])
+def delete_measurements():
+    
+    measurements = db.child("measurements").get()
+    email = request.json["email"]
+    name = request.json["name"]
+
+    for measurement in measurements.each():
+        if measurement.val()["email"] == email and measurement.val()["name"] == name:
+            db.child("measurements").child(measurement.key()).remove()
+            return jsonify({"status": "Successfully deleted!"})
+
+    return jsonify({"status": "Measurement not found"})
 
 
 @app.route("/updatemeasurements", methods=["POST"])
