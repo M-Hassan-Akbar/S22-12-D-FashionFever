@@ -15,6 +15,7 @@ import { store } from './store'
 import { Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar'
 import { useLocation } from 'react-router-dom'
+import { Measurements } from './pages/Measurements'
 
 const Main = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const Main = () => {
         <Route path='Profile' element={<Profile />} />
         <Route path='Images' element={<Images />} />
         <Route path='Createad' element={<CreateAd />} />
+        <Route path='Measurements' element={<Measurements />} />
         <Route path="/" element={<Navigate replace to="/Home" />} />
       </Routes>
     </>

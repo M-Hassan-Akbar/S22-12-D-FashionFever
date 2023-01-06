@@ -111,6 +111,7 @@ export default function Navbar() {
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Home')}}>Home</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Profile')}}>My Profile</MenuItem> 
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Images')}}>My Images</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Measurements')}}>My Measurements</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); localStorage.setItem("email", "")}}>Logout</MenuItem>
     </div>;
 

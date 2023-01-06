@@ -3,7 +3,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles'
 import { CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Tilt from "react-vanilla-tilt";
@@ -29,6 +28,7 @@ export default function MainCard(props) {
             height="140"
             image={props.imgP}
             alt="Clothes Pic"
+            loading='lazy'
             sx={customSX}
           />
           <CardContent>

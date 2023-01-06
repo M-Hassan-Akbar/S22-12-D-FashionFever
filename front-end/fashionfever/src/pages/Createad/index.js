@@ -54,13 +54,14 @@ export const CreateAd = () => {
         axios.post("http://localhost:5002/getimages", json, {headers: heads}).then((res) => {
           if(res.data)
           {
+            // console.log(res.data);
             setImagearray(res.data.images);
           }
         });
     }, [navigate]);
 
     React.useEffect(() => {
-        console.log(imurl);
+        // console.log(imurl);
     }, [imurl])
 
     React.useEffect(() => {
@@ -102,12 +103,12 @@ export const CreateAd = () => {
                         <Button variant="contained" onClick={() => {
                             let full_name = localStorage.getItem('first_name').concat(" "); 
                             full_name = full_name.concat(localStorage.getItem('last_name'));
-                            console.log(localStorage.getItem('phone_number'))
+                            // console.log(localStorage.getItem('phone_number'))
                             axios.post(
 `http://localhost:5002/addad?email=${localStorage.getItem('email')}&description=${values.desc}&phone_number=${localStorage.getItem('phone_number')}&full_name=${full_name}&url=${imurl}`,
                             {file: image, url: imurl}, { headers: { 'Content-Type': 'multipart/form-data' }},
                                 ).then(function (response) {
-                                    console.log(response.data);
+                                    // console.log(response.data);
                                 });
                         }}>Create</Button>
                     </Grid>
@@ -118,7 +119,7 @@ export const CreateAd = () => {
                                 <ImageListItem key={item.url}>
                                 <img src={`${item.url}`} srcSet={`${item.url}`} alt={item.title} loading="lazy" onClick={() => {
                                     setImurl(item.url);
-                                }}/>
+                                }} />
                             </ImageListItem>
                             ))}
                         </ImageList>

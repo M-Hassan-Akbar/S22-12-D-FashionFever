@@ -275,7 +275,7 @@ export const Profile = () => {
                                 console.log(gender)
                                 let json = JSON.stringify(temp);
                                 let heads = {"Content-Type": "application/json"};
-                                axios.post("http://localhost:5000/updateprofile", json, {headers: heads}).then((res) => {
+                                axios.post("http://localhost:5000/updateprofile", json, { headers: heads }).then((res) => {
                                     if(res.data)
                                     {
                                         submitted();
