@@ -1,7 +1,8 @@
 import { Box, Button, Divider, Modal ,IconButton, FormControl, Grid, InputLabel, InputAdornment,
     MenuItem, Select, TextField, Typography, Fab, Tooltip, Card, Backdrop, Fade } from "@mui/material";
 import { Add, DeleteForeverOutlined, InfoOutlined, SaveOutlined, EditOutlined } from "@mui/icons-material"
-import { useState } from "react";
+import CancelIcon from '@mui/icons-material/Cancel';
+import React, { useState } from "react";
 import { useSelector } from 'react-redux';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +46,23 @@ var Index=0;
 export const Measurements = () => {
     let state = useSelector((state) => state.users);
     const [values, setValues] = useState([]);
-    const [Data,setData] = useState (values[0]);
+    const [Data,setData] = useState({
+        name: "",
+        gender: "",
+        height: "",
+        waist: "",
+        chest: "",
+        neck: "",
+        necktosh: "",
+        sleeve: "",
+        wrist: "",
+        arm: "",
+        shoulders: "",
+        hips: "",
+        ankles: "",
+        thigh: "",
+        calf: "",
+    });
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () =>{
@@ -71,11 +88,7 @@ export const Measurements = () => {
     
     const save = () => {
         var tempState = values;
-        // console.log("1 ", Data);
-        // console.log(Index);
         tempState[Index] = Data;
-        setValues(tempState);
-        // console.log("2 ", tempState);
 
         var tempObj = {
             email: localStorage.getItem('email'),
@@ -95,14 +108,15 @@ export const Measurements = () => {
             thigh: tempState[Index].thigh,
             calf: tempState[Index].calf,
         }
+
         let json = JSON.stringify(tempObj);
-        // console.log("JSON: ", json);
         let heads = {"Content-Type": "application/json"};
 
         axios.post('http://localhost:5000/addmeasurements', json, { headers: heads }).then((res) => {
             if(res.data)
             {
                 console.log(res.data);
+                setValues(tempState);
                 handleClose();
             }
         })
@@ -110,12 +124,8 @@ export const Measurements = () => {
 
     const save2 = () => {
         var tempState = values;
-        // console.log("1 ", Data);
-        // console.log(Index);
         tempState[Index] = Data;
-        setValues(tempState);
-        // console.log("2 ", tempState);
-
+        
         var tempObj = {
             email: localStorage.getItem('email'),
             name: tempState[Index].name,
@@ -134,14 +144,15 @@ export const Measurements = () => {
             thigh: tempState[Index].thigh,
             calf: tempState[Index].calf,
         }
-        let json = JSON.stringify(tempObj);
-        // console.log("JSON: ", json);
-        let heads = {"Content-Type": "application/json"};
 
+        let json = JSON.stringify(tempObj);
+        let heads = {"Content-Type": "application/json"};
+        
         axios.post('http://localhost:5000/updatemeasurements', json, { headers: heads }).then((res) => {
             if(res.data)
             {
                 console.log("update ", res.data);
+                setValues(tempState);
                 handleClose2();
             }
         })
@@ -165,12 +176,47 @@ export const Measurements = () => {
         handleClose();
     }
 
+    const navigate = useNavigate();
+
     const deleteMeasurement2 = () =>{
         var tempState = values;
-        tempState.splice(Index,1);
-        setValues(tempState);
-        handleClose2();
+        console.log(Index);
+        
+        var tempObj = {
+            email: localStorage.getItem('email'),
+            name: tempState[Index].name,
+        }
+        
+        let json = JSON.stringify(tempObj);
+        let heads = {"Content-Type": "application/json"};
+        
+        axios.post('http://localhost:5000/deletemeasurements', json, { headers: heads }).then((res) => {
+            if(res.data)
+            {
+                console.log("delete ", res.data);
+                tempState.splice(Index,1);
+                setValues(tempState);
+                handleClose2();
+                window.location.reload(false); // because page breaks on delete
+            }
+        })
     }
+
+    React.useEffect(() => {
+        var tempObj = {
+            email: localStorage.getItem('email'),
+        }
+
+        let json = JSON.stringify(tempObj);
+        let heads = {"Content-Type": "application/json"};
+
+        axios.post("http://localhost:5000/getmeasurements", json, { headers: heads }).then((res) => {
+            if(res.data)
+            {
+                setValues(res.data.measurements);
+            }
+        })
+    }, [values, Data]);
 
     return (
         <>
@@ -388,6 +434,11 @@ export const Measurements = () => {
                                                 </Tooltip>
                                             </Grid>
                                             <Grid item sx={{marginLeft:"65%",float:"right"}}>
+                                                <Button onClick={handleClose}>
+                                                    <Fab>
+                                                        <CancelIcon/>
+                                                    </Fab>
+                                                </Button>
                                                 <Button onClick={deleteMeasurement}>
                                                     <Fab>
                                                         <DeleteForeverOutlined/>
@@ -602,7 +653,12 @@ export const Measurements = () => {
                                                     </Fab>
                                                 </Tooltip>
                                             </Grid>
-                                            <Grid item sx={{marginLeft:"65%",float:"right"}}>
+                                            <Grid item sx={{marginLeft:"57%",float:"right"}}>
+                                                <Button onClick={handleClose2}>
+                                                    <Fab>
+                                                        <CancelIcon/>
+                                                    </Fab>
+                                                </Button>
                                                 <Button onClick={deleteMeasurement2}>
                                                     <Fab>
                                                         <DeleteForeverOutlined/>

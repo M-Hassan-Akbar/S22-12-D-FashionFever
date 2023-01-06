@@ -225,7 +225,7 @@ def update_measurements():
     )
     return jsonify({"status": "Successfully added!"})
 
-@app.route("/getmeasurements", methods=["GET"])
+@app.route("/getmeasurements", methods=["POST"])
 def get_measurements():
     measurements = db.child("measurements").get()
     email = request.json["email"]
