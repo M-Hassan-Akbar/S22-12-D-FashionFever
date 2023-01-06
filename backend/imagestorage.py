@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pyrebase
 import random
+import string
+
 
 app = Flask(__name__)
 CORS(app)
@@ -21,7 +23,7 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database()
 storage = firebase.storage()
-
+unique_key_length = 14
 
 @app.route("/")
 def index():
@@ -46,6 +48,7 @@ def fetchImage():
 def addAd():
     email = request.args.get("email")
     description = request.args.get("description")
+    title = request.args.get("title")
     phone_number = request.args.get("phone_number")
     full_name = request.args.get("full_name")
     url = request.args.get("url")
@@ -72,10 +75,39 @@ def addAd():
             "description": description,
             "phone_number": phone_number,
             "url": url,
+            "title": title,
+            "pk" : ''.join(random.choices(string.ascii_uppercase + string.digits, k = unique_key_length)),
+            "gender": request.args.get("gender"),
+            "height": request.args.get("height"),
+            "waist": request.args.get("waist"),
+            "chest": request.args.get("chest"),
+            "neck": request.args.get("neck"),
+            "necktosh": request.args.get("necktosh"),
+            "sleeve": request.args.get("sleeve"),
+            "wrist": request.args.get("wrist"),
+            "arm": request.args.get("arm"),
+            "shoulders": request.args.get("shoulders"),
+            "hips": request.args.get("hips"),
+            "ankles": request.args.get("ankles"),
+            "thigh": request.args.get("thigh"),
+            "calf": request.args.get("calf"),
         }
     )
 
     return jsonify({"ad": "created"})
+
+
+@app.route("/deletead", methods=["POST"])
+def deleteAd():
+    primary_key = request.json["pk"]
+    ads = db.child("ads").get()
+
+    for ad in ads.each():
+        if ad.val()["pk"] == primary_key:
+            db.child("ads").child(ad.key()).remove()
+            return jsonify({"status": "Successfully deleted!"})
+
+    return jsonify({"status": "Ad not found"})
 
 
 @app.route("/getad", methods=["POST", "GET"])
