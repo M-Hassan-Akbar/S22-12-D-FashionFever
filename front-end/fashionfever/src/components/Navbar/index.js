@@ -98,11 +98,21 @@ export default function Navbar() {
     </div>
   else
     toLoad2 = <div>
-      <MenuItem onClick={() => {handleMenuClose(); navigate('/Chat', { state: { message: "apple" } })}}>
+      <MenuItem onClick={() => {handleMenuClose(); navigate('/Chat', { state: { message: "apple", otherguy: "2nd guy" } })}}>
         <ChatItem
           avatar={'https://facebook.github.io/react/img/logo.svg'}
           alt={'Reactjs'}
           title={'Facebook'}
+          subtitle={'What are you doing?'}
+          date={new Date("10/10/2022")}
+          unread={0}
+        />
+      </MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); navigate('/Chat', { state: { message: "banana", otherguy: "3rd guy" } })}}>
+        <ChatItem
+          avatar={'https://facebook.github.io/react/img/logo.svg'}
+          alt={'Reactjs'}
+          title={'22'}
           subtitle={'What are you doing?'}
           date={new Date("10/10/2022")}
           unread={0}
