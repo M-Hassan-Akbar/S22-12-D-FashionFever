@@ -110,14 +110,37 @@ def deleteAd():
     return jsonify({"status": "Ad not found"})
 
 
-@app.route("/getad", methods=["POST", "GET"])
+@app.route("/getadwithpk", methods=["POST", "GET"])
 def getAd():
+    primary_key = request.json["pk"]
+    ads = db.child("ads").get()
+
+    for ad in ads.each():
+        if ad.val()["pk"] == primary_key:
+            key = ad.key()
+            break
+    return jsonify({"ad": db.child("ads").child(key).get().val()})
+
+@app.route("/getad", methods=["POST", "GET"])
+def getAds():
     ads = db.child("ads").get()
 
     getads = []
     for ad in ads.each():
         getads.append(ad.val())
 
+    return jsonify({"ads": getads})
+
+@app.route("/userads", methods=["POST"])
+def getUserAd():
+    ads = db.child("ads").get()
+    email = request.json["email"]
+
+    getads = []
+    for ad in ads.each():
+        if ad.val()["email"] == email:
+            getads.append(ad.val())
+    
     return jsonify({"ads": getads})
 
 
