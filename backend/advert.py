@@ -25,6 +25,7 @@ db = firebase.database()
 storage = firebase.storage()
 unique_key_length = 14
 
+
 @app.route("/")
 def index():
     return "Hello! Welcome to our FYP server. Take a seat and chillllll!~"
@@ -52,6 +53,7 @@ def addAd():
     phone_number = request.args.get("phone_number")
     full_name = request.args.get("full_name")
     url = request.args.get("url")
+    price = request.args.get("price")
 
     if len(request.files):
         file = request.files["file"]
@@ -75,8 +77,13 @@ def addAd():
             "description": description,
             "phone_number": phone_number,
             "url": url,
+            "price": price,
             "title": title,
-            "pk" : ''.join(random.choices(string.ascii_uppercase + string.digits, k = unique_key_length)),
+            "pk": "".join(
+                random.choices(
+                    string.ascii_uppercase + string.digits, k=unique_key_length
+                )
+            ),
             "gender": request.args.get("gender"),
             "height": request.args.get("height"),
             "waist": request.args.get("waist"),
@@ -121,6 +128,7 @@ def getAd():
             break
     return jsonify({"ad": db.child("ads").child(key).get().val()})
 
+
 @app.route("/getad", methods=["POST", "GET"])
 def getAds():
     ads = db.child("ads").get()
@@ -131,6 +139,7 @@ def getAds():
 
     return jsonify({"ads": getads})
 
+
 @app.route("/userads", methods=["POST"])
 def getUserAd():
     ads = db.child("ads").get()
@@ -140,7 +149,7 @@ def getUserAd():
     for ad in ads.each():
         if ad.val()["email"] == email:
             getads.append(ad.val())
-    
+
     return jsonify({"ads": getads})
 
 
