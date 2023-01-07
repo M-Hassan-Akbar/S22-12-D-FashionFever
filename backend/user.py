@@ -27,6 +27,18 @@ storage = firebase.storage()
 def index():
     return "Hello! Welcome to our FYP server. Take a seat and chillllll!~"
 
+@app.route("/getuser", methods=["POST"])
+def getUser():
+    email = request.json["email"]
+
+    users = db.child("users").get()
+
+    for user in users.each():
+        if user.val()["email"] == email:
+            key = user.key()
+            break
+    return jsonify({"user": db.child("users").child(key).get().val()})
+
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -236,7 +248,9 @@ def get_measurements():
             measurement_list.append(db.child("measurements").child(measurement.key()).get().val())
 
     return jsonify({"measurements": measurement_list})
-    
+
+
+
 
 if __name__ == "__main__":
     app.run(port=5000)

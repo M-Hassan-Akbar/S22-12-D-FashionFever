@@ -24,11 +24,9 @@ storage = firebase.storage()
 
 
 
-var = "images/hammasjalal@gmail.com867336708376982.jpg"
 
-images = db.child("images").get()
+users = db.child("users").push({
+    "user" : "Hassan"
+})
 
-for image in images:
-    if image.val()['name'] == var:
-        db.child("images").child(image.key()).remove()
-    
+print(users["name"])
