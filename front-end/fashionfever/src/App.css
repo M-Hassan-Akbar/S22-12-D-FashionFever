@@ -1,6 +1,7 @@
 ::-webkit-scrollbar {
   background-color: #9e9e9e;
   width: 10px;
+  border-radius: 30px;
 }
 
 /* Track */

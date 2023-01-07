@@ -9,6 +9,7 @@ import { Grid } from '@mui/material';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Loader from '../../components/Loader';
+import 'react-chat-elements/dist/main.css'
 
 export const Home = () => {
     // let state = useSelector((state) => state.users);
