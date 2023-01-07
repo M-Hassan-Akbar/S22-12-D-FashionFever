@@ -78,9 +78,9 @@ def create_conversations():
         }
     )
 
-    return jsonify({"status": "conversation created!",
-        "conversation" : convo_key["name"]
-    })
+    return jsonify(
+        {"status": "conversation created!", "conversation": convo_key["name"]}
+    )
 
 
 @app.route("/getmessages", methods=["POST"])
@@ -92,8 +92,9 @@ def get_messages():
     message_list = deque
     for message in messages:
         message_list.appendleft(message.val())
-    
-    return jsonify({"messages" : list(message_list)})
+
+    return jsonify({"messages": list(message_list)})
+
 
 @app.route("sendmessage", methods=["POST"])
 def send_message():
@@ -115,9 +116,6 @@ def send_message():
 
         image = storage.child(name).get_url(None)
 
-    db.child("conversations").child(conversation).child("messages").push({
-        "sender" : sender,
-        "message" : message,
-        "timestamp" : timestamp,
-        "image" : image
-    })
+    db.child("conversations").child(conversation).child("messages").push(
+        {"sender": sender, "message": message, "timestamp": timestamp, "image": image}
+    )

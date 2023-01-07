@@ -358,7 +358,7 @@ class condGANTrainer(object):
                 )
             )
 
-            print(torch.cuda.memory_allocated() / 1024 ** 2)
+            print(torch.cuda.memory_allocated() / 1024**2)
 
             if epoch % cfg.TRAIN.SNAPSHOT_INTERVAL == 0:  # and epoch != 0:
                 self.save_model(netG, avg_param_G, netsD, epoch)

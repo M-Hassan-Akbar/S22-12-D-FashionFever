@@ -27,6 +27,7 @@ storage = firebase.storage()
 def index():
     return "Hello! Welcome to our FYP server. Take a seat and chillllll!~"
 
+
 @app.route("/getuser", methods=["POST"])
 def getUser():
     email = request.json["email"]
@@ -159,7 +160,7 @@ def all_users():
 
 @app.route("/addmeasurements", methods=["POST"])
 def add_measurements():
-    
+
     measurements = db.child("measurements").get()
     email = request.json["email"]
     name = request.json["name"]
@@ -193,7 +194,7 @@ def add_measurements():
 
 @app.route("/deletemeasurements", methods=["POST"])
 def delete_measurements():
-    
+
     measurements = db.child("measurements").get()
     email = request.json["email"]
     name = request.json["name"]
@@ -237,6 +238,7 @@ def update_measurements():
     )
     return jsonify({"status": "Successfully added!"})
 
+
 @app.route("/getmeasurements", methods=["POST"])
 def get_measurements():
     measurements = db.child("measurements").get()
@@ -245,11 +247,11 @@ def get_measurements():
     measurement_list = []
     for measurement in measurements.each():
         if measurement.val()["email"] == email:
-            measurement_list.append(db.child("measurements").child(measurement.key()).get().val())
+            measurement_list.append(
+                db.child("measurements").child(measurement.key()).get().val()
+            )
 
     return jsonify({"measurements": measurement_list})
-
-
 
 
 if __name__ == "__main__":
