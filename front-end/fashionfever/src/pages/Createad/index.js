@@ -117,10 +117,10 @@ export const CreateAd = () => {
                         <ImageList variant="masonry" cols={3} gap={8}>
                             {imagearray.map((item) => (
                                 <ImageListItem key={item.url}>
-                                <img src={`${item.url}`} srcSet={`${item.url}`} alt={item.title} loading="lazy" onClick={() => {
-                                    setImurl(item.url);
-                                }} />
-                            </ImageListItem>
+                                    <img src={`${item.url}`} srcSet={`${item.url}`} alt={item.title} loading="lazy" onClick={() => {
+                                        setImurl(item.url);
+                                    }} />
+                                </ImageListItem>
                             ))}
                         </ImageList>
                     </Grid>

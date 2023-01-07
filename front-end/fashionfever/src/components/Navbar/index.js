@@ -24,16 +24,13 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import ViewDayIcon from '@mui/icons-material/ViewDay';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
+import { ChatItem } from 'react-chat-elements';
 
 const drawerWidth = 300;
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  // backgroundColor: alpha(theme.palette.common.white, 0.15),
-  // '&:hover': {
-  //   backgroundColor: alpha(theme.palette.common.white, 0.25),
-  // },
   backgroundColor: "#fdd835a3",
   '&:hover': {
     backgroundColor: "#fdd835",
@@ -56,27 +53,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const Animation = styled(Toolbar)({
-  // "@keyframes rainbow": {
-  //   "0%" : {
-  //     backgroundPosition: "0% 50%"
-  //   },
-  //   "50%": {
-  //     backgroundPosition: "100% 50%"
-  //   },
-  //   "100%": {
-  //     backgroundPosition: "0% 50%"
-  //   },
-  // },
-  // background: 'linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)',
-  // webkitAnimation: 'rainbow 18s ease infinite',
-  // MozAnimation: "rainbow 18s ease infinite",
-  // OAnimation: "rainbow 18s ease infinite",
-  // animation: "rainbow 18s ease infinite",
-  // backgroundSize: "400% 400%",
-  // background: 'transparent',
-  // boxShadow: 'none',
-});
+const Animation = styled(Toolbar)({});
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -93,13 +70,10 @@ export default function Navbar() {
   
   const navigate = useNavigate();
   const gotolink = (link) => {
-    // window.history.pushState("", "", link);
-
     navigate(link);
   }
 
   let toLoad;
-  // console.log(localStorage.getItem("email") === "null");
 
   if(localStorage.getItem("email") === "")
     toLoad = <div>
@@ -113,6 +87,27 @@ export default function Navbar() {
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Images')}}>My Images</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); gotolink('/Measurements')}}>My Measurements</MenuItem>
       <MenuItem onClick={() => {handleMenuClose(); localStorage.setItem("email", "")}}>Logout</MenuItem>
+    </div>;
+
+  let toLoad2;
+
+  if(localStorage.getItem("email") === "")
+    toLoad2 = <div>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Login')}}>Log In</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Register')}}>Register</MenuItem>
+    </div>
+  else
+    toLoad2 = <div>
+      <MenuItem onClick={() => {handleMenuClose(); navigate('/Chat', { state: { message: "apple" } })}}>
+        <ChatItem
+          avatar={'https://facebook.github.io/react/img/logo.svg'}
+          alt={'Reactjs'}
+          title={'Facebook'}
+          subtitle={'What are you doing?'}
+          date={new Date("10/10/2022")}
+          unread={0}
+        />
+      </MenuItem>
     </div>;
 
   const menuId = 'primary-search-account-menu';
@@ -133,7 +128,39 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       {toLoad}
-      
+    </Menu>
+  );
+
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+  const isMenuOpen2 = Boolean(anchorEl2);
+
+  const handleProfileMenuOpen2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
+  const handleMenuClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+  const menuId2 = 'primary-search-account-menu2';
+  const renderMessages = (
+    <Menu
+      anchorEl={anchorEl2}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      id={menuId2}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen2}
+      onClose={handleMenuClose2}
+    >
+      {toLoad2}
     </Menu>
   );
 
@@ -235,7 +262,7 @@ export default function Navbar() {
             AI Image
           </Fab>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" sx={{ color: "#fdd835" }} >
+            <IconButton size="large" aria-label="show 4 new mails" sx={{ color: "#fdd835" }} onClick={handleProfileMenuOpen2} >
               <Badge badgeContent={4} color="error" invisible={true}>
                 <MailIcon />
               </Badge>
@@ -254,6 +281,7 @@ export default function Navbar() {
         </Animation>
       </AppBar>
       {renderMenu}
+      {renderMessages}
       <Drawer
         sx={{ width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box',
         backgroundColor: "gray" },
