@@ -96,7 +96,7 @@ def get_messages():
     return jsonify({"messages": list(message_list)})
 
 
-@app.route("sendmessage", methods=["POST"])
+@app.route("/sendmessage", methods=["POST"])
 def send_message():
     sender = request.args.get("email")
     message = request.args.get("message")
@@ -119,3 +119,6 @@ def send_message():
     db.child("conversations").child(conversation).child("messages").push(
         {"sender": sender, "message": message, "timestamp": timestamp, "image": image}
     )
+
+if __name__ == "__main__":
+    app.run(port=5001)

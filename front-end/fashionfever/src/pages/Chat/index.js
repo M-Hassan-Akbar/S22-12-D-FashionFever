@@ -1,27 +1,43 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Fab, Grid, IconButton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { MessageBox } from 'react-chat-elements';
 import { useLocation } from 'react-router-dom';
 import { Input } from 'react-chat-elements'
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { Add } from '@mui/icons-material';
 
 export const Chat = () => {
     const location = useLocation();
     const inputReferance = React.createRef();
-    const [array, setArray] = useState([{ sender: "Jalal", message: "Hi" },
-        { sender: "Hassan", message: "Hi" },
-        { sender: "Jalal", message: "Sup" },
-        { sender: "Hassan", message: "not much" },
-        { sender: "Hassan", message: "uni almost finished" },
-        { sender: "Hassan", message: "Yay" },
+    const inputFile = useRef(null);
+    const [image, setImage] = useState("");
+    const [array, setArray] = useState([{ sender: "Jalal", message: "Hi", image: "" },
+        { sender: "Hassan", message: "Hi", image: "" },
+        { sender: "Jalal", message: "Sup", image: "" },
+        { sender: "Hassan", message: "not much", image: "" },
+        { sender: "Hassan", message: "uni almost finished", image: "" },
+        { sender: "Hassan", message: "Yay", image: "" },
     ]);
 
     const sendmessage = (prop) =>
     {
         let temp = [...array];
-        temp.push({ sender: localStorage.getItem('first_name'), message: prop });
+        temp.push({ sender: localStorage.getItem('first_name'), message: prop, image: image });
         setArray(temp);
     }
+
+    const handleFileUpload = (e) => {
+        const { files } = e.target;
+        if (files && files.length) {
+        
+        setImage(URL.createObjectURL(files[0]));
+        // inputReferance.current.value = (files[0]);
+        }
+    };
+
+    const onButtonClick = () => {
+        inputFile.current.click();
+    };
 
     return(
         <Box sx={{ marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",
@@ -39,20 +55,34 @@ export const Chat = () => {
                         {(array.map((item, i) => (
                             <MessageBox key={i}
                                 position={item.sender === localStorage.getItem('first_name') ? 'right' : 'left'}
-                                type={'text'}
+                                type={item.image === "" ? 'text' : 'photo'}
                                 text={item.message}
                                 date={new Date()}
-                                status={"sent"}
+                                status={item.sender === localStorage.getItem('first_name') ? "sent" : "none"}
+                                data={item.image === "" ? {} : { uri : image }}
                             />
                         )))}
                     </Box>
                 </Grid>
                 <Grid item sx={{ width: "70vw" }}>
-                    <Box sx={{ marginLeft: "4vw", borderRadius: "5px", padding: "1%", maxWidth: "60vw", background: "#6c6c6c" }}>
-                        <Input referance={inputReferance} placeholder='Type here...' autoHeight={true} multiline={true}
-                            rightButtons={<Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", 
-                            color: "black" } }} onClick={() => { sendmessage(inputReferance.current.value);
-                            inputReferance.current.value = ""; }}>Send</Button>}
+                    <Box sx={{ marginLeft: "4vw", borderRadius: "5px", padding: "1%", maxHeight: "15vh", maxWidth: "60vw", background: "#6c6c6c" }}>
+                        <Input referance={inputReferance} placeholder='Type here...' minHeight={"5vh"} maxHeight={"200vh"} autoHeight={true} multiline={true}
+                            rightButtons={
+                                <div>
+                                    <input style={{ display: "none" }} ref={inputFile} onChange={handleFileUpload} type="file" />
+                                    <Fab sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835" },
+                                        "&:hover #hov": {color: "black"} }} onClick={() => {onButtonClick()}} >
+                                        <IconButton id="hov" sx={{ color: "#fdd835" }} >
+                                            <Add />
+                                        </IconButton>
+                                    </Fab>
+                                    <Button sx={{ marginLeft: "2%", background: "#6c6c6c", color: "#fdd835", "&:hover": { 
+                                        background: "#fdd835", color: "black" } }} onClick={() => { sendmessage(
+                                        inputReferance.current.value); inputReferance.current.value = ""; }}>
+                                        Send
+                                    </Button>
+                                </div>
+                            }
                         />
                     </Box>
                 </Grid>

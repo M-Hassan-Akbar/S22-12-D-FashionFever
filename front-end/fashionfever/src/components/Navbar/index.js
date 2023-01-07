@@ -93,12 +93,12 @@ export default function Navbar() {
 
   if(localStorage.getItem("email") === "")
     toLoad2 = <div>
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Login')}}>Log In</MenuItem>
-      <MenuItem onClick={() => {handleMenuClose(); gotolink('/Register')}}>Register</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose2(); gotolink('/Login')}}>Log In</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose2(); gotolink('/Register')}}>Register</MenuItem>
     </div>
   else
     toLoad2 = <div>
-      <MenuItem onClick={() => {handleMenuClose(); navigate('/Chat', { state: { message: "apple", otherguy: "2nd guy" } })}}>
+      <MenuItem onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { message: "apple", otherguy: "2nd guy" } })}}>
         <ChatItem
           avatar={'https://facebook.github.io/react/img/logo.svg'}
           alt={'Reactjs'}
@@ -108,7 +108,7 @@ export default function Navbar() {
           unread={0}
         />
       </MenuItem>
-      <MenuItem onClick={() => {handleMenuClose(); navigate('/Chat', { state: { message: "banana", otherguy: "3rd guy" } })}}>
+      <MenuItem onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { message: "banana", otherguy: "3rd guy" } })}}>
         <ChatItem
           avatar={'https://facebook.github.io/react/img/logo.svg'}
           alt={'Reactjs'}
