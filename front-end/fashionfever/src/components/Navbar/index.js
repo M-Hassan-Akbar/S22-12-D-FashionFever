@@ -90,7 +90,6 @@ export default function Navbar() {
     </div>;
 
   const [convo, setConvo] = React.useState([]);
-
   React.useEffect(() => {
     let temp = {
         email: localStorage.getItem('email'),
@@ -100,7 +99,7 @@ export default function Navbar() {
     axios.post('http://localhost:5001/getconversations', json, { headers: heads }).then((res) => {
       if(res.data)
       {
-        console.log(res.data.conversations)
+        console.log(res.data.conversation);
         setConvo(res.data.conversations);
       }
     });
@@ -116,19 +115,18 @@ export default function Navbar() {
   else
   {
     toLoad2 = <div>
-      {convo.map((item, i) => {
-          <MenuItem key={i} onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { otherguy: convo.concat.name,
-            key: convo[i].conversation } })}}>
+      {convo.map((item, i) => (
+          <MenuItem key={i} onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { otherguy: item.name,
+            key: item.conversation } })}}>
             <ChatItem
-              avatar={convo[i].profile}
+              avatar={item.profile}
               alt={'Reactjs'}
-              title={convo[i].name}
-              subtitle={convo}
+              title={item.name}
+              subtitle={ item.messages[item.conversation] ? item.messages[item.conversation].message : "You have a new message!" }
               unread={0}
             />
           </MenuItem>
-        })
-    }
+      ))}
     </div>;
   }
 

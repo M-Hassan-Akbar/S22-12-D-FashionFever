@@ -43,6 +43,7 @@ axios.post(`http://localhost:5001/sendmessage?email=${localStorage.getItem('emai
         let temp = {
             conversation: location.state.key,
         }
+        console.log(location.state.key);
         let json = JSON.stringify(temp);
         let heads = {"Content-Type": "application/json"};
         axios.post('http://localhost:5001/getmessages', json, { headers: heads }).then((res) => {
