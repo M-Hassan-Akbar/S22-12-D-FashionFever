@@ -89,6 +89,22 @@ export default function Navbar() {
       <MenuItem onClick={() => {handleMenuClose(); localStorage.setItem("email", "")}}>Logout</MenuItem>
     </div>;
 
+  const [convo, setConvo] = React.useState("");
+
+  React.useEffect(() => {
+    let temp = {
+        email: localStorage.getItem('email'),
+    }
+    let json = JSON.stringify(temp);
+    let heads = {"Content-Type": "application/json"};
+    axios.post('http://localhost:5001/getconversations', json, { headers: heads }).then((res) => {
+      if(res.data)
+      {
+        setConvo(res.data.conversations[0]);
+      }
+    });
+  }, [])
+
   let toLoad2;
 
   if(localStorage.getItem("email") === "")
@@ -97,8 +113,9 @@ export default function Navbar() {
       <MenuItem onClick={() => {handleMenuClose2(); gotolink('/Register')}}>Register</MenuItem>
     </div>
   else
+  {
     toLoad2 = <div>
-      <MenuItem onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { message: "apple", otherguy: "2nd guy" } })}}>
+      <MenuItem onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { message: "apple", otherguy: "2nd guy", key: convo } })}}>
         <ChatItem
           avatar={'https://facebook.github.io/react/img/logo.svg'}
           alt={'Reactjs'}
@@ -119,6 +136,7 @@ export default function Navbar() {
         />
       </MenuItem>
     </div>;
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -185,8 +203,8 @@ export default function Navbar() {
   };
 
   const [open2, setOpen2] = React.useState(false);
-
   const [options, setOptions] = React.useState([]);
+  const [allData, setAllData] = React.useState([]);
 
   const getOptions = () => {
     axios.get("http://localhost:5000/alluser").then((res) => {
@@ -199,9 +217,12 @@ export default function Navbar() {
         }
 
         setOptions(temparray);
+        setAllData(res.data.users);
       }
     })
   }
+
+  let oldValue = "";
 
   const theme = useTheme();
 
@@ -236,7 +257,16 @@ export default function Navbar() {
                 } else {
                   if (!open2) setOpen2(true);
                 }
-              }}
+              }} onChange={(event, newValue) => {
+                  let ind = options.indexOf(newValue);
+                  if ( ind !== -1 ) {
+                    if(window.location.pathname === "/ViewProfile") {
+                      navigate(0, { state: { first_name: allData[ind].first_name, last_name: allData[ind].last_name, 
+                        email: allData[ind].email, bio: allData[ind].bio, phone_number: allData[ind].phone_number } })
+                    } 
+                    navigate('/ViewProfile', { state: { first_name: allData[ind].first_name, last_name: allData[ind].last_name, 
+                      email: allData[ind].email, bio: allData[ind].bio, phone_number: allData[ind].phone_number } });
+                  } }}
               onClose={() => setOpen2(false)} freeSolo forcePopupIcon={true} popupIcon={<SearchIcon />}
               renderInput={(params) => <TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' },
               "& .MuiFilledInput-underline:after": { borderBottomColor: "black" } }}

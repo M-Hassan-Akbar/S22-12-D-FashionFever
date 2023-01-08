@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { Input } from 'react-chat-elements'
 import React, { useRef, useState } from 'react';
 import { Add } from '@mui/icons-material';
+import axios from 'axios';
 
 export const Chat = () => {
     const location = useLocation();
@@ -38,6 +39,20 @@ export const Chat = () => {
     const onButtonClick = () => {
         inputFile.current.click();
     };
+
+    React.useEffect(() => {
+        let temp = {
+            conversation: location.state.key,
+        }
+        let json = JSON.stringify(temp);
+        let heads = {"Content-Type": "application/json"};
+        axios.post('http://localhost:5001/getmessages', json, { headers: heads }).then((res) => {
+            if(res.data)
+            {
+                console.log(res.data);
+            }
+        });
+    }, [])
 
     return(
         <Box sx={{ marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",

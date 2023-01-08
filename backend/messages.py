@@ -40,9 +40,9 @@ def get_conversations():
     convo_list = []
     for convo in convos:
         if convo.val()["user1"] == email:
-            convo_list.append((find_user(convo.val()["user2"]), convo.key()))
+            convo_list.append(convo.key())
         elif convo.val()["user2"] == email:
-            convo_list.append((find_user(convo.val()["user1"]), convo.key()))
+            convo_list.append(convo.key())
 
     return jsonify({"conversations": convo_list})
 
@@ -89,11 +89,12 @@ def get_messages():
 
     messages = db.child("conversations").child(conversation).child("messages").get()
 
-    message_list = deque
+    message_list = []
     for message in messages:
-        message_list.appendleft(message.val())
+        if message.key() != 'dummy':
+            message_list.append(message.val())
 
-    return jsonify({"messages": list(message_list)})
+    return jsonify({"messages": message_list})
 
 
 @app.route("/sendmessage", methods=["POST"])

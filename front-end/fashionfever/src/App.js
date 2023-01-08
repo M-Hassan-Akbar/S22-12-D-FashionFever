@@ -17,6 +17,7 @@ import Navbar from './components/Navbar'
 import { useLocation } from 'react-router-dom'
 import { Measurements } from './pages/Measurements'
 import { Chat } from './pages/Chat'
+import { ViewProfile } from './pages/ViewProfile'
 
 const Main = () => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const Main = () => {
         <Route path='Createad' element={<CreateAd />} />
         <Route path='Measurements' element={<Measurements />} />
         <Route path='Chat' element={<Chat />} />
+        <Route path='ViewProfile' element={<ViewProfile />} />
         <Route path="/" element={<Navigate replace to="/Home" />} />
       </Routes>
     </>
