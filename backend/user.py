@@ -58,6 +58,20 @@ def login():
     return jsonify({"user": db.child("users").child(key).get().val()})
 
 
+@app.route("/deleteuser", methods=["POST"])
+def delete_user():
+    email = request.json["email"]
+
+    users = db.child("users").get()
+
+    for user in users.each():
+        if user.val()["email"] == email:
+            db.child("users").child(user.key()).remove()
+            break
+    
+    return jsonify({"status": "Successfully deleted!"})
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
