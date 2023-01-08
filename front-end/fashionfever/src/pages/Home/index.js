@@ -27,7 +27,6 @@ export const Home = () => {
                 if(res.data)
                 {
                     setItemData(res.data.ads);
-                    console.log(res.data.ads);
                     setDisp(false);
                 }
             });

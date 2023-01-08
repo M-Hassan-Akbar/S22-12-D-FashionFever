@@ -88,7 +88,7 @@ export const CreateAd = () => {
 
     return (
         <>
-            <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid gray",
+            <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",
                 padding: "3%", borderRadius: "5px"}}>
                 <Typography variant="h5">Create Ad</Typography>
                 <Divider/>
@@ -145,6 +145,7 @@ export const CreateAd = () => {
                             {file: image, url: imurl}, { headers: { 'Content-Type': 'multipart/form-data' }},
                                 ).then(function (response) {
                                     console.log(response);
+                                    navigate('/Home');
                                 });
                         }}>Create</Button>
                     </Grid>
@@ -152,7 +153,7 @@ export const CreateAd = () => {
                         <Divider/>
                         <ImageList variant="masonry" cols={3} gap={8}>
                             {imagearray.map((item) => (
-                                <ImageListItem key={item.url}>
+                                <ImageListItem key={item.url} sx={{ '&:hover': { cursor: "pointer" } }}>
                                     <img src={`${item.url}`} srcSet={`${item.url}`} alt={item.title} loading="lazy" onClick={() => {
                                         setImurl(item.url);
                                         console.log(item.url);
