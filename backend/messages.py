@@ -55,10 +55,11 @@ def find_user(email, conversation):
 
     messages = db.child("conversations").child(conversation).child("messages").order_by_key().limit_to_last(1).get().val()
 
+
     return {
         "name" : name,
         "profile" : profile, 
-        "messages" : messages,
+        "messages" : messages.popitem(last=False),
         "conversation" : conversation
     }
 
