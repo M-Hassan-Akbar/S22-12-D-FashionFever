@@ -2,11 +2,12 @@ import pyrebase
 import requests
 import random
 import base64
+import requests
 
 email = "m"
 
-name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
-print("Image " + name + "has been created!")
+#name = "images/"+ email + str(random.randrange(100000000000000, 1000000000000000)) + ".jpg"
+#print("Image " + name + "has been created!")
 config = {
     'apiKey': "AIzaSyAEIeJDRhU_cOg2YC3UESpXZFxpJDHOkTs",
     'authDomain': "fashionfever-2.firebaseapp.com",
@@ -25,8 +26,15 @@ storage = firebase.storage()
 
 
 
-users = db.child("users").push({
-    "user" : "Hassan"
-})
+# users = db.child("users").push({
+#     "user" : "Hassan"
+# })
 
-print(users["name"])
+#print(users["name"])
+USER_SERVICE_LINK = "http://localhost:5000"
+
+def find_user(email):
+    return requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
+
+res = find_user("hasxanblaze@gmail.com")
+print(res.json()["user"]["first_name"] + " " + res.json()["user"]["last_name"])
