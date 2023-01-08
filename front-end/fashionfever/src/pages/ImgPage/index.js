@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 import React, { useState } from 'react'
-import { Box, Divider, Fab, InputAdornment, styled, TextField, Tooltip } from '@mui/material'
+import { Box, Button, Divider, Fab, InputAdornment, styled, TextField, Tooltip } from '@mui/material'
 import { useLocation } from 'react-router-dom';
 import { InfoOutlined } from '@mui/icons-material';
 
@@ -14,21 +14,21 @@ const Img = styled('img')({
 export const ImgPage = () => {
     const location = useLocation();
     const [Data,setData] = useState({
-        name: "",
-        gender: "",
-        height: "",
-        waist: "",
-        chest: "",
-        neck: "",
-        necktosh: "",
-        sleeve: "",
-        wrist: "",
-        arm: "",
-        shoulders: "",
-        hips: "",
-        ankles: "",
-        thigh: "",
-        calf: "",
+        name: location.state.imgData.name,
+        gender: location.state.imgData.gender,
+        height: location.state.imgData.height,
+        waist: location.state.imgData.waist,
+        chest: location.state.imgData.chest,
+        neck: location.state.imgData.neck,
+        necktosh: location.state.imgData.necktosh,
+        sleeve: location.state.imgData.sleeve,
+        wrist: location.state.imgData.wrist,
+        arm: location.state.imgData.arm,
+        shoulders: location.state.imgData.shoulders,
+        hips: location.state.imgData.hips,
+        ankles: location.state.imgData.ankles,
+        thigh: location.state.imgData.thigh,
+        calf: location.state.imgData.calf,
     });
 
     const handleChange = (event,field) => {
@@ -41,7 +41,7 @@ export const ImgPage = () => {
     <>
         <Box maxWidth="md" sx={{ marginLeft: "auto", marginTop: "4%", marginRight: "auto", marginBottom: "4%", border: "2px solid #fdd835",
             padding: "3%", borderRadius: "5px", backdropFilter: "blur(10px)" }}>
-            <Grid container direction="row">
+            <Grid container direction="row" spacing={1}>
                 <Grid item xs={6}>
                     <Img alt="Clothes Image" src={location.state.imgP}/>
                 </Grid>
@@ -71,7 +71,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}}
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}}
                     title="Measure yourself barefoot in cm.">
                         <Fab  size="small">
                             <InfoOutlined/>
@@ -84,7 +84,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Put arms down and bend at your elbows. Where your elbow points is your natural waist. Take a 360° measurement at that point of your waist.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Put arms down and bend at your elbows. Where your elbow points is your natural waist. Take a 360° measurement at that point of your waist.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -96,7 +96,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Take a 360° measurement at the widest point of your chest. Measure with your arms down rather than out to the side.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Take a 360° measurement at the widest point of your chest. Measure with your arms down rather than out to the side.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -108,7 +108,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Take a 360° measurement at base of your neck.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Take a 360° measurement at base of your neck.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -120,7 +120,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Take a 360° measurement at base of your neck.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Take a 360° measurement at base of your neck.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -132,7 +132,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Measure from your shoulder bone to your wrist bone.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Measure from your shoulder bone to your wrist bone.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -144,7 +144,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Take a 360° measurement around your wrist.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Take a 360° measurement around your wrist.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -156,7 +156,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Take a 360° measurement of the widest part of your upper arm. ">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Take a 360° measurement of the widest part of your upper arm. ">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -168,7 +168,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}} title="Measure from one shoulder bone to the other across the front of your neck to the other shoulder bone.">
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}} title="Measure from one shoulder bone to the other across the front of your neck to the other shoulder bone.">
                         <Fab  size="small">
                             <InfoOutlined/>
                         </Fab>
@@ -180,7 +180,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}}
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}}
                     title="Measure approximately 8’’ below your waist, at the widest point of your hips. Take a 360° measurement, with your feet together.">
                         <Fab  size="small">
                             <InfoOutlined/>
@@ -193,7 +193,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}}
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}}
                     title="Measure outside the body from your waist to your ankle.">
                         <Fab  size="small">
                             <InfoOutlined/>
@@ -206,7 +206,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}}
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}}
                     title="Wrap the measuring tape around the thickest part of your thigh, with legs straight. Take a 360° measurement.">
                         <Fab  size="small">
                             <InfoOutlined/>
@@ -219,7 +219,7 @@ export const ImgPage = () => {
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">cm</InputAdornment>
                             }}/>
-                    <Tooltip sx={{marginLeft:"1%" ,marginTop:"1%"}}
+                    <Tooltip sx={{marginLeft:"2%" ,marginTop:"1%"}}
                     title="Take a 360° measurement of the widest part of your calf.">
                         <Fab  size="small">
                             <InfoOutlined/>
@@ -227,6 +227,16 @@ export const ImgPage = () => {
                     </Tooltip>
                 </Grid>
             </Grid>
+            { localStorage.getItem('email') !== location.state.imgE ?
+                <Grid container sx={{ marginTop: "1%" }}>
+                    <Grid item>
+                        <Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", color: "black" } }}>
+                            Place Order
+                        </Button>
+                    </Grid>
+                </Grid> 
+                : <></>
+            }
         </Box>
     </>
     )

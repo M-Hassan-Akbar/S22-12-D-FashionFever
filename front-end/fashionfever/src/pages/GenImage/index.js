@@ -38,7 +38,11 @@ export const GenImage = () => {
         desc: '',
     });
 
-    const [imageUrl, setImageUrl] = React.useState([]);
+    const [imageUrl, setImageUrl] = React.useState([
+"https://firebasestorage.googleapis.com/v0/b/fashionfever-2.appspot.com/o/images%2Fhammasjalal%40gmail.com528922132352493.jpg?alt=media",
+"https://firebasestorage.googleapis.com/v0/b/fashionfever-2.appspot.com/o/images%2Fhammasjalal%40gmail.com292532924726220.jpg?alt=media",
+"https://firebasestorage.googleapis.com/v0/b/fashionfever-2.appspot.com/o/images%2Fhammasjalal%40gmail.com836417484024305.jpg?alt=media",
+"https://firebasestorage.googleapis.com/v0/b/fashionfever-2.appspot.com/o/images%2Fhammasjalal%40gmail.com453980233242014.jpg?alt=media"]);
     const [gender, setGender] = useState('');
     const [flag, setFlag] = useState(false);
     const [color, setColor] = useState('');
@@ -159,7 +163,7 @@ export const GenImage = () => {
     return (
         <>
             <Loader2 disp={displ} width="100%" height="91%" top="45%" left="50%" />
-            <Grid container alignItems="center" justifyContent="center" spacing={10}>
+            <Grid container alignItems="center" justifyContent="center" spacing={5}>
                 <Grid item>
                     <Container maxWidth="md" sx={{backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
                         padding: "30px", marginTop: "100px", borderRadius: "20px"}}>
@@ -177,7 +181,7 @@ export const GenImage = () => {
                                 </RadioGroup>
                             </Grid>
                             <Grid item>
-                                <TextField disabled={flag} value={values.desc} onChange={handleChange('desc')} label="Description"
+                                <TextField disabled={flag} placeholder="e.g. Floral Pattern Polo Shirt" value={values.desc} onChange={handleChange('desc')} label="Description"
                                     fullWidth/>
                             </Grid>
                             {elem}
@@ -222,10 +226,6 @@ export const GenImage = () => {
                             </Grid>
                             <Grid item>
                                 <Button variant='contained' color='primary' onClick={ () => {
-                                    // const response = await axios.get('localhost:5000/GenImage');
-                                    // setImageUrl(response.data)
-                                    // console.log(values.desc);
-
                                     if(values.desc !== "")
                                         exec();
                                     else if(gender !== "" && category !== "" && color !== "")
@@ -237,12 +237,14 @@ export const GenImage = () => {
                 </Grid>
                 {/* {elem} */}
                 <Grid item>
-                    <Container maxWidth="md" sx={{backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
-                        padding: "30px", borderRadius: "20px"}}>
+                    <Container maxWidth="md" sx={{ backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
+                        marginTop: "12vh", borderRadius: "20px", height: "70vh"}}>
                         <Grid>
-                            <Grid item sx={{marginTop: "15vmin"}} xs={6}>
+                            <Grid container justifyContent="space-evenly" rowSpacing={2} columnSpacing={30} item sx={{ maxHeight: "60vh" }} xs={6}>
                                 {imageUrl.map((image, i) => (
-                                    <img key={i} src={image} alt={`Generated ${i}`} />
+                                    <Grid item xs={4} key={i}>
+                                        <img src={image} alt={`Generated ${i}`} />
+                                    </Grid>
                                     ))}
                             </Grid>
                         </Grid>
