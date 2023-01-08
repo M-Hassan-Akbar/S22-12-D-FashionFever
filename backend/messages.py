@@ -40,15 +40,28 @@ def get_conversations():
     convo_list = []
     for convo in convos:
         if convo.val()["user1"] == email:
-            convo_list.append(convo.key())
+            
+            convo_list.append(find_user(convo.val()["user2"], convo.key()))
         elif convo.val()["user2"] == email:
-            convo_list.append(convo.key())
+            convo_list.append(find_user(convo.val()["user2"], convo.key()))
 
     return jsonify({"conversations": convo_list})
 
 
-def find_user(email):
-    return requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
+def find_user(email, conversation):
+    res = requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
+    name = res.json()["user"]["first_name"] + " " + res.json()["user"]["last_name"]
+    profile = res.json()["profile_image"]
+
+    messages = db.child("conversations").child(conversation).child("messages").order_by_child("timestamp").limit_to_last(1).get()
+
+    return {
+        "name" : name,
+        "profile" : profile, 
+        "messages" : messages,
+        "conversation" : conversation
+    }
+
 
 
 @app.route("/createconversations", methods=["GET", "POST"])
@@ -77,6 +90,10 @@ def create_conversations():
             "user2": recipient_email,
         }
     )
+
+    db.child("conversations").child(convo_key).child("dummy").set({
+        "timestamp" : 1
+    })
 
     return jsonify(
         {"status": "conversation created!", "conversation": convo_key["name"]}
