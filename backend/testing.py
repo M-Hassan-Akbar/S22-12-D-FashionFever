@@ -40,4 +40,4 @@ USER_SERVICE_LINK = "http://localhost:5000"
 # print(res.json()["user"]["profile_image"])
 
 
-print(db.child("conversations").child("randomkey1").child("messages").order_by_key().limit_to_last(1).get().val())
+print(len(db.child("users").get().each()))
