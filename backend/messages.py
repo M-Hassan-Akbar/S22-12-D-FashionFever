@@ -91,7 +91,7 @@ def create_conversations():
         }
     )
 
-    db.child("conversations").child(convo_key).child("!dummy").set({
+    db.child("conversations").child(convo_key["name"]).child("!dummy").set({
         "timestamp" : 1
     })
 
