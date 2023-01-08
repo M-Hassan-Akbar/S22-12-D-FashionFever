@@ -40,4 +40,7 @@ USER_SERVICE_LINK = "http://localhost:5000"
 # print(res.json()["user"]["profile_image"])
 
 
-print(db.child("conversations").child("randomkey1").child("messages").order_by_key().limit_to_last(1).get().key())
+# print(db.child("conversations").child("randomkey1").child("messages").order_by_key().limit_to_last(1).get().key())
+url = "https://firebasestorage.googleapis.com/v0/b/fashionfever-2.appspot.com/o/images/hammasjalal@gmail.com453980233242014.jpg?alt=media"
+print(url[url.find("/o/")+3:url.find("?alt")])
+print(storage.child(url[url.find("/o/")+3:url.find("?alt")]).get_url(None))
