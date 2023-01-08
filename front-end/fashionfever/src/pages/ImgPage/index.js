@@ -1,7 +1,6 @@
 import Grid from '@mui/material/Grid'
-import Container from '@mui/material/Container'
 import React from 'react'
-import { styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import { useLocation } from 'react-router-dom';
 
 const Img = styled('img')({
@@ -16,8 +15,8 @@ export const ImgPage = () => {
 
     return(
     <>
-        <Container maxWidth="md" sx={{backgroundColor: "#ee7752", textAlign: "center", paddingBottom: "40px", paddingTop: "40px",
-            marginTop: "100px", borderRadius: "20px"}}>
+        <Box maxWidth="md" sx={{ marginLeft: "auto", marginTop: "4%", marginRight: "auto", marginBottom: "4%", border: "2px solid #fdd835",
+            padding: "3%", borderRadius: "5px", backdropFilter: "blur(10px)" }}>
             <Grid container direction="row">
                 <Grid item xs={6}>
                     <Img alt="Clothes Image" src={location.state.imgP}/>
@@ -40,7 +39,7 @@ export const ImgPage = () => {
                     </Grid>
                 </Grid>
             </Grid>
-        </Container>
+        </Box>
     </>
     )
 }
