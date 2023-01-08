@@ -33,8 +33,11 @@ storage = firebase.storage()
 #print(users["name"])
 USER_SERVICE_LINK = "http://localhost:5000"
 
-def find_user(email):
-    return requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
+# def find_user(email):
+#     return requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
 
-res = find_user("hasxanblaze@gmail.com")
-print(res.json()["user"]["profile_image"])
+# res = find_user("hasxanblaze@gmail.com")
+# print(res.json()["user"]["profile_image"])
+
+
+print(db.child("conversations").child("randomkey1").child("messages").order_by_key().limit_to_last(1).get().val())

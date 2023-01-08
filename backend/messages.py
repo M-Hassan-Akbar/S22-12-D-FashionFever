@@ -53,7 +53,7 @@ def find_user(email, conversation):
     name = res.json()["user"]["first_name"] + " " + res.json()["user"]["last_name"]
     profile = res.json()["user"]["profile_image"]
 
-    messages = db.child("conversations").child(conversation).child("messages").order_by_child("timestamp").limit_to_last(1).get()
+    messages = db.child("conversations").child(conversation).child("messages").order_by_key().limit_to_last(1).get().val()
 
     return {
         "name" : name,
@@ -91,7 +91,7 @@ def create_conversations():
         }
     )
 
-    db.child("conversations").child(convo_key).child("dummy").set({
+    db.child("conversations").child(convo_key).child("!dummy").set({
         "timestamp" : 1
     })
 
@@ -108,7 +108,7 @@ def get_messages():
 
     message_list = []
     for message in messages:
-        if message.key() != 'dummy':
+        if message.key() != '!dummy':
             message_list.append(message.val())
 
     return jsonify({"messages": message_list})
