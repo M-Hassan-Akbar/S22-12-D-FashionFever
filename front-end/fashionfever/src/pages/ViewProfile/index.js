@@ -138,7 +138,22 @@ export const ViewProfile = (prop) => {
                     {
                         location.state.email !== localStorage.getItem('email') ?
                         <Grid item>
-                            <Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", color: "black" } }}>
+                            <Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", color: "black" } }}
+                                onClick={() => {
+                                    let t = {
+                                        email: localStorage.getItem('email'),
+                                        recipient_email: location.state.email,
+                                    }
+                                    let json = JSON.stringify(t);
+                                    let heads = {"Content-Type": "application/json"};
+                                    axios.post('http://localhost:5001/createconversations', json, { headers: heads }).then((res) => {
+                                        if(res.data)
+                                        {
+                                            console.log(res.data.conversation);
+                                            navigate('/Chat', { state: { otherguy: values.user, key: res.data.conversation } })
+                                        }
+                                        });
+                                }}>
                                 Message
                             </Button>
                         </Grid>

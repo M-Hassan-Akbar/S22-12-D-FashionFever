@@ -43,7 +43,7 @@ def get_conversations():
             
             convo_list.append(find_user(convo.val()["user2"], convo.key()))
         elif convo.val()["user2"] == email:
-            convo_list.append(find_user(convo.val()["user2"], convo.key()))
+            convo_list.append(find_user(convo.val()["user1"], convo.key()))
 
     return jsonify({"conversations": convo_list})
 
