@@ -81,8 +81,6 @@ export const ViewProfile = (prop) => {
                 if(res.data)
                 {
                     setItemData(res.data.ads);
-                    // console.log(res.data.ads);
-                    // console.log(toLoad)
                     setDisp(false)
                 }
             });
@@ -149,7 +147,6 @@ export const ViewProfile = (prop) => {
                                     axios.post('http://localhost:5001/createconversations', json, { headers: heads }).then((res) => {
                                         if(res.data)
                                         {
-                                            console.log(res.data.conversation);
                                             navigate('/Chat', { state: { otherguy: values.user, key: res.data.conversation } })
                                         }
                                         });

@@ -15,7 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from "react-router-dom";
-import { Autocomplete, CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, useTheme } from '@mui/material';
+import { Autocomplete, Avatar, CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, useTheme } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HomeIcon from '@mui/icons-material/Home';
@@ -99,7 +99,6 @@ export default function Navbar() {
     axios.post('http://localhost:5001/getconversations', json, { headers: heads }).then((res) => {
       if(res.data)
       {
-        console.log(res.data.conversations[0].messages[res.data.conversations[0].conversation]);
         setConvo(res.data.conversations);
       }
     });
@@ -205,11 +204,12 @@ export default function Navbar() {
         var temparray = [];
 
         for (let i = 0; i < res.data.users.length; i++) {
-          temparray.push(res.data.users[i]['email']);
+          temparray.push(res.data.users[i]['first_name'] + " " + res.data.users[i]['last_name']);
         }
 
         setOptions(temparray);
         setAllData(res.data.users);
+        console.log(res.data.users);
       }
     })
   }
@@ -260,9 +260,9 @@ export default function Navbar() {
                       email: allData[ind].email, bio: allData[ind].bio, phone_number: allData[ind].phone_number } });
                   } }}
               onClose={() => setOpen2(false)} freeSolo forcePopupIcon={true} popupIcon={<SearchIcon />}
-              renderInput={(params) => <TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' },
+              renderInput={(params) => <div><Avatar></Avatar><TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' },
               "& .MuiFilledInput-underline:after": { borderBottomColor: "black" } }}
-              label="Search" onClick={getOptions} />}
+              label="Search" onClick={getOptions} /></div>}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
