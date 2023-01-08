@@ -69,6 +69,10 @@ def addAd():
         db.child("images").push(
             {"email": email, "name": name, "caption": "", "url": url}
         )
+    
+    else:
+        url = storage.child(url[url.find("/o/")+3:url.find("?alt")]).get_url(None)
+
 
     db.child("ads").push(
         {
