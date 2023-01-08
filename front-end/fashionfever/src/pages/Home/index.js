@@ -12,7 +12,6 @@ import Loader from '../../components/Loader';
 import 'react-chat-elements/dist/main.css'
 
 export const Home = () => {
-    // let state = useSelector((state) => state.users);
 
     const [itemData, setItemData] = React.useState([]);
     const [count, setCount] = React.useState(0);
@@ -20,15 +19,7 @@ export const Home = () => {
     const [dispCards, setDispCards] = React.useState("none");
     const [disp, setDisp] = React.useState(true);
 
-    // const navigate = useNavigate();
-
-    // console.log(state);
-    // console.log(localStorage.getItem("e"));
-
     React.useEffect(() => {
-        // background animation
-        // if(document.getElementById('stars'))
-        //     exec();
 
         if(count === 0)
         {
@@ -36,8 +27,7 @@ export const Home = () => {
                 if(res.data)
                 {
                     setItemData(res.data.ads);
-                    // console.log(res.data.ads);
-                    // console.log(toLoad)
+                    console.log(res.data.ads);
                     setDisp(false);
                 }
             });
@@ -53,17 +43,11 @@ export const Home = () => {
 
     return (
         <>
-            {/* <br/>
-            <br/>
-
-            <Divider light={true} variant="middle" sx={{ display: "block", borderBottomWidth: 5, backgroundColor: "#fdd835",
-                borderRadius: 5 }} /> */}
-            
             <Loader disp={`${dispLoad}`}/>
             <Grid container sx={{ padding: "5%", display: `${dispCards}` }} spacing={4} justifyContent="center">
                 {itemData.map((item, i) => (
                     <Grid item key={i}>
-                        <MainCard imgP={item.url} imgT={item.name} imgD={item.description} imgPh={item.phone_number} imgE={item.email}/>
+                        <MainCard imgP={item.url} imgT={item.title} imgD={item.description} imgPh={item.phone_number} imgE={item.email} imgData={item}/>
                     </Grid>
                 ))}
             </Grid>

@@ -121,7 +121,8 @@ export default function Navbar() {
               avatar={item.profile}
               alt={'Reactjs'}
               title={item.name}
-              subtitle={ item.messages[item.conversation] ? item.messages[item.conversation].message : "You have a new message!" }
+              subtitle={ item.messages[1].message }
+              date={new Date()}
               unread={0}
             />
           </MenuItem>
@@ -209,7 +210,6 @@ export default function Navbar() {
 
         setOptions(temparray);
         setAllData(res.data.users);
-        console.log(res.data.users);
       }
     })
   }
@@ -260,9 +260,9 @@ export default function Navbar() {
                       email: allData[ind].email, bio: allData[ind].bio, phone_number: allData[ind].phone_number } });
                   } }}
               onClose={() => setOpen2(false)} freeSolo forcePopupIcon={true} popupIcon={<SearchIcon />}
-              renderInput={(params) => <div><Avatar></Avatar><TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' },
+              renderInput={(params) => <TextField {...params} variant="filled" sx={{ '& label.Mui-focused': { color: 'black' },
               "& .MuiFilledInput-underline:after": { borderBottomColor: "black" } }}
-              label="Search" onClick={getOptions} /></div>}
+              label="Search" onClick={getOptions} />}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />

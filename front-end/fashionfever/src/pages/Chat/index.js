@@ -71,7 +71,7 @@ axios.post(`http://localhost:5001/sendmessage?email=${localStorage.getItem('emai
                                 position={item.sender === localStorage.getItem('email') ? 'right' : 'left'}
                                 type={item.image === "" ? 'text' : 'photo'}
                                 text={item.message}
-                                date={new Date()}
+                                date={item.timestamp}
                                 status={item.sender === localStorage.getItem('email') ? "sent" : "none"}
                                 data={item.image === "" ? {} : { uri : image }}
                             />

@@ -1,7 +1,7 @@
 // import { Link } from "react-router-dom"
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Divider, Grid, ImageList, ImageListItem, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, FormControlLabel, Grid, ImageList, ImageListItem, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import { useState } from 'react';
 import axios from 'axios';
@@ -11,7 +11,9 @@ export const CreateAd = () => {
 
     const [image, setImage] = useState(null);
     const [values, setValues] = useState({
+        title: '',
         desc: '',
+        price: '',
     });
     
     const handleChange = (prop) => (event) => {
@@ -37,10 +39,6 @@ export const CreateAd = () => {
     const [imagearray, setImagearray] = React.useState([]);
     const [imurl, setImurl] = React.useState('');
 
-    // React.useEffect(() => {
-    //     console.log(image)
-    // }, inputFile)
-
     React.useEffect(() => {
         if(localStorage.getItem('email') === "")
           navigate('/Home');
@@ -54,19 +52,38 @@ export const CreateAd = () => {
         axios.post("http://localhost:5002/getimages", json, {headers: heads}).then((res) => {
           if(res.data)
           {
-            // console.log(res.data);
             setImagearray(res.data.images);
           }
         });
     }, [navigate]);
 
     React.useEffect(() => {
-        // console.log(imurl);
     }, [imurl])
+
+    const [measurements, setMeasurements] = useState([]);
+
+    React.useEffect(() => {
+        let t = {
+            email: localStorage.getItem('email'),
+        }
+        let json = JSON.stringify(t);
+        let heads = {"Content-Type": "application/json"};
+        axios.post("http://localhost:5000/getmeasurements", json, {headers: heads}).then((res) => {
+          if(res.data)
+          {
+            setMeasurements(res.data.measurements);
+          }
+      });
+    }, [])
+
+    const [value, setValue] = React.useState(0);
+
+    const handleChange2 = (event) => {
+        setValue(event.target.value);
+    };
 
     React.useEffect(() => {
         elem.current = <Grid item xs={8}><Typography variant="p">top</Typography></Grid>;
-        // console.log(elem);
     }, [image])
 
     return (
@@ -80,8 +97,30 @@ export const CreateAd = () => {
                     <Grid item xs={8}>
                         <Grid container direction='column' rowSpacing={2}>
                             <Grid item>
+                                <TextField label="Title" value={values.title} variant="outlined" fullWidth
+                                    onChange={handleChange('title')}/>
+                            </Grid>
+                            <Grid item>
                                 <TextField label="Description" value={values.desc} multiline rows={4} variant="outlined" fullWidth
                                     onChange={handleChange('desc')}/>
+                            </Grid>
+                            <Grid item>
+                                <TextField label="Price" value={values.price} variant="outlined" fullWidth
+                                    onChange={handleChange('price')}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant="h7" sx={{ color: "#fdd835" }}>Measurements</Typography>
+                            </Grid>
+                            <Grid item>
+                                <RadioGroup
+                                    value={value}
+                                    onChange={handleChange2}
+                                    name="radio-buttons-group"
+                                >
+                                    {measurements.map((item, i) => (
+                                        <FormControlLabel key={i} value={i} control={<Radio />} label={item.name} />
+                                    ))}
+                                </RadioGroup>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -94,21 +133,18 @@ export const CreateAd = () => {
                                         <Button variant="contained" sx={{ width: "160px"}}
                                             onClick={onButtonClick}>Upload Photo</Button>
                                     </Grid>
-                                    {/* {elem.current} */}
                                 </Grid>
-                                {/* <img src={image} */}
                         </Container>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" onClick={() => {
                             let full_name = localStorage.getItem('first_name').concat(" "); 
                             full_name = full_name.concat(localStorage.getItem('last_name'));
-                            // console.log(localStorage.getItem('phone_number'))
                             axios.post(
-`http://localhost:5002/addad?email=${localStorage.getItem('email')}&description=${values.desc}&phone_number=${localStorage.getItem('phone_number')}&full_name=${full_name}&url=${imurl}`,
+`http://localhost:5002/addad?email=${localStorage.getItem('email')}&description=${values.desc}&phone_number=${localStorage.getItem('phone_number')}&full_name=${full_name}&url=${imurl}&price=${values.price}&title=${values.title}&gender=${measurements[value].gender}&height=${measurements[value].height}&waist=${measurements[value].waist}&chest=${measurements[value].chest}&neck=${measurements[value].neck}&necktosh=${measurements[value].necktosh}&sleeve=${measurements[value].sleeve}&wrist=${measurements[value].wrist}&arm=${measurements[value].arm}&shoulders=${measurements[value].shoulders}&hips=${measurements[value].hips}&ankles=${measurements[value].ankles}&thigh=${measurements[value].thigh}&calf=${measurements[value].calf}`,
                             {file: image, url: imurl}, { headers: { 'Content-Type': 'multipart/form-data' }},
                                 ).then(function (response) {
-                                    // console.log(response.data);
+                                    console.log(response);
                                 });
                         }}>Create</Button>
                     </Grid>
@@ -119,6 +155,7 @@ export const CreateAd = () => {
                                 <ImageListItem key={item.url}>
                                     <img src={`${item.url}`} srcSet={`${item.url}`} alt={item.title} loading="lazy" onClick={() => {
                                         setImurl(item.url);
+                                        console.log(item.url);
                                     }} />
                                 </ImageListItem>
                             ))}

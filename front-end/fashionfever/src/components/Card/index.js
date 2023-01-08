@@ -21,7 +21,7 @@ export default function MainCard(props) {
     <Tilt className="tilter">
       <Card sx={{ background: "#6c6c6c", borderRadius: "15px", width: 345, minHeight: 200, maxHeight: 600, cursor: "pointer" }}
         onClick={() => { navigate('/ImgPage', { state: { imgP: props.imgP, imgT: props.imgT, imgD: props.imgD, imgPh: props.imgPh,
-        imgE: props.imgE } }) }}>
+        imgE: props.imgE, imgData: props.imgData } }) }}>
         <CardActionArea>
           <CardMedia
             component="img"
