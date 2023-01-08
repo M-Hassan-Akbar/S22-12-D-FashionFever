@@ -99,7 +99,7 @@ export default function Navbar() {
     axios.post('http://localhost:5001/getconversations', json, { headers: heads }).then((res) => {
       if(res.data)
       {
-        console.log(res.data.conversation);
+        console.log(res.data.conversations[0].messages[res.data.conversations[0].conversation]);
         setConvo(res.data.conversations);
       }
     });
