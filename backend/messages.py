@@ -121,5 +121,7 @@ def send_message():
         {"sender": sender, "message": message, "timestamp": timestamp, "image": image}
     )
 
+    return jsonify({"status": "Success!"})
+
 if __name__ == "__main__":
     app.run(port=5001)

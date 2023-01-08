@@ -12,19 +12,19 @@ export const Chat = () => {
     const inputReferance = React.createRef();
     const inputFile = useRef(null);
     const [image, setImage] = useState("");
-    const [array, setArray] = useState([{ sender: "Jalal", message: "Hi", image: "" },
-        { sender: "Hassan", message: "Hi", image: "" },
-        { sender: "Jalal", message: "Sup", image: "" },
-        { sender: "Hassan", message: "not much", image: "" },
-        { sender: "Hassan", message: "uni almost finished", image: "" },
-        { sender: "Hassan", message: "Yay", image: "" },
-    ]);
+    const [array, setArray] = useState([]);
 
     const sendmessage = (prop) =>
     {
-        let temp = [...array];
-        temp.push({ sender: localStorage.getItem('first_name'), message: prop, image: image });
-        setArray(temp);
+        let heads = {'Content-Type': 'multipart/form-data'};
+axios.post(`http://localhost:5001/sendmessage?email=${localStorage.getItem('email')}&message=${prop}&timestamp=${Date.now()}&conversation=${location.state.key}`, { headers: heads }).then((res) => {
+        if(res.data)
+        {
+            let t = [...array];
+            t.push({ sender: localStorage.getItem('email'), message: prop, image: image, timestamp: new Date(Date.now() * 1000) });
+            setArray(t);
+        }
+        });
     }
 
     const handleFileUpload = (e) => {
@@ -32,7 +32,6 @@ export const Chat = () => {
         if (files && files.length) {
         
         setImage(URL.createObjectURL(files[0]));
-        // inputReferance.current.value = (files[0]);
         }
     };
 
@@ -49,7 +48,7 @@ export const Chat = () => {
         axios.post('http://localhost:5001/getmessages', json, { headers: heads }).then((res) => {
             if(res.data)
             {
-                console.log(res.data);
+                setArray(res.data.messages);
             }
         });
     }, [])
@@ -69,11 +68,11 @@ export const Chat = () => {
                         overflowY: "scroll", height: "40vh" }}>
                         {(array.map((item, i) => (
                             <MessageBox key={i}
-                                position={item.sender === localStorage.getItem('first_name') ? 'right' : 'left'}
+                                position={item.sender === localStorage.getItem('email') ? 'right' : 'left'}
                                 type={item.image === "" ? 'text' : 'photo'}
                                 text={item.message}
                                 date={new Date()}
-                                status={item.sender === localStorage.getItem('first_name') ? "sent" : "none"}
+                                status={item.sender === localStorage.getItem('email') ? "sent" : "none"}
                                 data={item.image === "" ? {} : { uri : image }}
                             />
                         )))}
