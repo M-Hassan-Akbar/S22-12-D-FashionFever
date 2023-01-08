@@ -89,7 +89,7 @@ export default function Navbar() {
       <MenuItem onClick={() => {handleMenuClose(); localStorage.setItem("email", "")}}>Logout</MenuItem>
     </div>;
 
-  const [convo, setConvo] = React.useState("");
+  const [convo, setConvo] = React.useState([]);
 
   React.useEffect(() => {
     let temp = {
@@ -100,7 +100,8 @@ export default function Navbar() {
     axios.post('http://localhost:5001/getconversations', json, { headers: heads }).then((res) => {
       if(res.data)
       {
-        setConvo(res.data.conversations[0]);
+        console.log(res.data.conversations)
+        setConvo(res.data.conversations);
       }
     });
   }, [])
@@ -115,26 +116,19 @@ export default function Navbar() {
   else
   {
     toLoad2 = <div>
-      <MenuItem onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { message: "apple", otherguy: "2nd guy", key: convo } })}}>
-        <ChatItem
-          avatar={'https://facebook.github.io/react/img/logo.svg'}
-          alt={'Reactjs'}
-          title={'Facebook'}
-          subtitle={'What are you doing?'}
-          date={new Date("10/10/2022")}
-          unread={0}
-        />
-      </MenuItem>
-      <MenuItem onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { message: "banana", otherguy: "3rd guy" } })}}>
-        <ChatItem
-          avatar={'https://facebook.github.io/react/img/logo.svg'}
-          alt={'Reactjs'}
-          title={'22'}
-          subtitle={'What are you doing?'}
-          date={new Date("10/10/2022")}
-          unread={0}
-        />
-      </MenuItem>
+      {convo.map((item, i) => {
+          <MenuItem key={i} onClick={() => {handleMenuClose2(); navigate('/Chat', { state: { otherguy: convo.concat.name,
+            key: convo[i].conversation } })}}>
+            <ChatItem
+              avatar={convo[i].profile}
+              alt={'Reactjs'}
+              title={convo[i].name}
+              subtitle={convo}
+              unread={0}
+            />
+          </MenuItem>
+        })
+    }
     </div>;
   }
 
@@ -188,7 +182,7 @@ export default function Navbar() {
       open={isMenuOpen2}
       onClose={handleMenuClose2}
     >
-      {toLoad2}
+      {convo.length === 0 ? <MenuItem>Loading</MenuItem> : toLoad2}
     </Menu>
   );
 
