@@ -135,6 +135,15 @@ export const ViewProfile = (prop) => {
                         <CssTextField label="Bio" disabled value={values.phone_number} 
                             variant="outlined" sx={{width: "81%"}} multiline rows={4}/>
                     </Grid>
+                    {
+                        location.state.email !== localStorage.getItem('email') ?
+                        <Grid item>
+                            <Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", color: "black" } }}>
+                                Message
+                            </Button>
+                        </Grid>
+                        : <></>
+                    }
                 </Grid>
             </Box>
             <Grid sx={{ paddingLeft: "10%",paddingRight: "10%"}}>
