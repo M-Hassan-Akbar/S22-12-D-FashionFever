@@ -104,7 +104,7 @@ def update_profile():
     dob = request.json["dob"]
     gender = request.json["gender"]
     bio = request.json["bio"]
-    phone_number = request.json[phone_number]
+    phone_number = request.json["phone_number"]
 
     users = db.child("users").get()
 

@@ -79,6 +79,7 @@ export const Profile = () => {
         address: localStorage.getItem("address"),
         bio: localStorage.getItem("bio"),
         phone_number: localStorage.getItem("phone_number"),
+        profile_image: localStorage.getItem("profile_image")
     });
     
     const navigate = useNavigate();
@@ -172,7 +173,7 @@ export const Profile = () => {
                     <Grid item>
                         <Grid container sx={{alignItems: "center"}} spacing={5} >
                             <Grid item>
-                                <Avatar alt="profile pic" src={state.profile_image} sx={{ width: 150, height: 150}} />
+                                <Avatar alt="profile pic" src={values.profile_image} sx={{ width: 150, height: 150}} />
                             </Grid>
                             <Grid item>
                                 <input style={{ display: "none" }} ref={inputFile} onChange={handleFileUpload} type="file" />
