@@ -37,4 +37,4 @@ def find_user(email):
     return requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
 
 res = find_user("hasxanblaze@gmail.com")
-print(res.json()["user"]["first_name"] + " " + res.json()["user"]["last_name"])
+print(res.json()["user"]["profile_image"])

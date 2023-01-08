@@ -51,7 +51,7 @@ def get_conversations():
 def find_user(email, conversation):
     res = requests.post(USER_SERVICE_LINK + "/getuser", json={"email": email})
     name = res.json()["user"]["first_name"] + " " + res.json()["user"]["last_name"]
-    profile = res.json()["profile_image"]
+    profile = res.json()["user"]["profile_image"]
 
     messages = db.child("conversations").child(conversation).child("messages").order_by_child("timestamp").limit_to_last(1).get()
 
