@@ -4,6 +4,7 @@ import {Box, Typography, Grid, TextField, Button} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send'
 import emailjs from '@emailjs/browser';
+import { useNavigate } from 'react-router';
 
 const CssTextField = styled(TextField)({
     input: {
@@ -38,6 +39,7 @@ const CssTextField = styled(TextField)({
 });
 
 export const ContactSupport = () => {
+    const navigate = useNavigate();
     const [email,setEmail] = useState("");
     const [content,setContent] = useState("");
     const supportform = useRef();

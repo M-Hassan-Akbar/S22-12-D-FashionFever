@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useState } from "react";
 import { Box, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Rating, Select, Typography } from "@mui/material";
 import { Loader2 } from "../../components/Loader2";
+import { useNavigate } from "react-router";
 
 const genders = [
     'Male',
@@ -34,6 +35,7 @@ const categories = [
 ];
 
 export const GenImage = () => {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         desc: '',
     });
