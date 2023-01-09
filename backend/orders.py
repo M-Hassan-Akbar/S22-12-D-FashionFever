@@ -71,9 +71,18 @@ def get_order():
 def accept_order():
     order_key = request.json["order_key"]
 
-    db.child("orders").update({"status": "1"})
+    db.child("orders").child(order_key).update({"status": "1"})
 
     return jsonify({"status": "order placed!"})
+
+
+@app.route("/rejectorders", methods=["GET"])
+def reject_order():
+    order_key = request.json["order_key"]
+
+    db.child("orders").child(order_key).remove()
+
+    return jsonify({"status": "order removed!"})
 
 
 if __name__ == "__main__":
