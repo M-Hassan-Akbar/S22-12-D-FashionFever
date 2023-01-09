@@ -1,11 +1,7 @@
-// import { Link } from "react-router-dom"
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
-// import { useSelector } from 'react-redux';
 import MainCard from '../../components/Card';
 import { Grid } from '@mui/material';
-// import "./index.css"
-// import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Loader from '../../components/Loader';
