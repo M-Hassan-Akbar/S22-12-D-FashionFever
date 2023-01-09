@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Box, Button, Divider, Fab, InputAdornment, styled, TextField, Tooltip } from '@mui/material'
 import { useLocation } from 'react-router-dom';
 import { InfoOutlined } from '@mui/icons-material';
+import axios from 'axios';
 
 const Img = styled('img')({
     // margin: 'auto',
@@ -59,6 +60,9 @@ export const ImgPage = () => {
                         </Grid>
                         <Grid item>
                              Phone Number: {location.state.imgPh}
+                        </Grid>
+                        <Grid item>
+                             Price: {location.state.imgData.price}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -230,7 +234,23 @@ export const ImgPage = () => {
             { localStorage.getItem('email') !== location.state.imgE ?
                 <Grid container sx={{ marginTop: "1%" }}>
                     <Grid item>
-                        <Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", color: "black" } }}>
+                        <Button sx={{ background: "#6c6c6c", color: "#fdd835", "&:hover": { background: "#fdd835", color: "black" } }}
+                            onClick={() => {
+                                let t = {
+                                    pk: location.state.imgData.pk,
+                                    sender: localStorage.getItem('email'),
+                                    reciever: location.state.imgData.email,
+                                }
+
+                                let json = JSON.stringify(t);
+                                let heads = {"Content-Type": "application/json"};
+                                axios.post("http://localhost:5004/addorder", json, { headers: heads }).then((res) => {
+                                    if(res.data)
+                                    {
+                                        console.log(res.data);
+                                    }
+                                })
+                            }} >
                             Place Order
                         </Button>
                     </Grid>

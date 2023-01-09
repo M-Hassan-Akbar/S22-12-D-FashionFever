@@ -15,7 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from "react-router-dom";
-import { Autocomplete, Avatar, CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, useTheme } from '@mui/material';
+import { Autocomplete, Avatar, ClickAwayListener, CssBaseline, Divider, Drawer, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, useTheme } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HomeIcon from '@mui/icons-material/Home';
@@ -25,6 +25,7 @@ import ViewDayIcon from '@mui/icons-material/ViewDay';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import { ChatItem } from 'react-chat-elements';
+import { AppRegistration, ContactSupport, Login } from '@mui/icons-material';
 
 const drawerWidth = 300;
 
@@ -214,8 +215,6 @@ export default function Navbar() {
     })
   }
 
-  let oldValue = "";
-
   const theme = useTheme();
 
   return (
@@ -314,57 +313,82 @@ export default function Navbar() {
       </AppBar>
       {renderMenu}
       {renderMessages}
-      <Drawer
-        sx={{ width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box',
-        backgroundColor: "gray" },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
+      <ClickAwayListener
+        mouseEvent="onMouseDown"
+        touchEvent="onTouchStart"
+        onClickAway={() => open && handleDrawerClose()}
       >
-        <DrawerHeader>
-          <Typography
-            variant="h4"
-            noWrap
-            component="div"
-            sx={{ display: { float: 'flex-start', fontFamily: 'Brush Script MT', fontStyle: "cursive", cursor: "pointer",
-            color: "#fdd835" } }}
-            onClick={() => {navigate('/')}}
-          >
-            Fashion Fever
-          </Typography>
-          <Divider oriantation="vertical" variant="middle" />
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Home', 'My Images', 'My Measurements', 'My Ads'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton sx={{ color: "#fdd835" }} >
-                <ListItemIcon sx={{ color: "#fdd835" }} >
-                  {index === 0 ? <HomeIcon /> : index === 1 ? <ImageIcon /> : index === 2 ? <StraightenIcon />: <ViewDayIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['About'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton sx={{ backgroundColor: "purple", color: "#fdd835", borderRadius: "20px", margin: "5px"}} >
-                <ListItemIcon sx={{ color: "#fdd835" }} >
-                  <InfoIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+        <Drawer
+          sx={{ width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box',
+          backgroundColor: "#6c6c6c" },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ display: { float: 'flex-start', fontFamily: 'Brush Script MT', fontStyle: "cursive", cursor: "pointer",
+              color: "#fdd835" } }}
+              onClick={() => {navigate('/')}}
+            >
+              Fashion Fever
+            </Typography>
+            <Divider oriantation="vertical" variant="middle" />
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            { localStorage.getItem('email') !== "" ?
+              (['Home', 'My Images', 'My Measurements', 'My Orders'].map((text, index) => (
+                <ListItem key={text} disablePadding>
+                  <ListItemButton onClick={() => (index === 0 ? (navigate("/Home"), handleDrawerClose()) : index === 1 ?
+                    (navigate('/Images'), handleDrawerClose()) : index === 2 ? (navigate('/Measurements'), handleDrawerClose()) : 
+                    (navigate('/Orders'), handleDrawerClose())) } sx={{ color: "#fdd835" }} >
+                    <ListItemIcon sx={{ color: "#fdd835" }} >
+                      {index === 0 ? <HomeIcon /> : index === 1 ? <ImageIcon /> : index === 2 ? <StraightenIcon />: <ViewDayIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ))) :
+              (['Home', 'Login', 'Register'].map((text, index) => (
+                <ListItem key={text} disablePadding>
+                  <ListItemButton onClick={() => (index === 0 ? (navigate("/Home"), handleDrawerClose()) : index === 1 ?
+                    (navigate('/Login'), handleDrawerClose()) : (navigate('/Register'), handleDrawerClose()))}
+                    sx={{ color: "#fdd835" }} >
+                    <ListItemIcon sx={{ color: "#fdd835" }} >
+                      {index === 0 ? <HomeIcon /> : index === 1 ? <Login /> : <AppRegistration /> }
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              )))
+              }
+          </List>
+          <Divider />
+          <List>
+            {['Contact Support'].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton sx={{ backgroundColor: "", color: "#fdd835", borderRadius: "20px", margin: "5px"}} onClick={() => {
+                  navigate('/Contact');
+                  handleDrawerClose();
+                }}>
+                  <ListItemIcon sx={{ color: "#fdd835" }} >
+                    <ContactSupport />
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+      </ClickAwayListener>
     </Box>
   );
 }

@@ -31,7 +31,7 @@ def index():
     return "Hello! Welcome to our FYP server. Take a seat and chillllll!~"
 
 
-@app.route("/addorder", methods=["GET"])
+@app.route("/addorder", methods=["POST"])
 def place_order():
     ad_id = request.json["pk"]
     status = "0"  # 1 means done, 0 means not done yet
@@ -39,13 +39,13 @@ def place_order():
     reciever = request.json["reciever"]  # customer
 
     db.child("orders").push(
-        {"": ad_id, "": status, "sender": sender, "reciever": reciever}
+        {"ad": ad_id, "status": status, "sender": sender, "reciever": reciever}
     )
 
     return jsonify({"status": "order placed!"})
 
 
-@app.route("/getorders", methods=["GET"])
+@app.route("/getorders", methods=["POST"])
 def get_order():
     email = request.json["email"]
 

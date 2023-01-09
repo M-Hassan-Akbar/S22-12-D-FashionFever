@@ -5,7 +5,7 @@ import Container from '@mui/material/Container'
 import * as React from "react";
 import axios from 'axios'
 import { useState } from "react";
-import { FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
+import { Box, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Rating, Select, Typography } from "@mui/material";
 import { Loader2 } from "../../components/Loader2";
 
 const genders = [
@@ -48,6 +48,7 @@ export const GenImage = () => {
     const [color, setColor] = useState('');
     const [category, setCategory] = useState('');
     const [displ, setDispl] = React.useState("none");
+    const [value, setValue] = React.useState(2);
     
     let elem;
     elem = <></>;
@@ -166,7 +167,7 @@ export const GenImage = () => {
             <Grid container alignItems="center" justifyContent="center" spacing={5}>
                 <Grid item>
                     <Container maxWidth="md" sx={{backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
-                        padding: "30px", marginTop: "100px", borderRadius: "20px"}}>
+                        padding: "30px", marginTop: "5vh", borderRadius: "20px"}}>
                         <h1>Image Generation</h1>
                         <Grid container direction='column' rowSpacing={2}>
                             <Grid item>
@@ -238,7 +239,7 @@ export const GenImage = () => {
                 {/* {elem} */}
                 <Grid item>
                     <Container maxWidth="md" sx={{ backgroundColor: "#fdd835", width: "40vmax", textAlign: "center",
-                        marginTop: "12vh", borderRadius: "20px", height: "70vh"}}>
+                        marginTop: "5vh", borderRadius: "20px", height: "70vh"}}>
                         <Grid>
                             <Grid container justifyContent="space-evenly" rowSpacing={2} columnSpacing={30} item sx={{ maxHeight: "60vh" }} xs={6}>
                                 {imageUrl.map((image, i) => (
@@ -249,6 +250,24 @@ export const GenImage = () => {
                             </Grid>
                         </Grid>
                     </Container>
+                </Grid>
+            </Grid>
+            <Grid container justifyContent="center">
+                <Grid item>
+                    <Box
+                        sx={{
+                            '& > legend': { mt: 2 },
+                        }}
+                        >
+                        <Typography sx={{ color: "#fdd835" }} component="legend">Provide Feedback</Typography>
+                        <Rating
+                            name="simple-controlled"
+                            value={value}
+                            onChange={(event, newValue) => {
+                                setValue(newValue);
+                            }}
+                        />
+                    </Box>
                 </Grid>
             </Grid>
         </>
