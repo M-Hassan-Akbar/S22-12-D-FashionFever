@@ -28,6 +28,7 @@ export const Home = () => {
                 {
                     setItemData(res.data.ads);
                     setDisp(false);
+                    console.log(res.data.ads);
                 }
             });
             setCount(count + 1);

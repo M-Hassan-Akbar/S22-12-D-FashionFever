@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 import React, { useState } from 'react'
-import { Box, Button, Divider, Fab, InputAdornment, styled, TextField, Tooltip } from '@mui/material'
+import { Box, Button, Divider, Fab, InputAdornment, Snackbar, styled, TextField, Tooltip } from '@mui/material'
 import { useLocation } from 'react-router-dom';
 import { InfoOutlined } from '@mui/icons-material';
 import axios from 'axios';
@@ -36,6 +36,20 @@ export const ImgPage = () => {
         var tempState = Data;
         tempState[field] =  event.target.value;
         setData(tempState);
+    };
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+      
+        setOpen(false);
     };
 
     return(
@@ -258,6 +272,13 @@ export const ImgPage = () => {
                 : <></>
             }
         </Box>
+        <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            message={"Order Placed"}
+            // action={action}
+        />
     </>
     )
 }

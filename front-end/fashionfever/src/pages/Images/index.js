@@ -31,11 +31,11 @@ export function Images() {
 
     return (
         <>
-            <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",
-                padding: "3%", borderRadius: "5px", height: "70vh" }}>
-                <Typography variant="h4">My Images</Typography>
-                <Divider/>
-                <ImageList variant="masonry" cols={3} gap={8} sx={{ height: "50vh", overflowX: "scroll" }}>
+            <Box sx={{marginLeft: "10%", marginTop: "2%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",
+                padding: "3%", borderRadius: "5px", height: "80vh", backdropFilter: "blur(10px)" }}>
+                <Typography variant="h4" sx={{color: "#fdd835"}} >My Images</Typography>
+                <Divider sx={{ background: "#fdd835" }} />
+                <ImageList variant="masonry" cols={3} gap={8} sx={{ height: "60vh", overflowX: "scroll" }}>
                     {imagearray.map((item) => (
                         <ImageListItem key={item.url}>
                         <img src={`${item.url}`} srcSet={`${item.url}`}

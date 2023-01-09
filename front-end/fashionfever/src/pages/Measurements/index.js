@@ -203,6 +203,11 @@ export const Measurements = () => {
     }
 
     React.useEffect(() => {
+        if(localStorage.getItem('email') === "")
+        {
+            navigate('/Login');
+        }
+
         var tempObj = {
             email: localStorage.getItem('email'),
         }
@@ -221,8 +226,8 @@ export const Measurements = () => {
     return (
         <>
         <Box sx={{marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "4%", border: "2px solid #fdd835",
-                padding: "3%" ,paddingBottom:"5%", borderRadius: "5px", backdropFilter:"blur(10px)"}}>
-            <Grid container direction="column" spacing={1}>
+                padding: "3%" ,paddingBottom:"5%", borderRadius: "5px", backdropFilter:"blur(10px)", height: "75vh" }}>
+            <Grid container direction="column" spacing={1} sx={{ minHeight: "50vh" }} >
                 <Grid item>
                     <Typography sx={{color: "#fdd835"}} variant="h5">My Measurements</Typography>
                 </Grid>

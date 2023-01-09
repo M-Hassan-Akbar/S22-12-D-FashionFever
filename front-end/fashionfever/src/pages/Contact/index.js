@@ -67,6 +67,13 @@ export const ContactSupport = () => {
         console.log(content);
     }
 
+    React.useState(() => {
+        if(localStorage.getItem('email') === "")
+        {
+            navigate('/Login');
+        }
+    }, [])
+
     return(
         <>
             <Box sx={{ marginLeft: "10%", marginTop: "4%", marginRight: "10%", marginBottom: "1%", border: "2px solid #fdd835",

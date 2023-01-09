@@ -67,7 +67,7 @@ def get_order():
     return jsonify({"orders": order_list})
 
 
-@app.route("/acceptorders", methods=["GET"])
+@app.route("/acceptorders", methods=["POST"])
 def accept_order():
     order_key = request.json["order_key"]
 
@@ -76,7 +76,7 @@ def accept_order():
     return jsonify({"status": "order placed!"})
 
 
-@app.route("/rejectorders", methods=["GET"])
+@app.route("/rejectorders", methods=["POST"])
 def reject_order():
     order_key = request.json["order_key"]
 

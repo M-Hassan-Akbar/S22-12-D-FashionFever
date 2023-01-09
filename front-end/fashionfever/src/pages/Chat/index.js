@@ -40,6 +40,11 @@ axios.post(`http://localhost:5001/sendmessage?email=${localStorage.getItem('emai
     };
 
     React.useEffect(() => {
+        if(localStorage.getItem('email') === "")
+        {
+            navigate('/Login');
+        }
+
         let temp = {
             conversation: location.state.key,
         }

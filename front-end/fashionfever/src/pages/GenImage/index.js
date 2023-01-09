@@ -55,7 +55,6 @@ export const GenImage = () => {
 
     const exec = () => {
         setDispl("");
-        // elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
         let temp = {
             email: "",
             caption: "",
@@ -78,41 +77,14 @@ export const GenImage = () => {
                 }
                 else
                 {
-                    // console.log(res.data.url);
                     setImageUrl(res.data.url);
                 }
             }
         }).catch((err) => {
             setDispl("none");
         });
-        // setValues({ ...values, desc: ""})
         setValues({desc: ""});
     }
-    // if(loadImage)
-    // {
-    //     elem = <Grow in={checked}><Grid item sx={{marginTop: "15vmin"}}><image src="" alt="Generated image"></image></Grid></Grow>;
-    //     let temp = new Object();
-    //     temp.email = state.value.email;
-    //     temp.caption = values.desc;
-    //     let json = JSON.stringify(temp);
-    //     let heads = {"Content-Type": "application/json"};
-    //     axios.post("http://localhost:5001/fashion", json, {headers: heads}).then((res) => {
-    //         if(res.data)
-    //         {
-    //             console.log(res.data);
-    //         }
-    //     });
-    //     // setValues({ ...values, desc: ""})
-    //     setValues({desc: ""});
-    // }
-    // else
-    // {
-    //     elem = <Grid item sx={{marginTop: "15vmin"}}><Skel/></Grid>
-    //     console.log('no')
-    // }
-        // elem = <></>
-
-    // console.log(modal, loadModal)
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -160,6 +132,13 @@ export const GenImage = () => {
           typeof value === 'string' ? value.split(',') : value,
         );
     }
+
+    React.useState(() => {
+        if(localStorage.getItem('email') === "")
+        {
+            navigate('/Login');
+        }
+    }, [])
 
     return (
         <>
